@@ -10,8 +10,10 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui//dropdown-menu";
-
+import { useAppDispatch } from "@/store";
+import { logout } from "@/slice/loginSlice";
 const UserNav = () => {
+  const dispatch = useAppDispatch();
   return (
     <>
       <DropdownMenu>
@@ -49,7 +51,11 @@ const UserNav = () => {
             <DropdownMenuItem>New Team</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              dispatch(logout(true));
+            }}
+          >
             Log out
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>

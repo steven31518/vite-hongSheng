@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import { useAppDispatch } from "@/store";
+import { login } from "@/slice/loginSlice";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   username: z
@@ -40,7 +43,14 @@ const formSchema = z.object({
     }),
 });
 
-const LoginForm = () => {
+type typeProps = {
+  className?: string;
+};
+
+const LoginForm = ({ className }: typeProps) => {
+  
+  const dispatch = useAppDispatch();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,16 +59,15 @@ const LoginForm = () => {
       password: "",
     },
   });
-
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    dispatch(login(values));
   }
   return (
     <>
-      <Card className="w-[380px]">
+      <Card className={cn("w-[380px]", className)}>
         <CardHeader>
           <CardTitle>Hong Sheng i-Manager</CardTitle>
           <CardDescription>manage your product in one-click.</CardDescription>

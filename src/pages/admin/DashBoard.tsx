@@ -1,5 +1,11 @@
 import { Outlet, Link } from "react-router-dom";
 import UserNav from "@/components/UserNav";
+import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "@/store";
+import { useAppDispatch } from "@/store";
+import { userCheck } from "@/slice/loginSlice";
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Product List",
@@ -22,6 +28,27 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 const DashBoard = () => {
+  const { loginState } = useAppSelector((state) => state.loginData);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const token = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("hongShengToken="))
+    ?.split("=")[1];
+  axios.defaults.headers.common["Authorization"] = token;
+
+  useEffect(() => {
+    dispatch(userCheck());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+    if (loginState === false) {
+      navigate("/login");
+    }
+  }, [token, loginState, navigate]);
   return (
     <>
       <div className="hidden h-full flex-1 flex-col  md:flex">
@@ -44,6 +71,7 @@ const DashBoard = () => {
                   <Link
                     className="border-b-2 border-solid border-border py-2 "
                     to={component.href}
+                    key={component.href}
                   >
                     {component.title}
                   </Link>
