@@ -105,6 +105,7 @@ const LoginForm = ({ className }: typeProps) => {
                       <Input
                         placeholder="enter your password"
                         type="password"
+                        autoComplete="off"
                         {...field}
                       />
                     </FormControl>

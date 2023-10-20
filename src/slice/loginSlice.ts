@@ -49,6 +49,7 @@ export const loginSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
+      if (action.payload === undefined) return;
       const { success, message } = action.payload;
       if (success) {
         state.loginState = true;
@@ -68,16 +69,15 @@ export const loginSlice = createSlice({
       state.error = true;
       state.loginState = false;
     });
+
     builder.addCase(userCheck.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(userCheck.fulfilled, (state, action) => {
-      state.loading = false;
-      console.log(action.payload);
-      const { success } = action.payload;
-      if (!success) {
-        state.loginState = false;
-        state.msg = "請重新登入";
+      if (action.payload !== undefined) {
+        const { success, message } = action.payload;
+        state.loginState = success;
+        state.msg = message;
         state.error = false;
       }
     });

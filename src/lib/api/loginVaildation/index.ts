@@ -25,9 +25,12 @@ export const logout = async () => {
 
 export const userCheck = async () => {
   try {
-    const response = await axios.post("/v2/api/user/check");
-    return response.data;
+    await axios.post("/v2/api/user/check");
   } catch (e) {
-    return (e as AxiosError).response?.data;
+    console.log("err", e);
+    return (e as AxiosError).response?.data as {
+      success: boolean;
+      message: string;
+    };
   }
 };

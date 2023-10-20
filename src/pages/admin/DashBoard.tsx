@@ -8,19 +8,19 @@ import { useAppDispatch } from "@/store";
 import { userCheck } from "@/slice/loginSlice";
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Product List",
+    title: "產品管理",
     href: "/admin/products",
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
-    title: "Coupon management",
+    title: "優惠卷",
     href: "/admin/coupons",
     description:
       "For sighted users to preview content available behind a link.",
   },
   {
-    title: "Order management",
+    title: "訂單管理",
     href: "/admin/orders",
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
@@ -35,6 +35,7 @@ const DashBoard = () => {
     .split("; ")
     .find((row) => row.startsWith("hongShengToken="))
     ?.split("=")[1];
+
   axios.defaults.headers.common["Authorization"] = token;
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const DashBoard = () => {
   return (
     <>
       <div className="hidden h-full flex-1 flex-col  md:flex">
-        <div className="flex items-center justify-between space-y-2 border-b-2 border-solid border-border">
+        <div className="flex items-center justify-between space-y-2 border-b-2 border-solid border-border px-4 py-2">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
             <p className="text-muted-foreground">
@@ -65,16 +66,16 @@ const DashBoard = () => {
         </div>
         <div className="grid grid-cols-12 gap-4 w-full">
           <div className="col-span-2 border-r-2 border-solid border-border min-h-screen">
-            <ul className="grid grid-rows-4 grid-flow-col gap-4 text-center">
+            <h1></h1>
+            <ul className="grid grid-rows-4 grid-flow-col  text-center">
               {components.map((component) => {
                 return (
-                  <Link
-                    className="border-b-2 border-solid border-border py-2 "
-                    to={component.href}
+                  <li
+                    className="border-b-2 border-solid border-border hover:text-destructive py-4 px-2"
                     key={component.href}
                   >
-                    {component.title}
-                  </Link>
+                    <Link to={component.href}>{component.title}</Link>
+                  </li>
                 );
               })}
             </ul>
