@@ -74,8 +74,9 @@ export const loginSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(userCheck.fulfilled, (state, action) => {
+      state.loading = false;
       if (action.payload !== undefined) {
-        const { success, message } = action.payload;
+        const { success, message } = action.payload as LoginResponse;
         state.loginState = success;
         state.msg = message;
         state.error = false;
