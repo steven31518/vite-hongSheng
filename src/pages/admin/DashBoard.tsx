@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/store";
 import { useAppDispatch } from "@/store";
 import { userCheck } from "@/slice/loginSlice";
+import { ModeToggle } from "@/components/ModeToggle";
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "產品管理",
@@ -52,7 +53,7 @@ const DashBoard = () => {
   }, [token, loginState, navigate]);
   return (
     <>
-      <div className="hidden h-full flex-1 flex-col  md:flex">
+      <div className=" h-full flex-1 flex-col  md:flex">
         <div className="flex items-center justify-between space-y-2 border-b-2 border-solid border-border px-4 py-2">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
@@ -60,18 +61,18 @@ const DashBoard = () => {
               Here&apos;s a list of your tasks for this month!
             </p>
           </div>
-          <div className="flex items-center space-x-2">
-            <UserNav></UserNav>
+          <div className="flex items-center space-x-3 ">
+            <UserNav />
+            <ModeToggle />
           </div>
         </div>
         <div className="grid grid-cols-12 gap-4 w-full">
           <div className="col-span-2 border-r-2 border-solid border-border min-h-screen">
-            <h1></h1>
-            <ul className="grid grid-rows-4 grid-flow-col  text-center">
+            <ul className="grid grid-rows-4 grid-flow-col text-center">
               {components.map((component) => {
                 return (
                   <li
-                    className="border-b-2 border-solid border-border hover:text-destructive py-4 px-2"
+                    className="border-b-2 border-solid border-border py-4 px-2 underline-offset-4 hover:underline"
                     key={component.href}
                   >
                     <Link to={component.href}>{component.title}</Link>
