@@ -31,14 +31,14 @@ export const columns: ColumnDef<Product>[] = [
     header: "類別",
   },
   {
-    accessorKey: "content",
+    accessorKey: "title",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          產品內容
+          名稱
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -105,7 +105,6 @@ export const columns: ColumnDef<Product>[] = [
     id: "actions",
     cell: ({ row }) => {
       const payment = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
