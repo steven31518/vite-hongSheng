@@ -3,10 +3,8 @@ import { MoreHorizontal } from "lucide-react";
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -48,23 +46,25 @@ function AdminAction({ productId, productName }: AdminActionProps) {
             複製產品ID
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DialogTrigger
-            onClick={() => {
-              setDialogContent("edit");
-            }}
-          >
-            <DropdownMenuItem>編輯</DropdownMenuItem>
-          </DialogTrigger>
-          <DialogTrigger
-            onClick={() => {
-              setDialogContent("delete");
-            }}
-          >
-            <DropdownMenuItem>移除</DropdownMenuItem>
-          </DialogTrigger>
+          <div className="flex flex-row justify-evenly items-center">
+            <DialogTrigger
+              onClick={() => {
+                setDialogContent("edit");
+              }}
+            >
+              <DropdownMenuItem>編輯</DropdownMenuItem>
+            </DialogTrigger>
+            <DialogTrigger
+              onClick={() => {
+                setDialogContent("delete");
+              }}
+            >
+              <DropdownMenuItem>移除</DropdownMenuItem>
+            </DialogTrigger>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DialogContent>
+      <DialogContent className="max-w-6xl max-h-screen  overflow-y-scroll lg:overflow-hidden">
         <DialogHeader>
           <DialogTitle>{productName}</DialogTitle>
           <DialogDescription>{dialogContent}</DialogDescription>
@@ -72,14 +72,14 @@ function AdminAction({ productId, productName }: AdminActionProps) {
         <div className="py-4">
           {dialogContent === "edit" && <ProductForm />}
         </div>
-        <DialogFooter>
+        {/* <DialogFooter>
           <Button type="submit">Confirm</Button>
           <DialogClose asChild>
             <Button type="button" variant="secondary">
               Close
             </Button>
           </DialogClose>
-        </DialogFooter>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );
