@@ -10,7 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
+import ProductPicDropzone from "./ProductPicDropzone";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "./ui/textarea";
@@ -92,23 +92,15 @@ const ProductForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="flex flex-col justify-between ">
-            <ScrollArea className="h-[380px] w-full rounded-md border p-4">
+          <div className="grid grid-rows-2 grid-flow-col gap-4">
+            <ScrollArea className="h-[220px] w-full rounded-lg border-2 p-4">
               <h1>已上傳圖片</h1>
               <div className="grid grid-cols-2 gap-4 py-2">
                 <div className="rounded-md border h-[100px]">123</div>
               </div>
               <ScrollBar orientation="vertical" />
             </ScrollArea>
-            <div className="flex flex-row items-center w-full space-x-2 py-2">
-              <Input id="picture" type="file" />
-              <Button variant="outline" type="button">
-                update
-              </Button>
-              <Button variant="outline" type="button">
-                view
-              </Button>
-            </div>
+            <ProductPicDropzone />
           </div>
           <div>
             <div className="col-span-12 w-[356px] h-[220px] rounded-lg border-2"></div>

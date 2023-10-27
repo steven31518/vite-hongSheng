@@ -1,5 +1,5 @@
 import { signIn, logout, userCheck } from "./loginVaildation";
-import { getAllProducts } from "./products";
+import { addPicture, getAllProducts } from "./products";
 
 const apiPath = import.meta.env.VITE_API_PATH as string;
 
@@ -11,5 +11,6 @@ export const api = {
   },
   products: {
     getAllProducts: getAllProducts(apiPath),
+    addPicture: addPicture(apiPath),
   },
 };

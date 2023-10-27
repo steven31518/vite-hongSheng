@@ -23,6 +23,8 @@ export default {
         ring: "hsl(var(--ring))",
         warning: "hsl(var(--warning))",
         "warning-foreground": "hsl(var(--warning-foreground))",
+        success: "hsl(var(--success))",
+        "success-foreground": "hsl(var(--success-foreground))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {

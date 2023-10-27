@@ -27,7 +27,6 @@ export const userCheck = async () => {
   try {
     await axios.post("/v2/api/user/check");
   } catch (e) {
-    console.log("err", e);
     return (e as AxiosError).response?.data as {
       success: boolean;
       message: string;
