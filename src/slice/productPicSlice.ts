@@ -4,39 +4,44 @@ import { api } from "@/lib/api";
 
 type ResponseData = {
   success: boolean;
-  imgUrl: string;
+  imageUrl: string;
 };
 
-export const addPicture = createAsyncThunk(
-  "addPictureResponse/fetchAddPictureResponse",
+export const updateImage = createAsyncThunk(
+  "updateImageResponse/fetchupdateImageResponse",
   async (files: File[]) => {
-    const arr = [];
-    for (let i = 0; i < files.length; i++) {
-      const response = await api.products.addPicture(files[i]);
-      arr.push((response.data as unknown as ResponseData).imgUrl);
-    }
+    const promise = files.map(async (file) => {
+      const response = await api.products.addPicture(file);
+      return response as ResponseData;
+    });
+    const result = await Promise.all(promise);
+    console.log(result);
+    return result;
   }
 );
 
 export const productPicSlice = createSlice({
   name: "productPic",
   initialState: {
-    imgUrl: [] as string[],
+    imgUrl: [] as ResponseData[],
+    message: "",
     loading: false,
     error: false,
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addPicture.pending, (state) => {
+    builder.addCase(updateImage.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(addPicture.fulfilled, (state, action) => {
+    builder.addCase(updateImage.fulfilled, (state, action) => {
       state.loading = false;
       state.imgUrl = action.payload;
     });
-    builder.addCase(addPicture.rejected, (state) => {
+    builder.addCase(updateImage.rejected, (state) => {
       state.loading = false;
       state.error = true;
     });
   },
 });
+
+export default productPicSlice.reducer;

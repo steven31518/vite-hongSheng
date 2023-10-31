@@ -93,7 +93,7 @@ const ProductForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="grid grid-rows-2 grid-flow-col gap-4">
-            <ScrollArea className="h-[220px] w-full rounded-lg border-2 p-4">
+            <ScrollArea className="max-h-full w-full rounded-lg border-2 p-4">
               <h1>已上傳圖片</h1>
               <div className="grid grid-cols-2 gap-4 py-2">
                 <div className="rounded-md border h-[100px]">123</div>
