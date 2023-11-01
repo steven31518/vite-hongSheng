@@ -23,12 +23,17 @@ export const updateImage = createAsyncThunk(
 export const productPicSlice = createSlice({
   name: "productPic",
   initialState: {
+    files: [],
     imgUrl: [] as ResponseData[],
     message: "",
     loading: false,
     error: false,
   },
-  reducers: {},
+  reducers: {
+    setFiles: (state, action) => {
+      state.files = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(updateImage.pending, (state) => {
       state.loading = true;

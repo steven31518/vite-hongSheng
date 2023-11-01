@@ -18,6 +18,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+
 const ProductPicDropzone = () => {
   const [filesPack, setFilesPack] = useState<FileWithPath[]>([]);
   const dispatch = useAppDispatch();

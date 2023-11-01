@@ -35,7 +35,6 @@ export const loginSlice = createSlice({
   reducers: {
     logout: (state, action) => {
       if (action.payload) {
-        console.log(action.payload);
         state.loginState = false;
         state.msg = "";
         state.error = false;
