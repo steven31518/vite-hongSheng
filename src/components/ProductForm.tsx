@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,19 +17,20 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "./ui/textarea";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useForm } from "react-hook-form";
+import { useAppSelector } from "@/store";
 
-// type dataType = {
-//   title: string;
-//   category: string;
-//   origin_price: number;
-//   price: number;
-//   unit: string;
-//   description: string;
-//   content: string;
-//   is_enabled: number;
-//   imageUrl: string;
-//   imagesUrl: string[];
-// };
+type dataType = {
+  title: string;
+  category: string;
+  origin_price: number;
+  price: number;
+  unit: string;
+  description: string;
+  content: string;
+  is_enabled: number;
+  imageUrl: string;
+  imagesUrl: string[];
+};
 
 const formSchema = z.object({
   title: z
@@ -36,7 +38,7 @@ const formSchema = z.object({
     .min(1, {
       message: "title must be at least 1 characters.",
     })
-    .max(10, {
+    .max(20, {
       message: "title must be less than 10 characters.",
     }),
   category: z
@@ -69,6 +71,8 @@ const formSchema = z.object({
 });
 
 const ProductForm = () => {
+  const { imgUrl } = useAppSelector((state) => state.productPicData);
+  const [mainImg, setMainImg] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -86,24 +90,51 @@ const ProductForm = () => {
   });
   const { reset } = form;
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const submitData: dataType = {
+      ...values,
+      imageUrl: mainImg,
+      imagesUrl: [...imgUrl].map((item) => item.imageUrl),
+    };
+    console.log(submitData);
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="grid grid-rows-2 grid-flow-col gap-4">
-            <ScrollArea className="max-h-full w-full rounded-lg border-2 p-4">
+          <div className="flex flex-col space-y-3">
+            <ScrollArea className="h-full w-full rounded-lg border-2 p-4">
               <h1>已上傳圖片</h1>
               <div className="grid grid-cols-2 gap-4 py-2">
-                <div className="rounded-md border h-[100px]">123</div>
+                {imgUrl.map((item) => {
+                  return (
+                    <div
+                      className="rounded-md border h-[100px]"
+                      key={item.imageUrl}
+                      onClick={() => {
+                        setMainImg(item.imageUrl);
+                      }}
+                    >
+                      <img
+                        src={item.imageUrl}
+                        alt="產品圖"
+                        className="object-cover h-full w-full"
+                      />
+                    </div>
+                  );
+                })}
               </div>
               <ScrollBar orientation="vertical" />
             </ScrollArea>
             <ProductPicDropzone />
           </div>
           <div>
-            <div className="col-span-12 w-[356px] h-[220px] rounded-lg border-2"></div>
+            <div className="col-span-12 w-[356px] h-[220px] rounded-lg border-2">
+              <img
+                src={mainImg}
+                alt="請上傳產品主圖"
+                className="object-contain h-full w-full rounded-lg"
+              />
+            </div>
             <div className="col-span-12">
               <FormField
                 control={form.control}

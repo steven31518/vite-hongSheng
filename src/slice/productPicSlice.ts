@@ -39,7 +39,7 @@ export const productPicSlice = createSlice({
     });
     builder.addCase(updateImage.fulfilled, (state, action) => {
       state.loading = false;
-      state.imgUrl = action.payload;
+      state.imgUrl = [...state.imgUrl, ...action.payload];
     });
     builder.addCase(updateImage.rejected, (state) => {
       state.loading = false;

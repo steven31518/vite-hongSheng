@@ -64,7 +64,7 @@ function AdminAction({ productId, productName }: AdminActionProps) {
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DialogContent className="max-w-6xl max-h-screen  overflow-y-scroll lg:overflow-hidden">
+      <DialogContent className="max-w-6xl max-h-screen overflow-y-scroll lg:overflow-hidden">
         <DialogHeader>
           <DialogTitle>{productName}</DialogTitle>
           <DialogDescription>{dialogContent}</DialogDescription>

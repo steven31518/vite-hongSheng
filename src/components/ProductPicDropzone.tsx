@@ -20,7 +20,7 @@ import {
 import { nanoid } from "@reduxjs/toolkit";
 
 interface FileWithPreview extends FileWithPath {
-  readonly preview?: string;
+  readonly preview: string;
   readonly id: string;
 }
 
@@ -93,14 +93,11 @@ const ProductPicDropzone = () => {
     files.map((f) => {
       return { ...f, preview: URL.createObjectURL(f) };
     });
-
-    console.log("create");
-
     return () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview as string));
-      console.log("revoked");
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, [files]);
+  
   return (
     <Dialog>
       <DialogTrigger asChild>
