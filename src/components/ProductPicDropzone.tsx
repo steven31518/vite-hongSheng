@@ -23,10 +23,6 @@ interface FileWithPreview extends FileWithPath {
   readonly preview?: string;
   readonly id: string;
 }
-const handleDelete = (file: FileWithPreview, done: (id: string) => void) => {
-  URL.revokeObjectURL(file.preview as string);
-  done(file.id);
-};
 
 const ProductPicDropzone = () => {
   const [files, setFiles] = useState<FileWithPreview[]>([]);
@@ -80,19 +76,9 @@ const ProductPicDropzone = () => {
           </span>
           <Button
             variant={"outline"}
-            onClick={() =>
-              handleDelete(file, (id) => {
-                const updatedFiles = [...files]
-                  .filter((file) => file.id !== id)
-                  .map((file) =>
-                    Object.assign(file, {
-                      preview: URL.createObjectURL(file),
-                    })
-                  );
-                console.log("new",updatedFiles);
-                setFiles(updatedFiles);
-              })
-            }
+            onClick={() => {
+              setFiles(files.filter((f) => f.id !== file.id));
+            }}
           >
             <AiOutlineClose className=" text-destructive text-2xl space-x-3 space-y-3 hover:opacity-80 cursor-pointer" />
             Delete
@@ -103,14 +89,18 @@ const ProductPicDropzone = () => {
     </li>
   ));
 
-  useEffect(
-    () => () => {
-      // Make sure to revoke the Object URL to avoid memory leaks
+  useEffect(() => {
+    files.map((f) => {
+      return { ...f, preview: URL.createObjectURL(f) };
+    });
+
+    console.log("create");
+
+    return () => {
       files.forEach((file) => URL.revokeObjectURL(file.preview as string));
-      console.log(files);
-    },
-    [files]
-  );
+      console.log("revoked");
+    };
+  }, [files]);
   return (
     <Dialog>
       <DialogTrigger asChild>
