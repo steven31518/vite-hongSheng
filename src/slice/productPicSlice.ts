@@ -15,7 +15,6 @@ export const updateImage = createAsyncThunk(
       return response as ResponseData;
     });
     const result = await Promise.all(promise);
-    console.log(result);
     return result;
   }
 );

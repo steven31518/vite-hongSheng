@@ -17,10 +17,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { nanoid } from "@reduxjs/toolkit";
 
+interface FileWithPreview extends FileWithPath {
+  readonly preview?: string;
+  readonly id: string;
+}
+const handleDelete = (file: FileWithPreview, done: (id: string) => void) => {
+  URL.revokeObjectURL(file.preview as string);
+  done(file.id);
+};
 
 const ProductPicDropzone = () => {
-  const [filesPack, setFilesPack] = useState<FileWithPath[]>([]);
+  const [files, setFiles] = useState<FileWithPreview[]>([]);
   const dispatch = useAppDispatch();
   const {
     getRootProps,
@@ -35,10 +44,11 @@ const ProductPicDropzone = () => {
       "image/*": [],
     },
     onDrop: (acceptedFiles) => {
-      setFilesPack(
+      setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
+            id: nanoid(),
           })
         )
       );
@@ -54,13 +64,13 @@ const ProductPicDropzone = () => {
   );
 
   const handleUpload = () => {
-    if (filesPack.length === 0) return;
-    dispatch(updateImage(filesPack));
+    if (files.length === 0) return;
+    dispatch(updateImage(files));
   };
 
-  const files = filesPack.map((file, i) => (
-    <>
-      <div className="grid grid-cols-12 gap-4" key={file.name}>
+  const thumbs = files.map((file, i) => (
+    <li key={file.id}>
+      <div className="grid grid-cols-12 gap-4">
         <div className="col-span-4">
           <img src={file.preview} alt="" />
         </div>
@@ -68,24 +78,39 @@ const ProductPicDropzone = () => {
           <span className="text-xs">
             {i + 1}.{file.name}
           </span>
-          <Button variant={"outline"}>
+          <Button
+            variant={"outline"}
+            onClick={() =>
+              handleDelete(file, (id) => {
+                const updatedFiles = [...files]
+                  .filter((file) => file.id !== id)
+                  .map((file) =>
+                    Object.assign(file, {
+                      preview: URL.createObjectURL(file),
+                    })
+                  );
+                console.log("new",updatedFiles);
+                setFiles(updatedFiles);
+              })
+            }
+          >
             <AiOutlineClose className=" text-destructive text-2xl space-x-3 space-y-3 hover:opacity-80 cursor-pointer" />
             Delete
           </Button>
         </div>
       </div>
       <Separator className="my-2" />
-    </>
+    </li>
   ));
 
   useEffect(
     () => () => {
       // Make sure to revoke the Object URL to avoid memory leaks
-      filesPack.forEach((file) => URL.revokeObjectURL(file.preview as string));
+      files.forEach((file) => URL.revokeObjectURL(file.preview as string));
+      console.log(files);
     },
-    [filesPack]
+    [files]
   );
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -113,14 +138,14 @@ const ProductPicDropzone = () => {
             {!isDragActive && <p>Drop some files here ...</p>}
           </div>
 
-          {filesPack.length > 0 && (
+          {files.length > 0 && (
             <div className="rounded-md border w-full">
               <ScrollArea className="col-span-8 h-[300px]">
                 <aside className="p-4">
                   <h4 className="mb-4 text-sm font-medium leading-none">
                     Your files
                   </h4>
-                  <ul>{files}</ul>
+                  <ul>{thumbs}</ul>
                 </aside>
                 <ScrollBar orientation="vertical" />
               </ScrollArea>
@@ -131,7 +156,7 @@ const ProductPicDropzone = () => {
           <Button
             type="button"
             variant={"outline"}
-            onClick={() => setFilesPack([])}
+            onClick={() => setFiles([])}
           >
             clean
           </Button>
