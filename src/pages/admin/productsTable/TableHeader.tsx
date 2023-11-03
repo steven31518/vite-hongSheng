@@ -22,6 +22,7 @@ function DatatableHeader<TData>({ table }: TablePaginationProps<TData>) {
           table.getColumn("title")?.setFilterValue(event.target.value)
         }
         className="max-w-xs me-2"
+        id="filter-by-title"
       />
       <AdminAction></AdminAction>
       <DropdownMenu>

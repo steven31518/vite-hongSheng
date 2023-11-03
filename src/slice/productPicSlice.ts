@@ -32,6 +32,9 @@ export const productPicSlice = createSlice({
     setFiles: (state, action) => {
       state.files = action.payload;
     },
+    setImgUrl: (state, action) => {
+      state.imgUrl = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(updateImage.pending, (state) => {
@@ -39,6 +42,7 @@ export const productPicSlice = createSlice({
     });
     builder.addCase(updateImage.fulfilled, (state, action) => {
       state.loading = false;
+      state.files = [];
       state.imgUrl = [...state.imgUrl, ...action.payload];
     });
     builder.addCase(updateImage.rejected, (state) => {

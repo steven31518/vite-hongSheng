@@ -9,9 +9,11 @@ const AdminProducts = () => {
   const { loading } = useAppSelector((state) => state.productsData);
 
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
+
   return (
     <div>
       {loading && <FullscreenLoading />}

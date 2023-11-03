@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,18 +18,21 @@ import { Textarea } from "./ui/textarea";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useForm } from "react-hook-form";
 import { useAppSelector } from "@/store";
-
-type dataType = {
-  title: string;
-  category: string;
-  origin_price: number;
-  price: number;
-  unit: string;
-  description: string;
-  content: string;
-  is_enabled: number;
-  imageUrl: string;
-  imagesUrl: string[];
+import { useAppDispatch } from "@/store";
+import { addNewProduct, getAllProducts } from "@/slice/productsSlice";
+export type productDataType = {
+  data: {
+    title: string;
+    category: string;
+    origin_price: number;
+    price: number;
+    unit: string;
+    description: string;
+    content: string;
+    is_enabled: number;
+    imageUrl: string;
+    imagesUrl: string[];
+  };
 };
 
 const formSchema = z.object({
@@ -71,11 +74,12 @@ const formSchema = z.object({
 });
 
 type formStatus = {
-  isEdit: boolean;
+  productId?: string;
 };
 
-const ProductForm = ({ isEdit }: formStatus) => {
+const ProductForm = ({ productId }: formStatus) => {
   const { imgUrl } = useAppSelector((state) => state.productPicData);
+  const { products } = useAppSelector((state) => state.productsData);
   const [mainImg, setMainImg] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -92,19 +96,33 @@ const ProductForm = ({ isEdit }: formStatus) => {
       imagesUrl: [],
     },
   });
+
   const { reset } = form;
+  const dispatch = useAppDispatch();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const submitData: dataType = {
-      ...values,
-      imageUrl: mainImg,
-      imagesUrl: [...imgUrl].map((item) => item.imageUrl),
+    const submitData: productDataType = {
+      data: {
+        ...values,
+        imageUrl: mainImg,
+        imagesUrl: [...imgUrl].map((item) => item.imageUrl),
+      },
     };
-    if (isEdit) {
+    if (!productId) {
       console.log(submitData);
+      dispatch(addNewProduct(submitData));
+      dispatch(getAllProducts());
     } else {
       console.log(submitData);
+      return;
     }
+    reset();
   }
+
+  useEffect(() => {
+    const p = products.find((p) => p.id === productId);
+    console.log(p);
+  }, [productId, products]);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -135,7 +153,7 @@ const ProductForm = ({ isEdit }: formStatus) => {
             </ScrollArea>
             <ProductPicDropzone />
           </div>
-          <div >
+          <div>
             <div className="col-span-12 w-full h-[360px] lg:h-[220px] rounded-lg border-2">
               <img
                 src={mainImg}
@@ -206,12 +224,13 @@ const ProductForm = ({ isEdit }: formStatus) => {
                 control={form.control}
                 name="is_enabled"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col items-center justify-between ">
+                  <FormItem className="flex flex-col items-center justify-between">
                     <div className="space-y-0.5">
                       <FormLabel className="text-base">是否啟用</FormLabel>
                     </div>
                     <FormControl>
                       <Switch
+                        name="is_enabled"
                         checked={!!field.value}
                         onCheckedChange={(e) => field.onChange(+e)}
                       />

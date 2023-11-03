@@ -48,7 +48,6 @@ type typeProps = {
 };
 
 const LoginForm = ({ className }: typeProps) => {
-  
   const dispatch = useAppDispatch();
 
   // 1. Define your form.
@@ -86,6 +85,7 @@ const LoginForm = ({ className }: typeProps) => {
                         placeholder="enter your email"
                         type="email"
                         {...field}
+                        autoComplete="on"
                       />
                     </FormControl>
                     <FormDescription>

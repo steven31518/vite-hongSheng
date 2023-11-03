@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { AxiosError } from "axios";
+import type { productDataType } from "@/components/ProductForm";
 
 export const getAllProducts = (apiPath: string) => {
   return async () => {
@@ -33,3 +34,30 @@ export const addPicture = (apiPath: string) => {
     }
   };
 };
+
+export const addProduct = (apiPath: string) => {
+  return async (product: productDataType) => {
+    try {
+      const response = await axios.post(
+        `/v2/api/${apiPath}/admin/product`,
+        product
+      );
+      return response.data;
+    } catch (e) {
+      return (e as AxiosError).response?.data;
+    }
+  };
+};
+
+export const deleteProduct = (apiPath: string) => {
+  return async (id: string) => {
+    try {
+      const response = await axios.delete(
+        `/v2/api/${apiPath}/admin/product/${id}`
+      );
+      return response.data;
+    } catch (e) {
+      return (e as AxiosError).response?.data;
+    }
+  };
+}
