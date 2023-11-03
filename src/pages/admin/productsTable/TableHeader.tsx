@@ -8,7 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import AdminAction from "@/components/AdminAction";
 interface TablePaginationProps<TData> {
   table: Table<TData>;
 }
@@ -21,8 +21,9 @@ function DatatableHeader<TData>({ table }: TablePaginationProps<TData>) {
         onChange={(event) =>
           table.getColumn("title")?.setFilterValue(event.target.value)
         }
-        className="max-w-sm"
+        className="max-w-xs me-2"
       />
+      <AdminAction></AdminAction>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="ml-auto">

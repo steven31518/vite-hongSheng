@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { MoreHorizontal } from "lucide-react";
-
 import {
   Dialog,
   DialogContent,
@@ -10,68 +8,63 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
 import { Button } from "@/components/ui/button";
+import { AiFillEdit } from "react-icons/ai";
 import ProductForm from "./ProductForm";
-type dialogContent = "edit" | "delete";
 
 type AdminActionProps = {
-  productId: string;
-  productName: string;
+  productId?: string;
+  productName?: string;
 };
 function AdminAction({ productId, productName }: AdminActionProps) {
-  const [dialogContent, setDialogContent] = useState<dialogContent>("edit");
+  const [isEdit, setIsEdit] = useState(false);
   return (
     <Dialog>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() => navigator.clipboard.writeText(productId)}
+      {productId ? (
+        <div className="flex flex-row justify-center  items-center gap-2">
+          <DialogTrigger
+            onClick={() => {
+              setIsEdit(true);
+            }}
           >
-            複製產品ID
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <div className="flex flex-row justify-evenly items-center">
-            <DialogTrigger
-              onClick={() => {
-                setDialogContent("edit");
-              }}
-            >
-              <DropdownMenuItem>編輯</DropdownMenuItem>
-            </DialogTrigger>
-            <DialogTrigger
-              onClick={() => {
-                setDialogContent("delete");
-              }}
-            >
-              <DropdownMenuItem>移除</DropdownMenuItem>
-            </DialogTrigger>
-          </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
+            <Button variant={"outline"}>編輯</Button>
+          </DialogTrigger>
+          <DialogTrigger>
+            <Button variant={"outline"}>移除</Button>
+          </DialogTrigger>
+        </div>
+      ) : (
+        <DialogTrigger
+          onClick={() => {
+            setIsEdit(false);
+          }}
+        >
+          <Button variant={"outline"}>新增產品</Button>
+        </DialogTrigger>
+      )}
       <DialogContent className="max-w-6xl max-h-screen overflow-y-scroll lg:overflow-hidden">
         <DialogHeader>
-          <DialogTitle>{productName}</DialogTitle>
-          <DialogDescription>{dialogContent}</DialogDescription>
+          <DialogTitle>
+            {productId ? (
+              <div className="flex items-center gap-2">
+                <h1>{productName}</h1>
+                <small>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() => navigator.clipboard.writeText(productId)}
+                  >
+                    <AiFillEdit className="me-2"></AiFillEdit>
+                    複製ID
+                  </Button>
+                </small>
+              </div>
+            ) : (
+              <h1>新增您的產品</h1>
+            )}
+          </DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
-        <div className="py-4">
-          {dialogContent === "edit" && <ProductForm />}
-        </div>
+        <div className="py-4">{<ProductForm isEdit={isEdit} />}</div>
         {/* <DialogFooter>
           <Button type="submit">Confirm</Button>
           <DialogClose asChild>

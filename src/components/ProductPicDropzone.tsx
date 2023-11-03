@@ -101,13 +101,13 @@ const ProductPicDropzone = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        <Button variant="outline">新增圖片</Button>
       </DialogTrigger>
       <DialogContent className="max-w-xl max-h-screen">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your Files here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <section className="container-full max-h-screen flex flex-col space-y-4">

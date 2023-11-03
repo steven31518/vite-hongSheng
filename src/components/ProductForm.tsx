@@ -70,7 +70,11 @@ const formSchema = z.object({
   imagesUrl: z.array(z.string()),
 });
 
-const ProductForm = () => {
+type formStatus = {
+  isEdit: boolean;
+};
+
+const ProductForm = ({ isEdit }: formStatus) => {
   const { imgUrl } = useAppSelector((state) => state.productPicData);
   const [mainImg, setMainImg] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
@@ -95,7 +99,11 @@ const ProductForm = () => {
       imageUrl: mainImg,
       imagesUrl: [...imgUrl].map((item) => item.imageUrl),
     };
-    console.log(submitData);
+    if (isEdit) {
+      console.log(submitData);
+    } else {
+      console.log(submitData);
+    }
   }
   return (
     <Form {...form}>
@@ -127,8 +135,8 @@ const ProductForm = () => {
             </ScrollArea>
             <ProductPicDropzone />
           </div>
-          <div>
-            <div className="col-span-12 w-[356px] h-[220px] rounded-lg border-2">
+          <div >
+            <div className="col-span-12 w-full h-[360px] lg:h-[220px] rounded-lg border-2">
               <img
                 src={mainImg}
                 alt="請上傳產品主圖"

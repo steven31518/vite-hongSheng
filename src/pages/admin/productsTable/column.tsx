@@ -95,6 +95,7 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
+    accessorKey: "Actions",
     id: "actions",
     cell: ({ row }) => {
       const product = row.original;
