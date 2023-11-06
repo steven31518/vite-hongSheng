@@ -19,21 +19,26 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useForm } from "react-hook-form";
 import { useAppSelector } from "@/store";
 import { useAppDispatch } from "@/store";
-import { addNewProduct, getAllProducts } from "@/slice/productsSlice";
-export type productDataType = {
-  data: {
-    title: string;
-    category: string;
-    origin_price: number;
-    price: number;
-    unit: string;
-    description: string;
-    content: string;
-    is_enabled: number;
-    imageUrl: string;
-    imagesUrl: string[];
-  };
-};
+import {
+  addNewProduct,
+  getAllProducts,
+  updateProduct,
+} from "@/slice/productsSlice";
+import { setImgUrl } from "@/slice/productsSlice";
+export interface productType {
+  title: string;
+  category: string;
+  origin_price: number;
+  price: number;
+  unit: string;
+  description: string;
+  content: string;
+  is_enabled: number;
+  imageUrl: string;
+  imagesUrl: string[];
+}
+
+export type newDataType = Record<"data", productType>;
 
 const formSchema = z.object({
   title: z
@@ -78,8 +83,7 @@ type formStatus = {
 };
 
 const ProductForm = ({ productId }: formStatus) => {
-  const { imgUrl } = useAppSelector((state) => state.productPicData);
-  const { products } = useAppSelector((state) => state.productsData);
+  const { imgUrl, products } = useAppSelector((state) => state.productsData);
   const [mainImg, setMainImg] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -100,29 +104,38 @@ const ProductForm = ({ productId }: formStatus) => {
   const { reset } = form;
   const dispatch = useAppDispatch();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const submitData: productDataType = {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const submitData: newDataType = {
       data: {
         ...values,
         imageUrl: mainImg,
-        imagesUrl: [...imgUrl].map((item) => item.imageUrl),
+        imagesUrl: [...imgUrl],
       },
     };
     if (!productId) {
-      console.log(submitData);
-      dispatch(addNewProduct(submitData));
-      dispatch(getAllProducts());
+      await dispatch(addNewProduct(submitData));
+      setMainImg("");
     } else {
-      console.log(submitData);
-      return;
+      await dispatch(updateProduct({ ...submitData, id: productId }));
     }
-    reset();
+    await dispatch(getAllProducts());
   }
 
   useEffect(() => {
-    const p = products.find((p) => p.id === productId);
-    console.log(p);
-  }, [productId, products]);
+    if (!productId) {
+      dispatch(setImgUrl([]));
+      return;
+    }
+    const editItem = products.find((product) => product.id === productId);
+    reset({
+      ...editItem,
+      imageUrl: editItem?.imageUrl ? editItem.imageUrl : "",
+      imagesUrl: editItem?.imagesUrl ? editItem.imagesUrl : [],
+    });
+    setMainImg(editItem?.imageUrl ? editItem.imageUrl : "");
+    dispatch(setImgUrl(editItem?.imagesUrl ? editItem.imagesUrl : []));
+  }, [productId, products, reset, dispatch]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -131,17 +144,17 @@ const ProductForm = ({ productId }: formStatus) => {
             <ScrollArea className="h-full w-full rounded-lg border-2 p-4">
               <h1>已上傳圖片</h1>
               <div className="grid grid-cols-2 gap-4 py-2">
-                {imgUrl.map((item) => {
+                {imgUrl.map((url) => {
                   return (
                     <div
                       className="rounded-md border h-[100px]"
-                      key={item.imageUrl}
+                      key={url}
                       onClick={() => {
-                        setMainImg(item.imageUrl);
+                        setMainImg(url);
                       }}
                     >
                       <img
-                        src={item.imageUrl}
+                        src={url}
                         alt="產品圖"
                         className="object-cover h-full w-full"
                       />
@@ -333,11 +346,22 @@ const ProductForm = ({ productId }: formStatus) => {
             </div>
             <div className="col-start-6 col-span-6 flex justify-end items-center gap-4">
               <Button
-                type="submit"
+                type="button"
                 variant={"outline"}
-                onClick={() => {
-                  reset();
-                }}
+                onClick={() =>
+                  reset({
+                    title: "",
+                    category: "",
+                    origin_price: 0,
+                    price: 0,
+                    unit: "",
+                    description: "",
+                    content: "",
+                    is_enabled: 0,
+                    imageUrl: "",
+                    imagesUrl: [],
+                  })
+                }
               >
                 Reset
               </Button>

@@ -3,10 +3,11 @@ import {
   addPicture,
   getAllProducts,
   addProduct,
+  updateProduct,
   deleteProduct,
 } from "./products";
 
-const apiPath = import.meta.env.VITE_API_PATH as string;
+const apiPath: string = import.meta.env.VITE_API_PATH;
 
 export const api = {
   login: {
@@ -18,6 +19,7 @@ export const api = {
     getAllProducts: getAllProducts(apiPath),
     addPicture: addPicture(apiPath),
     addProduct: addProduct(apiPath),
+    updateProduct: updateProduct(apiPath),
     deleteProduct: deleteProduct(apiPath),
   },
 };

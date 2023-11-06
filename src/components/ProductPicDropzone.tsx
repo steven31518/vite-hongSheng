@@ -6,7 +6,7 @@ import { FileWithPath } from "react-dropzone";
 import { cn } from "@/lib/utils";
 import { AiOutlineClose } from "react-icons/ai";
 import { useAppDispatch } from "@/store";
-import { updateImage } from "@/slice/productPicSlice";
+import { updateImage } from "@/slice/productsSlice";
 import { Separator } from "@/components/ui/separator";
 import {
   Dialog,

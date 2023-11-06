@@ -3,11 +3,13 @@ import { useAppDispatch } from "@/store";
 import { getAllProducts } from "@/slice/productsSlice";
 import { useAppSelector } from "@/store";
 import FullscreenLoading from "@/components/FullscreenLoading";
-import ProductsTable from "./productsTable";
+import { columns } from "./productsTable/column";
+import { DataTable } from "./productsTable/data-table";
+import type { Product } from "./productsTable/column";
 
 const AdminProducts = () => {
-  const { loading } = useAppSelector((state) => state.productsData);
-
+  const { loading, products } = useAppSelector((state) => state.productsData);
+  
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -17,7 +19,9 @@ const AdminProducts = () => {
   return (
     <div>
       {loading && <FullscreenLoading />}
-      <ProductsTable></ProductsTable>
+      <div className="container mx-auto py-10">
+        <DataTable columns={columns} data={products as Product[]} />
+      </div>
     </div>
   );
 };

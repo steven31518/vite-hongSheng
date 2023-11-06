@@ -23,6 +23,7 @@ type AdminActionProps = {
 function AdminAction({ productId, productName }: AdminActionProps) {
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useAppDispatch();
+
   return (
     <Dialog>
       {productId ? (
@@ -91,7 +92,8 @@ function AdminAction({ productId, productName }: AdminActionProps) {
               <Button
                 type="button"
                 onClick={async () => {
-                  if (productId) dispatch(deleteProduct(productId));
+                  if (!productId) return;
+                  await dispatch(deleteProduct(productId));
                   await dispatch(getAllProducts());
                 }}
               >
