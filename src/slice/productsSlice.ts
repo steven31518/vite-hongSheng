@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "@/lib/api";
-import type { newDataType, productType } from "@/components/ProductForm";
+import type { productType } from "@/components/ProductForm";
 
 type imageResponseData = {
   success: boolean;
@@ -10,7 +10,6 @@ type imageResponseData = {
 interface productDataWithId extends productType {
   readonly id: string;
 }
-
 type responseType = {
   success: boolean;
   products: {
@@ -36,29 +35,6 @@ export const updateImage = createAsyncThunk(
     return result;
   }
 );
-export const addNewProduct = createAsyncThunk(
-  "products/addNewProduct",
-  async (product: newDataType) => {
-    const response = await api.products.addProduct(product);
-
-    return response as { success: boolean; message: string };
-  }
-);
-export const updateProduct = createAsyncThunk(
-  "products/updateProduct",
-  async (product: newDataType & { id: string }) => {
-    const response = await api.products.updateProduct(product);
-    return response as { success: boolean; message: string };
-  }
-);
-
-export const deleteProduct = createAsyncThunk(
-  "products/deleteProduct",
-  async (id: string) => {
-    const response = await api.products.deleteProduct(id);
-    return response as { success: boolean; message: string };
-  }
-);
 
 export const productsSlice = createSlice({
   name: "products",
@@ -67,7 +43,6 @@ export const productsSlice = createSlice({
     imgUrl: [] as string[],
     products: [] as productDataWithId[],
     loading: false,
-    message: "",
     success: false,
   },
   reducers: {
@@ -85,37 +60,10 @@ export const productsSlice = createSlice({
     builder.addCase(getAllProducts.fulfilled, (state, action) => {
       state.loading = false;
       const { products } = action.payload;
-      state.products = Object.values(products);
+      if (products) state.products = Object.values(products);
       state.success = true;
     });
     builder.addCase(getAllProducts.rejected, (state) => {
-      state.loading = false;
-      state.success = false;
-    });
-    builder.addCase(addNewProduct.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(addNewProduct.fulfilled, (state, action) => {
-      state.loading = false;
-      const { success, message } = action.payload;
-      state.message = message;
-      state.success = success;
-    });
-
-    builder.addCase(addNewProduct.rejected, (state) => {
-      state.loading = false;
-      state.success = false;
-    });
-    builder.addCase(deleteProduct.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(deleteProduct.fulfilled, (state, action) => {
-      state.loading = false;
-      const { success, message } = action.payload;
-      state.message = message;
-      state.success = success;
-    });
-    builder.addCase(deleteProduct.rejected, (state) => {
       state.loading = false;
       state.success = false;
     });
@@ -132,19 +80,6 @@ export const productsSlice = createSlice({
       ];
     });
     builder.addCase(updateImage.rejected, (state) => {
-      state.loading = false;
-      state.success = false;
-    });
-    builder.addCase(updateProduct.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(updateProduct.fulfilled, (state, action) => {
-      state.loading = false;
-      const { success, message } = action.payload;
-      state.message = message;
-      state.success = success;
-    });
-    builder.addCase(updateProduct.rejected, (state) => {
       state.loading = false;
       state.success = false;
     });

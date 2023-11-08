@@ -19,11 +19,8 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useForm } from "react-hook-form";
 import { useAppSelector } from "@/store";
 import { useAppDispatch } from "@/store";
-import {
-  addNewProduct,
-  getAllProducts,
-  updateProduct,
-} from "@/slice/productsSlice";
+import { addNewProduct, updateProduct } from "@/slice/adminActionSlice";
+import { getAllProducts } from "@/slice/productsSlice";
 import { setImgUrl } from "@/slice/productsSlice";
 export interface productType {
   title: string;
@@ -80,27 +77,28 @@ const formSchema = z.object({
 
 type formStatus = {
   productId?: string;
+  handleClose: () => void;
 };
 
-const ProductForm = ({ productId }: formStatus) => {
+const ProductForm = ({ productId, handleClose }: formStatus) => {
   const { imgUrl, products } = useAppSelector((state) => state.productsData);
   const [mainImg, setMainImg] = useState<string>("");
+  const defaultData: productType = {
+    title: "",
+    category: "",
+    origin_price: 0,
+    price: 0,
+    unit: "",
+    description: "",
+    content: "",
+    is_enabled: 0,
+    imageUrl: "",
+    imagesUrl: [],
+  };
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      category: "",
-      origin_price: 0,
-      price: 0,
-      unit: "",
-      description: "",
-      content: "",
-      is_enabled: 0,
-      imageUrl: "",
-      imagesUrl: [],
-    },
+    defaultValues: defaultData,
   });
-
   const { reset } = form;
   const dispatch = useAppDispatch();
 
@@ -118,6 +116,7 @@ const ProductForm = ({ productId }: formStatus) => {
     } else {
       await dispatch(updateProduct({ ...submitData, id: productId }));
     }
+    handleClose();
     await dispatch(getAllProducts());
   }
 
@@ -348,20 +347,7 @@ const ProductForm = ({ productId }: formStatus) => {
               <Button
                 type="button"
                 variant={"outline"}
-                onClick={() =>
-                  reset({
-                    title: "",
-                    category: "",
-                    origin_price: 0,
-                    price: 0,
-                    unit: "",
-                    description: "",
-                    content: "",
-                    is_enabled: 0,
-                    imageUrl: "",
-                    imagesUrl: [],
-                  })
-                }
+                onClick={() => reset(defaultData)}
               >
                 Reset
               </Button>

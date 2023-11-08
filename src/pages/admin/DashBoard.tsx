@@ -7,6 +7,7 @@ import { useAppSelector } from "@/store";
 import { useAppDispatch } from "@/store";
 import { userCheck } from "@/slice/loginSlice";
 import { ModeToggle } from "@/components/ModeToggle";
+import { Toaster } from "@/components/ui/toaster";
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "產品管理",
@@ -83,6 +84,7 @@ const DashBoard = () => {
           </div>
           <div className="col-span-10">
             <Outlet />
+            <Toaster />
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "@/slice/loginSlice";
 import productsReducer from "@/slice/productsSlice";
+import adminActionReducer from "./slice/adminActionSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import logger from "redux-logger";
 
@@ -8,6 +9,7 @@ export const store = configureStore({
   reducer: {
     loginData: loginReducer,
     productsData: productsReducer,
+    adminActionData: adminActionReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

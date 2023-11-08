@@ -13,19 +13,27 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { AiFillEdit } from "react-icons/ai";
 import ProductForm from "./ProductForm";
-import { deleteProduct, getAllProducts } from "@/slice/productsSlice";
+import { deleteProduct } from "@/slice/adminActionSlice";
+import { getAllProducts } from "@/slice/productsSlice";
 import { useAppDispatch } from "@/store";
 
 type AdminActionProps = {
   productId?: string;
   productName?: string;
 };
+
+const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
+
 function AdminAction({ productId, productName }: AdminActionProps) {
   const [isEdit, setIsEdit] = useState(false);
-  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
 
+  const dispatch = useAppDispatch();
+  const handleClose = async () => {
+    await wait().then(() => setOpen(false));
+  };
   return (
-    <Dialog>
+    <Dialog onOpenChange={setOpen} open={open}>
       {productId ? (
         <div className="flex flex-row justify-center  items-center gap-2">
           <DialogTrigger
@@ -84,7 +92,9 @@ function AdminAction({ productId, productName }: AdminActionProps) {
           <DialogDescription></DialogDescription>
         </DialogHeader>
         {isEdit || !productId ? (
-          <div className="py-4">{<ProductForm productId={productId} />}</div>
+          <div className="py-4">
+            {<ProductForm productId={productId} handleClose={handleClose} />}
+          </div>
         ) : (
           <div>
             <h1>確定刪除本產品?</h1>
@@ -94,6 +104,7 @@ function AdminAction({ productId, productName }: AdminActionProps) {
                 onClick={async () => {
                   if (!productId) return;
                   await dispatch(deleteProduct(productId));
+                  handleClose();
                   await dispatch(getAllProducts());
                 }}
               >

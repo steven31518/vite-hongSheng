@@ -44,7 +44,7 @@ export const columns: ColumnDef<Product>[] = [
       return (
         <img
           src={row.getValue("imageUrl")}
-          className="w-[60px] h-[30px]"
+          className="w-[150px] h-[80px]"
           alt="未上傳"
         />
       );
