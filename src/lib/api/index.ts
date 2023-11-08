@@ -6,7 +6,7 @@ import {
   updateProduct,
   deleteProduct,
 } from "./products";
-
+import { getProductsInPage } from "./onSales";
 const apiPath: string = import.meta.env.VITE_API_PATH;
 
 export const api = {
@@ -21,5 +21,8 @@ export const api = {
     addProduct: addProduct(apiPath),
     updateProduct: updateProduct(apiPath),
     deleteProduct: deleteProduct(apiPath),
+  },
+  onSales: {
+    getProductsInPage: getProductsInPage(apiPath),
   },
 };
