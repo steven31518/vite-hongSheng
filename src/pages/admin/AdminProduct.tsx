@@ -7,6 +7,7 @@ import { columns } from "./productsTable/column";
 import { DataTable } from "./productsTable/data-table";
 import { useToast } from "@/components/ui/use-toast";
 import type { Product } from "./productsTable/column";
+import { deleteMessage } from "@/slice/adminActionSlice";
 
 const AdminProducts = () => {
   const { loading, products } = useAppSelector((state) => state.productsData);
@@ -17,14 +18,15 @@ const AdminProducts = () => {
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
-  
+
   useEffect(() => {
     if (message.length > 0) {
       message.forEach((msg) => {
         toast(msg);
       });
+      dispatch(deleteMessage("clean"));
     }
-  }, [message, toast]);
+  }, [dispatch, message, toast]);
   return (
     <div>
       {loading && <FullscreenLoading />}

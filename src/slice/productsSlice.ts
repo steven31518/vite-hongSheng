@@ -25,7 +25,7 @@ export const getAllProducts = createAsyncThunk(
   }
 );
 export const updateImage = createAsyncThunk(
-  "updateImageResponse/fetchupdateImageResponse",
+  "products/fetchupdateImageResponse",
   async (files: File[]) => {
     const promise = files.map(async (file) => {
       const response = await api.products.addPicture(file);

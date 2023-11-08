@@ -11,7 +11,7 @@ type messageData = {
   title: string;
   description: string;
 };
-
+type deleteMessagePayload = "clean";
 export const addNewProduct = createAsyncThunk(
   "adminAction/addNewProduct",
   async (product: newDataType) => {
@@ -34,6 +34,14 @@ export const deleteProduct = createAsyncThunk(
     return response as responseType;
   }
 );
+export const deleteMessage = createAsyncThunk(
+  "adminSystem/deleteMessage",
+  async (payload: deleteMessagePayload, { dispatch }) => {
+    setTimeout(() => {
+      dispatch(adminActionSlice.actions.deleteMessage(payload));
+    }, 6000);
+  }
+);
 
 const adminActionSlice = createSlice({
   name: "adminAction",
@@ -42,8 +50,8 @@ const adminActionSlice = createSlice({
     message: [] as messageData[],
   },
   reducers: {
-    deleteMessage: (state) => {
-      state.message = [];
+    deleteMessage: (state, action) => {
+      if (action.payload === "clean") state.message = [];
     },
   },
   extraReducers: (builder) => {
@@ -77,8 +85,9 @@ const adminActionSlice = createSlice({
     builder.addMatcher(
       (action) =>
         action.type.startsWith("adminAction") &&
-        action.type.endsWith("fulfilled"),
+        action.type.endsWith("/fulfilled"),
       (state, action) => {
+        console.log(action.payload);
         if (action.payload.success) {
           state.message.push({
             variant: "default",
