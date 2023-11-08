@@ -24,8 +24,10 @@ const AdminProducts = () => {
       message.forEach((msg) => {
         toast(msg);
       });
-      dispatch(deleteMessage("clean"));
     }
+    return () => {
+      dispatch(deleteMessage("clean"));
+    };
   }, [dispatch, message, toast]);
   return (
     <div>

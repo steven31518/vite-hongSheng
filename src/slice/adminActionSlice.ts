@@ -87,7 +87,6 @@ const adminActionSlice = createSlice({
         action.type.startsWith("adminAction") &&
         action.type.endsWith("/fulfilled"),
       (state, action) => {
-        console.log(action.payload);
         if (action.payload.success) {
           state.message.push({
             variant: "default",
