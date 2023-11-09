@@ -40,7 +40,7 @@ export const onSalesSlice = createSlice({
   name: "onSales",
   initialState: {
     products: [] as productDataWithId[],
-    totalPage: 0,
+    totalPages: 0,
     currentPage: 0,
     loading: false,
     success: false,
@@ -56,7 +56,7 @@ export const onSalesSlice = createSlice({
         const { pagination, products, success } = action.payload;
         state.products = products;
         state.success = success;
-        state.totalPage = pagination.total_pages;
+        state.totalPages = pagination.total_pages;
         state.currentPage = pagination.current_page;
       } else {
         state.products = [];

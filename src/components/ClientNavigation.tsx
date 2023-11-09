@@ -15,39 +15,44 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
-const components: { title: string; href: string; description: string }[] = [
+const components: {
+  title: string;
+  herf: string;
+
+  description: string;
+}[] = [
   {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
+    herf: "#/products/Tool",
+    title: "Tool",
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
+    herf: "#/products/水果",
+    title: "Fruit",
     description:
       "For sighted users to preview content available behind a link.",
   },
   {
-    title: "Progress",
-    href: "/docs/primitives/progress",
+    herf: "#/products/文件",
+    title: "paper",
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
   {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
+    herf: "/products/code",
+    title: "Code",
     description: "Visually or semantically separates content.",
   },
   {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
+    herf: "/products/style",
+    title: "Style",
     description:
       "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
   },
   {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
+    herf: "/products",
+    title: "All",
     description:
       "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
   },
@@ -77,10 +82,10 @@ const ClientNavigation = () => {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/docs" title="Introduction">
+              <ListItem href="/" title="Introduction">
                 Re-usable components built using Radix UI and Tailwind CSS.
               </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
+              <ListItem href="#/products/All" title="Products">
                 How to install dependencies and structure your app.
               </ListItem>
               <ListItem href="/docs/primitives/typography" title="Typography">
@@ -90,14 +95,14 @@ const ClientNavigation = () => {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Product Category</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map((component) => (
                 <ListItem
                   key={component.title}
                   title={component.title}
-                  href={component.href}
+                  href={component.herf}
                 >
                   {component.description}
                 </ListItem>

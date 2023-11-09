@@ -27,6 +27,12 @@ const components: { title: string; href: string; description: string }[] = [
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
+  {
+    title: "返回賣場",
+    href: "/products",
+    description:
+      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+  },
 ];
 
 const DashBoard = () => {
