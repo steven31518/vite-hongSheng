@@ -4,9 +4,10 @@ import { useAppSelector } from "@/store";
 import { getProductWithId } from "@/slice/productDetailSlice";
 import FullscreenLoading from "@/components/FullscreenLoading";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { LuPlus, LuMinus } from "react-icons/lu";
 import {
   Accordion,
   AccordionContent,
@@ -16,6 +17,7 @@ import {
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const [qty, setQty] = useState(1);
   const { product, loading } = useAppSelector(
     (state) => state.productDetailData
   );
@@ -37,9 +39,9 @@ const ProductDetail = () => {
           />
         </AspectRatio>
       </div>
-      <div className="flex flex-row justify-between mt-4 mb-7">
+      <div className="flex flex-row justify-around mt-4 mb-7">
         <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-9">
+          <div className="col-span-12 lg:col-span-9">
             <h1 className="mb-0">{product.title}</h1>
             <p>{product.description}</p>
             <p className="font-bold">NT$ {product.price}</p>
@@ -59,17 +61,37 @@ const ProductDetail = () => {
                   })}
             </div>
           </div>
-          <div className="col-span-3">
-            <div className="flex items-center justify-around space-x-2 mb-2">
-              <Button variant={"outline"} type="button" id="button-addon1">
-                -
+          <div className="col-span-12 lg:col-span-3">
+            <div className="w-full flex items-center justify-center space-x-2 mb-2">
+              <Button
+                variant={"outline"}
+                type="button"
+                id="button-addon1"
+                onClick={() => {
+                  setQty((pre) => (pre === 1 ? 1 : pre - 1));
+                }}
+              >
+                <LuMinus />
               </Button>
-              <Input type="number" placeholder="qty" readOnly />
-              <Button variant={"outline"} type="button" id="button-addon2">
-                +
+              <Input
+                type="number"
+                className="text-center my-auto border-0"
+                placeholder={qty.toString()}
+                value={qty}
+                readOnly
+              />
+              <Button
+                variant={"outline"}
+                type="button"
+                id="button-addon2"
+                onClick={() => {
+                  setQty((pre) => pre + 1);
+                }}
+              >
+                <LuPlus />
               </Button>
               <Button type="button" variant={"default"}>
-                Confirm
+                加入
               </Button>
             </div>
           </div>

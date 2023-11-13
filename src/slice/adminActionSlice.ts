@@ -34,6 +34,7 @@ export const deleteProduct = createAsyncThunk(
     return response as responseType;
   }
 );
+
 export const deleteMessage = createAsyncThunk(
   "adminSystem/deleteMessage",
   async (payload: deleteMessagePayload, { dispatch }) => {
