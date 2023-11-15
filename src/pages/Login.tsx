@@ -8,6 +8,13 @@ const Login = () => {
     (state) => state.loginData
   );
   const navigate = useNavigate();
+
+  function addDays(days: number) {
+    const today = new Date();
+    const date2 = today.getDate() + days;
+    return new Date(today.setDate(date2)).toDateString();
+  }
+  const expireDate = addDays(7);
   useEffect(() => {
     if (loginState === true) {
       navigate("/admin");
@@ -17,6 +24,7 @@ const Login = () => {
   return (
     <>
       <div className="container py-5 min-h-screen">
+        <div>{expireDate}</div>
         {loading && <FullscreenLoading />}
         <div className="flex flex-col justify-center items-center">
           <LoginForm className="mb-2" />
