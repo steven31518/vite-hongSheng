@@ -7,6 +7,7 @@ import AdminOrders from "./pages/admin/AdminOrders";
 import FrontLayout from "./pages/front/FrontLayout";
 import Products from "./pages/front/Products";
 import ProductDetail from "./pages/front/ProductDetail";
+import { ProductsOnSales } from "./pages/front/onSalesProducts/ProductsOnSales";
 import { ThemeProvider } from "./components/ThemeProvider";
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <ThemeProvider defualtTheme="dark" storageKey="vite-ui-theme">
         <Routes>
           <Route path="/" element={<FrontLayout />}>
-            <Route path="/home" element={<div>Home</div>} />
+            <Route path="/home" element={<ProductsOnSales />} />
             <Route path="/products" element={<Products />}>
               <Route path=":category" element={<Products />} />
             </Route>
