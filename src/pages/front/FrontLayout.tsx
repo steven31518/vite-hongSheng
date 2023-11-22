@@ -1,5 +1,4 @@
 import { Outlet, Link } from "react-router-dom";
-import ClientNavigation from "@/components/ClientNavigation";
 import CartSlider from "@/components/CartSlider";
 
 const FrontLayout = () => {
@@ -13,7 +12,7 @@ const FrontLayout = () => {
           <p className="text-muted-foreground">Here&apos;s a list store.!</p>
         </div>
         <div className="flex items-center justify-between space-x-3 w-full px-4">
-          <ClientNavigation />
+          {/* <ClientNavigation /> */}
           <CartSlider />
         </div>
       </div>

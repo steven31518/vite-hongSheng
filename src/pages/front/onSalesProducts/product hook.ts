@@ -1,48 +1,65 @@
 import { api } from "@/lib/api";
-import { newDataType } from "@/components/ProductForm";
+import { allProducts_res } from "@/lib/api/onSales";
 import { useQuery } from "@tanstack/react-query";
 import { queryStatus } from "@/types";
-// 使用typeof運算符來獲取id物件的型別
+import { useSearchParams } from "react-router-dom";
 
-// 使用productType作為陣列的元素型別
-interface productType extends newDataType {
-  id: string;
-}
 interface productReturn extends queryStatus {
-  products: productType[];
+  products: allProducts_res;
 }
 
 export function useGetProducts(): productReturn {
-  const productsQuery = useQuery({
-    queryKey: ["products", { type: "all" }],
-    queryFn: async () => await api.onSales.getProductsInPage("1", ""),
-  });
+  const search = useSearchParams()[0];
+  const category = search.get("category")?.toString() || "";
+  const page = search.get("page")?.toString() || "1";
 
-  console.log(productsQuery);
-  const { isError, isPending, data, dataUpdatedAt } = productsQuery;
+  const productsQuery = useQuery({
+    queryKey: ["products", page, { type: category }],
+    queryFn: async () => await api.onSales.getProductsInPage(page, category),
+  });
+  const { isError, isPending, isSuccess, data, dataUpdatedAt } = productsQuery;
+
   if (isError) {
     return {
       status: "error",
       message: productsQuery.error?.message,
-      products: [],
+      products: {
+        products: [],
+        pagination: {
+          category: "",
+          current_page: 0,
+          has_next: false,
+          has_pre: false,
+          total_pages: 0,
+        },
+      },
     };
   }
   if (isPending) {
     return {
       status: "pending",
-      products: [],
+      products: {
+        products: [],
+        pagination: {
+          category: "",
+          current_page: 0,
+          has_next: false,
+          has_pre: false,
+          total_pages: 0,
+        },
+      },
     };
   }
-  if (data) {
+  if (isSuccess) {
     return {
       status: "success",
       message: new Date(dataUpdatedAt).toLocaleDateString(),
-      products: data.products,
+      products: data as allProducts_res,
     };
   }
   return {
     status: productsQuery["data"]["success"] ? "success" : "error",
     message: new Date(productsQuery["dataUpdatedAt"]).toLocaleTimeString(),
-    products: productsQuery["data"]["products"],
+    products: productsQuery["data"],
   };
 }

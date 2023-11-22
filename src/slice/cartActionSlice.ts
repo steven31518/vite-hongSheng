@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "@/lib/api";
-import type { postCartType } from "@/lib/api/cart";
+import type { postCartType } from "@/lib/api/cart/addCart";
 
 type postCart_res = {
   success: boolean;
