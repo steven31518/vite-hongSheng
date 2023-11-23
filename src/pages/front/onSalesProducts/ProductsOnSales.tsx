@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/card";
 export function ProductsOnSales() {
   const { status, message, products } = useGetProducts();
-
   const { current_page, total_pages } = products["pagination"];
   const setSearchParams = useSearchParams()[1];
   if (status === "pending") {

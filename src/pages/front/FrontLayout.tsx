@@ -1,6 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
-import CartSlider from "@/components/CartSlider";
+import CartList from "./cart/Cartlist";
 
 const FrontLayout = () => {
   return (
@@ -14,10 +14,9 @@ const FrontLayout = () => {
         </div>
         <div className="flex items-center justify-between space-x-3 w-full px-4">
           {/* <ClientNavigation /> */}
-          <CartSlider />
+          <CartList />
         </div>
       </div>
-
       <Outlet />
       <Toaster></Toaster>
       <div className="flex items-center justify-center space-y-2 border-t-2 border-solid border-border px-4 py-2">

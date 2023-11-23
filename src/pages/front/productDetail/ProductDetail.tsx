@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { LuPlus, LuMinus } from "react-icons/lu";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import ReactLoading from "react-loading";
 import {
   Accordion,
@@ -18,9 +17,7 @@ import {
 export function ProductDetail() {
   const [qty, setQty] = useState(1);
   const { status, message, product } = useGetProductDetail();
-  const { addCart, isPending } = useAddCart();
-
-  const { toast } = useToast();
+  const { mutate: addCart, isPending } = useAddCart();
 
   if (status === "pending") {
     return <FullscreenLoading />;
