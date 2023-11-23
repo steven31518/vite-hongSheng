@@ -1,5 +1,6 @@
 import FullscreenLoading from "@/components/FullscreenLoading";
 import { useGetProductDetail } from "./product detail hook";
+import { useAddCart } from "./add cart hook";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
@@ -21,6 +22,7 @@ export function ProductDetail() {
   if (status === "error") {
     return <div className="min-h-screen m-auto">{message}</div>;
   }
+
   return (
     <div className="container mt-3">
       <div className="grid grid-cols-12 gap-4 my-5">
@@ -83,8 +85,13 @@ export function ProductDetail() {
               <LuPlus />
             </Button>
           </div>
-          <Button type="button" variant={"default"} className="w-full">
-            加入
+          <Button
+            type="button"
+            variant={"default"}
+            className="w-full"
+            onClick={() => {}}
+          >
+            加入購物車
           </Button>
         </div>
       </div>
