@@ -1,4 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
 import CartSlider from "@/components/CartSlider";
 
 const FrontLayout = () => {
@@ -18,7 +19,7 @@ const FrontLayout = () => {
       </div>
 
       <Outlet />
-
+      <Toaster></Toaster>
       <div className="flex items-center justify-center space-y-2 border-t-2 border-solid border-border px-4 py-2">
         <footer>
           &copy; {new Date().getFullYear()} Steven Tsan. All rights reserved.

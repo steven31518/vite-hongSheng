@@ -1,20 +1,30 @@
 import FullscreenLoading from "@/components/FullscreenLoading";
 import { useGetProductDetail } from "./product detail hook";
 import { useAddCart } from "./add cart hook";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { LuPlus, LuMinus } from "react-icons/lu";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+
+import ReactLoading from "react-loading";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
 export function ProductDetail() {
   const [qty, setQty] = useState(1);
   const { status, message, product } = useGetProductDetail();
+  const { isError, isPending, error, mutate, isSuccess } = useAddCart();
+  const { toast } = useToast();
+  
+  useEffect(() => {
+    toast({ variant: "default", title: "string", description: "string" });
+  }, [isSuccess, toast]);
 
   if (status === "pending") {
     return <FullscreenLoading />;
@@ -89,10 +99,17 @@ export function ProductDetail() {
             type="button"
             variant={"default"}
             className="w-full"
-            onClick={() => {}}
+            disabled={isPending}
+            onClick={() => {
+              mutate({ data: { product_id: product.id, qty } });
+            }}
           >
             加入購物車
+            {isPending ? (
+              <ReactLoading type="spin" color="block" height={20} width={20} />
+            ) : null}
           </Button>
+          {isError ? <div>An error occurred: {error?.message}</div> : null}
         </div>
       </div>
       <div className="">

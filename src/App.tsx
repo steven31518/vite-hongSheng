@@ -9,6 +9,7 @@ import Products from "./pages/front/Products";
 import { ProductDetail } from "./pages/front/productDetail/ProductDetail";
 import { ProductsOnSales } from "./pages/front/onSalesProducts/ProductsOnSales";
 import { ThemeProvider } from "./components/ThemeProvider";
+
 function App() {
   return (
     <div className="App">

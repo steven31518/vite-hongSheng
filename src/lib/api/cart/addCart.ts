@@ -11,10 +11,10 @@ const addCart_res_schema = z.object({
   message: z.string(),
   data: z.object({
     product_id: z.string(),
-    qty: z.coerce.number(),
-    id: z.string(),
-    total: z.coerce.number(),
-    final_total: z.coerce.number(),
+    qty: z.number(),
+
+    total: z.number(),
+    final_total: z.number(),
     product: z.object({
       category: z.string(),
       content: z.string(),
@@ -23,9 +23,8 @@ const addCart_res_schema = z.object({
       imageUrl: z.string(),
       imagesUrl: z.array(z.string()),
       is_enabled: z.number(),
-      num: z.coerce.number(),
-      origin_price: z.coerce.number(),
-      price: z.coerce.number(),
+      origin_price: z.number(),
+      price: z.number(),
       title: z.string(),
       unit: z.string(),
     }),
@@ -40,10 +39,13 @@ export const postCart = (apiPath: string) => {
       method: "POST",
       data: data,
     });
+
     const validate = addCart_res_schema.safeParse(response.data);
+
     if (!validate.success) {
       throw new Error(validate.error.message);
     }
+
     return validate.data;
   };
 };
