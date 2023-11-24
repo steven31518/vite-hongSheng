@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LuShoppingCart } from "react-icons/lu";
 import ReactLoading from "react-loading";
+import { LuPlus, LuMinus } from "react-icons/lu";
 import {
   Sheet,
   SheetClose,
@@ -45,15 +46,19 @@ const CartList = () => {
                       <Label htmlFor={item.id} className="text-center">
                         數量
                       </Label>
-                      <div className="flex flex-row justify-end items-center gap-1">
-                        <Button variant={"outline"}>-</Button>
+                      <div className="flex flex-row justify-end items-center">
+                        <Button variant={"ghost"}>
+                          <LuMinus />
+                        </Button>
                         <Input
                           id={item.id}
                           value={item.qty}
-                          className="col-span-3"
+                          className="col-span-3 text-center"
                           readOnly
                         />
-                        <Button variant={"outline"}>+</Button>
+                        <Button variant={"ghost"}>
+                          <LuPlus />
+                        </Button>
                       </div>
                     </div>
                     <Button

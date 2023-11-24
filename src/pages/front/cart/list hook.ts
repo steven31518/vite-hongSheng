@@ -15,7 +15,6 @@ export function useGetCart(): cartReturn {
     queryFn: async () => await api.cart.getCart(),
   });
   const { isError, isPending, isSuccess, data, dataUpdatedAt } = cartQuery;
-
   if (isError) {
     return {
       status: "error",

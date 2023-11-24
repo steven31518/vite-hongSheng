@@ -56,7 +56,6 @@ export function ProductsOnSales() {
           );
         })}
       </div>
-
       <div className="w-full flex justify-center items-center space-x-3 m-5">
         <Button
           variant="outline"
