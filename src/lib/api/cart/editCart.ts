@@ -29,8 +29,6 @@ export const editCart = (apiPath: string) => {
             },
           },
         });
-        console.log("Data", { product_id: item.product_id, qty: item.qty });
-        console.log(res.data);
         return res.data;
       })
     );

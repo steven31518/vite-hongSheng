@@ -5,7 +5,7 @@ import AdminProducts from "./pages/admin/AdminProduct";
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import AdminOrders from "./pages/admin/AdminOrders";
 import FrontLayout from "./pages/front/FrontLayout";
-
+import { CheckOrder } from "./pages/front/check/CheckOrder";
 import { ProductDetail } from "./pages/front/productDetail/ProductDetail";
 import { ProductsOnSales } from "./pages/front/onSalesProducts/ProductsOnSales";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -19,6 +19,7 @@ function App() {
             <Route path="/home" element={<ProductsOnSales />} />
             <Route path="product/:id" element={<ProductDetail />} />
           </Route>
+          <Route path="check" element={<CheckOrder />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<DashBoard />}>
             <Route path="products" element={<AdminProducts />} />

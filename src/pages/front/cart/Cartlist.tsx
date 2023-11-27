@@ -1,9 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { LuShoppingCart } from "react-icons/lu";
-import ReactLoading from "react-loading";
-import { LuPlus, LuMinus } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Sheet,
@@ -18,7 +14,14 @@ import {
 import { useGetCart } from "./list hook";
 import { useDeleteCart } from "./delete action hook";
 import { useEditCart } from "./edit action hook";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { LuShoppingCart } from "react-icons/lu";
+import ReactLoading from "react-loading";
+import { LuPlus, LuMinus } from "react-icons/lu";
 import type { getCart_res } from "@/lib/api/cart/getCart";
+
 type CartItem = getCart_res["data"]["carts"];
 
 export default function CartList() {
@@ -26,6 +29,7 @@ export default function CartList() {
   const { mutate: deleteCart, isPending: deleteIsPending } = useDeleteCart();
   const { mutate: editCart, isPending: editIsPending } = useEditCart();
   const [CartData, setCartData] = useState<CartItem>([]);
+  const navigate = useNavigate();
 
   function handleCount(id: string, action: () => number) {
     const newCart = [...CartData];
@@ -49,6 +53,11 @@ export default function CartList() {
     //   return item.id !== cart.find((p) => p.qty === item.qty)?.id;
     // });
   }
+  function handleSubmit() {
+    const arr = handleCartDifferent();
+    if (arr.length > 0) editCart(arr);
+    navigate("/check");
+  }
   useEffect(() => {
     if (status === "success") {
       setCartData(JSON.parse(JSON.stringify(cart)));
@@ -58,8 +67,7 @@ export default function CartList() {
     <Sheet
       onOpenChange={async (open) => {
         if (!open) {
-          const arr = handleCartDifferent();
-          if (arr.length > 0) editCart(arr);
+          handleSubmit();
         }
       }}
     >
@@ -73,76 +81,97 @@ export default function CartList() {
           {cart.length > 0 ? cart.length : 0}
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="overflow-y-scroll w-[400px] sm:w-[540px]">
         <SheetHeader>
           <SheetTitle>Cart Detail</SheetTitle>
-          <SheetDescription>
-            {status === "pending" && <ReactLoading type="spin" color="white" />}
-            {status === "error" && <p>{message}</p>}
-            {status === "success" && (
-              <>
-                {[...CartData].map((item) => (
-                  <div key={item.id} className="rouned-md border-2 p-3">
-                    <div>{item.product.title}</div>
-                    <div>{`單價 : ${item.product.price}`}</div>
-                    <div>{`合計 : ${item.final_total}`}</div>
-                    <div className="grid gap-4 py-4 ">
-                      <Label htmlFor={item.id} className="text-center">
-                        數量
-                      </Label>
-                      <div className="flex flex-row justify-end items-center">
-                        <Button
-                          variant={"ghost"}
-                          onClick={() => {
-                            handleCount(item.id, () => item.qty - 1);
-                          }}
-                        >
-                          <LuMinus />
-                        </Button>
-                        <Input
-                          id={item.id}
-                          value={item.qty}
-                          className="col-span-3 text-center"
-                          min={1}
-                          readOnly
-                        />
-                        <Button
-                          variant={"ghost"}
-                          onClick={() => {
-                            handleCount(item.id, () => item.qty + 1);
-                          }}
-                        >
-                          <LuPlus />
-                        </Button>
-                      </div>
-                    </div>
-                    <Button
-                      variant={"outline"}
-                      className="w-full"
-                      disabled={deleteIsPending}
-                      onClick={() => {
-                        deleteCart(item.id);
-                      }}
-                    >
-                      Delete
-                      {deleteIsPending ? (
-                        <ReactLoading type="spin" color="white" />
-                      ) : (
-                        ""
-                      )}
-                    </Button>
-                  </div>
-                ))}
-                <div>total: {total}</div>
-                <div>final_total: {final_total}</div>
-              </>
-            )}
-          </SheetDescription>
         </SheetHeader>
-        {/*  */}
+        <SheetDescription>
+          {status === "pending" && <ReactLoading type="spin" color="white" />}
+          {status === "error" && <p>{message}</p>}
+          {status === "success" && (
+            <>
+              {[...CartData].map((item) => (
+                <div key={item.id} className="rouned-md border-2 p-3 my-4">
+                  <h1 className="my-4 font-bold">{item.product.title}</h1>
+                  <div className="flex flex-row items-end justify-around">
+                    <img
+                      src={item.product.imageUrl}
+                      alt=""
+                      className="object-cover"
+                      style={{
+                        width: "150px",
+                      }}
+                    />
+                    <div className="text-start space-x-2">
+                      <small>{`${item.product.price}元 x${item.qty}`}</small>
+                      <Separator className="my-4"></Separator>
+                      <p>{`合計  : NTD$ ${item.final_total}`}</p>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 py-4">
+                    <Label htmlFor={item.id} className="text-center">
+                      數量
+                    </Label>
+                    <div className="flex flex-row justify-end items-center">
+                      <Button
+                        variant={"ghost"}
+                        disabled={item.qty === 1}
+                        onClick={() => {
+                          handleCount(item.id, () => item.qty - 1);
+                        }}
+                      >
+                        <LuMinus />
+                      </Button>
+                      <Input
+                        id={item.id}
+                        value={item.qty}
+                        className="col-span-3 text-center"
+                        min={1}
+                        readOnly
+                      />
+                      <Button
+                        variant={"ghost"}
+                        onClick={() => {
+                          handleCount(item.id, () => item.qty + 1);
+                        }}
+                      >
+                        <LuPlus />
+                      </Button>
+                    </div>
+                  </div>
+                  <Button
+                    variant={"outline"}
+                    className="w-full"
+                    disabled={deleteIsPending}
+                    onClick={() => {
+                      deleteCart(item.id);
+                    }}
+                  >
+                    Delete
+                    {deleteIsPending ? (
+                      <ReactLoading type="spin" color="white" />
+                    ) : (
+                      ""
+                    )}
+                  </Button>
+                </div>
+              ))}
+              <div>total: {total}</div>
+              <div>final_total: {final_total}</div>
+            </>
+          )}
+        </SheetDescription>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
+            <Button
+              type="submit"
+              disabled={editIsPending}
+              onClick={async () => {
+                handleSubmit();
+              }}
+            >
+              確認付款
+            </Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

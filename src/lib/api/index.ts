@@ -11,6 +11,9 @@ import { postCart } from "./cart/addCart";
 import { getCart } from "./cart/getCart";
 import { deleteItem } from "./cart/deleteItem";
 import { editCart } from "./cart/editCart";
+import { postOrder } from "./order/addOrder";
+import { getOrder } from "./order/getOrder";
+
 const apiPath: string = import.meta.env.VITE_API_PATH;
 
 export const api = {
@@ -35,5 +38,9 @@ export const api = {
     getCart: getCart(apiPath),
     deleteItem: deleteItem(apiPath),
     editCart: editCart(apiPath),
+  },
+  order: {
+    postOrder: postOrder(apiPath),
+    getOrder: getOrder(apiPath),
   },
 };
