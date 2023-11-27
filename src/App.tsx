@@ -5,7 +5,7 @@ import AdminProducts from "./pages/admin/AdminProduct";
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import AdminOrders from "./pages/admin/AdminOrders";
 import FrontLayout from "./pages/front/FrontLayout";
-import Products from "./pages/front/Products";
+
 import { ProductDetail } from "./pages/front/productDetail/ProductDetail";
 import { ProductsOnSales } from "./pages/front/onSalesProducts/ProductsOnSales";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -17,7 +17,6 @@ function App() {
         <Routes>
           <Route path="/" element={<FrontLayout />}>
             <Route path="/home" element={<ProductsOnSales />} />
-            <Route path="/products" element={<Products />}></Route>
             <Route path="product/:id" element={<ProductDetail />} />
           </Route>
           <Route path="/login" element={<Login />} />

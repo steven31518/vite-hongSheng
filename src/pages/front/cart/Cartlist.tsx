@@ -45,7 +45,7 @@ export default function CartList() {
         return true;
       }
     });
-     // const arr = CartData.filter((item) => {
+    // const arr = CartData.filter((item) => {
     //   return item.id !== cart.find((p) => p.qty === item.qty)?.id;
     // });
   }
@@ -77,12 +77,10 @@ export default function CartList() {
         <SheetHeader>
           <SheetTitle>Cart Detail</SheetTitle>
           <SheetDescription>
-            {status === "pending" && (
-              <ReactLoading type="spin" color="white" />
-            )}
+            {status === "pending" && <ReactLoading type="spin" color="white" />}
             {status === "error" && <p>{message}</p>}
             {status === "success" && (
-              <div>
+              <>
                 {[...CartData].map((item) => (
                   <div key={item.id} className="rouned-md border-2 p-3">
                     <div>{item.product.title}</div>
@@ -137,7 +135,7 @@ export default function CartList() {
                 ))}
                 <div>total: {total}</div>
                 <div>final_total: {final_total}</div>
-              </div>
+              </>
             )}
           </SheetDescription>
         </SheetHeader>
