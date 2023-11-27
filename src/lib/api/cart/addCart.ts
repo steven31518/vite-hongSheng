@@ -50,13 +50,4 @@ export const postCart = (apiPath: string) => {
   };
 };
 
-export const getCart = (apiPath: string) => {
-  return async () => {
-    try {
-      const response = await axios.get(`/v2/api/${apiPath}/cart`);
-      return response.data;
-    } catch (e) {
-      throw new Error(e as string);
-    }
-  };
-};
+

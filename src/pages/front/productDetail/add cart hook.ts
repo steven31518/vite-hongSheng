@@ -25,12 +25,12 @@ export function useAddCart() {
       });
     },
     onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: ["cart", { type: "all" }] });
       toast({
         variant: "default",
         title: data.message,
         description: `${data.data.product.title} added to cart`,
       });
-      queryClient.invalidateQueries({ queryKey: ["cart", { type: "all" }] });
     },
   });
 }

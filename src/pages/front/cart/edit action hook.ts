@@ -1,13 +1,15 @@
-import { api } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
+import { api } from "@/lib/api";
+import { getCart_res } from "@/lib/api/cart/getCart";
+type CartItem = getCart_res["data"]["carts"];
 
-export function useDeleteCart() {
+export function useEditCart() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => {
-      return api.cart.deleteItem(id);
+    mutationFn: (data: CartItem) => {
+      return api.cart.editCart(data);
     },
     onMutate(variables) {
       return { variables };
@@ -23,10 +25,9 @@ export function useDeleteCart() {
       queryClient.invalidateQueries({ queryKey: ["cart", { type: "all" }] });
       toast({
         variant: "default",
-        title: "刪除成功",
-        description: data.message,
+        title: "修改成功",
+        description: data.map((item) => item.message).join("、"),
       });
-      
     },
   });
 }

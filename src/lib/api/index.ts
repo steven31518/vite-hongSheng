@@ -10,6 +10,7 @@ import { getProductsInPage, getProductWithId } from "./onSales";
 import { postCart } from "./cart/addCart";
 import { getCart } from "./cart/getCart";
 import { deleteItem } from "./cart/deleteItem";
+import { editCart } from "./cart/editCart";
 const apiPath: string = import.meta.env.VITE_API_PATH;
 
 export const api = {
@@ -33,5 +34,6 @@ export const api = {
     postCart: postCart(apiPath),
     getCart: getCart(apiPath),
     deleteItem: deleteItem(apiPath),
+    editCart: editCart(apiPath),
   },
 };
