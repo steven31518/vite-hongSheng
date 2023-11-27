@@ -19,7 +19,6 @@ import { useGetCart } from "./list hook";
 import { useDeleteCart } from "./delete action hook";
 import { useEditCart } from "./edit action hook";
 import type { getCart_res } from "@/lib/api/cart/getCart";
-
 type CartItem = getCart_res["data"]["carts"];
 
 export default function CartList() {
@@ -37,45 +36,37 @@ export default function CartList() {
       newCart[index].qty * newCart[index].product.price;
     setCartData(newCart);
   }
-
+  function handleCartDifferent(): CartItem {
+    return CartData.filter((item) => {
+      const sameProduct = cart.find((p) => p.id === item.id);
+      if (!sameProduct || sameProduct.qty === item.qty) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+     // const arr = CartData.filter((item) => {
+    //   return item.id !== cart.find((p) => p.qty === item.qty)?.id;
+    // });
+  }
   useEffect(() => {
     if (status === "success") {
       setCartData(JSON.parse(JSON.stringify(cart)));
     }
   }, [cart, status]);
-
   return (
     <Sheet
       onOpenChange={async (open) => {
-        console.log("pre",cart);
         if (!open) {
-          // const arr = CartData.filter((item) => {
-          //   return item.id !== cart.find((p) => p.qty === item.qty)?.id;
-          // });
-          const arr = CartData.filter((item) => {
-            const sameProduct = cart.find(p => p.id === item.id)
-            if ( !sameProduct || sameProduct.qty === item.qty) {
-              return false
-            }else {
-              return true
-            }
-          });
-          console.log("after",arr);
-          // const response = await Promise.all(
-          //   [...CartData].map(async (item) => {
-          //     const res = await Promise.all(
-          //       cart.filter((p) => p.qty !== item.qty)
-          //     );
-          //     return res;
-          //   })
-          // );
+          const arr = handleCartDifferent();
+          if (arr.length > 0) editCart(arr);
         }
       }}
     >
       <SheetTrigger asChild>
         <Button variant="ghost" className="rounded-full relative">
           {editIsPending ? (
-            <ReactLoading type="spin" color="#fffff" />
+            <ReactLoading type="spin" color="white" />
           ) : (
             <LuShoppingCart className="text-2xl" />
           )}
@@ -87,7 +78,7 @@ export default function CartList() {
           <SheetTitle>Cart Detail</SheetTitle>
           <SheetDescription>
             {status === "pending" && (
-              <ReactLoading type="spin" color="#fffff" />
+              <ReactLoading type="spin" color="white" />
             )}
             {status === "error" && <p>{message}</p>}
             {status === "success" && (
