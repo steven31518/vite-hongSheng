@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { usePostOrder } from "./post order hook";
-
+import { useNavigate } from "react-router-dom";
 const form_schema = z.object({
   data: z.object({
     user: z.object({
@@ -30,6 +30,7 @@ export type check_order_type = z.infer<typeof form_schema>;
 
 export function CheckOrderForm() {
   const { mutate: postOrder } = usePostOrder();
+  const navigate = useNavigate();
   const form = useForm<check_order_type>({
     resolver: zodResolver(form_schema),
     defaultValues: {
@@ -126,7 +127,18 @@ export function CheckOrderForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">確認訂單</Button>
+          <div className="flex items-center space-x-2">
+            <Button type="submit">確認訂單</Button>
+            <Button
+              type="button"
+              variant={"ghost"}
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              繼續購物
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

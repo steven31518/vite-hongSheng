@@ -3,10 +3,10 @@ import { useGetProductDetail } from "./product detail hook";
 import { useAddCart } from "./add cart hook";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { LuPlus, LuMinus } from "react-icons/lu";
 import { Input } from "@/components/ui/input";
 import ReactLoading from "react-loading";
+import { ProductArtWork } from "@/components/ProductArtWork";
 import {
   Accordion,
   AccordionContent,
@@ -28,17 +28,17 @@ export function ProductDetail() {
   return (
     <div className="container mt-3">
       <div className="grid grid-cols-12 gap-4 my-5">
-        <div className="col-span-6 lg:col-span-8">
-          <div className="w-[450px]">
-            <AspectRatio ratio={16 / 9}>
-              <img
-                src={product.imageUrl}
-                alt="Image"
-                className="rounded-md object-cover"
-              />
-            </AspectRatio>
+        <div className="col-span-4 lg:col-span-7 ">
+          <div className="w-[550px]">
+            <ProductArtWork
+              product={product}
+              className="w-full"
+              aspectRatio="square"
+              width={150}
+              height={150}
+            />
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          {/* <div className="grid grid-cols-4 gap-4">
             {product?.imagesUrl?.length > 0 &&
               product.imagesUrl
                 .filter((url: string) => url !== product.imageUrl)
@@ -52,12 +52,12 @@ export function ProductDetail() {
                     />
                   );
                 })}
-          </div>
+          </div> */}
         </div>
-        <div className="col-span-6 lg:col-span-4 flex flex-col justify-end items-start">
+        <div className="col-span-8 lg:col-span-5 flex flex-col justify-end items-start space-y-2">
           <h1 className="mb-0">{product.title}</h1>
-          <p>{product.description}</p>
-          <p className="font-bold">NT$ {product.price}</p>
+          <p>{product.content}</p>
+          <p className="font-bold">NTD${product.price}</p>
           <div className="w-full flex items-center justify-center space-x-2 mb-2">
             <Button
               variant={"outline"}
@@ -103,7 +103,7 @@ export function ProductDetail() {
           </Button>
         </div>
       </div>
-      <div className="">
+      <div className="my-4">
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>Description</AccordionTrigger>

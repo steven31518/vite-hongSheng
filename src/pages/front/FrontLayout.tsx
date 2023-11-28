@@ -1,7 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import CartList from "./cart/Cartlist";
-
+import ClientNavigation from "@/components/ClientNavigation";
 const FrontLayout = () => {
   return (
     <div className=" h-full flex-1 flex-col md:flex">
@@ -13,7 +13,7 @@ const FrontLayout = () => {
           <p className="text-muted-foreground">Here&apos;s a list store.!</p>
         </div>
         <div className="flex items-center justify-between space-x-3 w-full px-4">
-          {/* <ClientNavigation /> */}
+          <ClientNavigation />
           <CartList />
         </div>
       </div>

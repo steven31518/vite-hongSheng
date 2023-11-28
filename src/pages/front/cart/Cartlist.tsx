@@ -53,10 +53,9 @@ export default function CartList() {
     //   return item.id !== cart.find((p) => p.qty === item.qty)?.id;
     // });
   }
-  function handleSubmit() {
+  async function handleSubmit() {
     const arr = handleCartDifferent();
     if (arr.length > 0) editCart(arr);
-    navigate("/check");
   }
   useEffect(() => {
     if (status === "success") {
@@ -167,7 +166,8 @@ export default function CartList() {
               type="submit"
               disabled={editIsPending}
               onClick={async () => {
-                handleSubmit();
+                await handleSubmit();
+                navigate("/check");
               }}
             >
               確認付款

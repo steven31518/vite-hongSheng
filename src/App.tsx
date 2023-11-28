@@ -9,6 +9,7 @@ import { CheckOrder } from "./pages/front/check/CheckOrder";
 import { ProductDetail } from "./pages/front/productDetail/ProductDetail";
 import { ProductsOnSales } from "./pages/front/onSalesProducts/ProductsOnSales";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { Success } from "./pages/front/success/Success";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="product/:id" element={<ProductDetail />} />
           </Route>
           <Route path="check" element={<CheckOrder />} />
+          <Route path="success/:id" element={<Success />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<DashBoard />}>
             <Route path="products" element={<AdminProducts />} />

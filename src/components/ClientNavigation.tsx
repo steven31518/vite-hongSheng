@@ -85,10 +85,10 @@ const ClientNavigation = () => {
               <ListItem href="/" title="Introduction">
                 Re-usable components built using Radix UI and Tailwind CSS.
               </ListItem>
-              <ListItem href="#/products/All" title="Products">
+              <ListItem href="/" title="Products">
                 How to install dependencies and structure your app.
               </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
+              <ListItem href="/" title="Typography">
                 Styles for headings, paragraphs, lists...etc
               </ListItem>
             </ul>

@@ -13,6 +13,8 @@ import { deleteItem } from "./cart/deleteItem";
 import { editCart } from "./cart/editCart";
 import { postOrder } from "./order/addOrder";
 import { getOrder } from "./order/getOrder";
+import { pay } from "./pay/pay";
+import { getOrderbyId } from "./order/getOrderbyId";
 
 const apiPath: string = import.meta.env.VITE_API_PATH;
 
@@ -42,5 +44,9 @@ export const api = {
   order: {
     postOrder: postOrder(apiPath),
     getOrder: getOrder(apiPath),
+    getOrderbyId: getOrderbyId(apiPath),
+  },
+  pay: {
+    pay: pay(apiPath),
   },
 };
