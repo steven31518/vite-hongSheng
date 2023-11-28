@@ -45,7 +45,6 @@ export function CheckOrderForm() {
     },
   });
   async function onSubmit(values: z.infer<typeof form_schema>) {
-    console.log(values);
     postOrder(values);
   }
 
