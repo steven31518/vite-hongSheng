@@ -11,7 +11,6 @@ import {
   getFilteredRowModel,
   VisibilityState,
 } from "@tanstack/react-table";
-
 import {
   Table,
   TableBody,
@@ -20,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import TablePagination from "./TablePagination";
 import DatatableHeader from "./TableHeader";
 import type { Product } from "./column";

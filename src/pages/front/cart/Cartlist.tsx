@@ -27,7 +27,11 @@ type CartItem = getCart_res["data"]["carts"];
 export default function CartList() {
   const { status, message, cart, total, final_total } = useGetCart();
   const { mutate: deleteCart, isPending: deleteIsPending } = useDeleteCart();
-  const { mutate: editCart, isPending: editIsPending } = useEditCart();
+  const {
+    mutate: editCart,
+    isPending: editIsPending,
+    isSuccess: editIsSuccess,
+  } = useEditCart();
   const [CartData, setCartData] = useState<CartItem>([]);
   const navigate = useNavigate();
 
@@ -162,16 +166,18 @@ export default function CartList() {
         </SheetDescription>
         <SheetFooter>
           <SheetClose asChild>
-            <Button
-              type="submit"
-              disabled={editIsPending}
-              onClick={async () => {
-                await handleSubmit();
-                navigate("/check");
-              }}
-            >
-              確認付款
-            </Button>
+            {CartData.length > 0 && (
+              <Button
+                type="submit"
+                disabled={editIsPending}
+                onClick={async () => {
+                  await handleSubmit();
+                  navigate("/check");
+                }}
+              >
+                確認付款
+              </Button>
+            )}
           </SheetClose>
         </SheetFooter>
       </SheetContent>

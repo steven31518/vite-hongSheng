@@ -28,7 +28,7 @@ export function ProductDetail() {
   return (
     <div className="container mt-3">
       <div className="grid grid-cols-12 gap-4 my-5">
-        <div className="col-span-4 lg:col-span-7 ">
+        <div className="col-span-12 lg:col-span-7 ">
           <div className="w-[550px]">
             <ProductArtWork
               product={product}
@@ -54,7 +54,7 @@ export function ProductDetail() {
                 })}
           </div> */}
         </div>
-        <div className="col-span-8 lg:col-span-5 flex flex-col justify-end items-start space-y-2">
+        <div className="col-span-12 lg:col-span-5 flex flex-col justify-end items-start space-y-2">
           <h1 className="mb-0">{product.title}</h1>
           <p>{product.content}</p>
           <p className="font-bold">NTD${product.price}</p>

@@ -1,7 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { sendEmail } from "@/lib/email";
+
 export function usePay() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => {
       return api.pay.pay(id);
@@ -12,14 +14,14 @@ export function usePay() {
     onError(error) {
       console.log(error);
     },
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["order", variables] });
       sendEmail({
-        from_name: "Steven",
-        from_mail: "james31518@hotmail.com",
-        to_name: "unknown",
+        from_name: "Hong Sheng E-management",
+        from_mail: "",
+        to_name: "Manager",
         to_mail: "james31518@gmail.com",
-        message: "you have a new order",
+        message: `訂單號碼:${variables}${data.message}`,
       });
     },
   });

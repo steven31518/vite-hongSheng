@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import DashBoard from "./pages/admin/DashBoard";
 import AdminProducts from "./pages/admin/AdminProduct";
 import AdminCoupons from "./pages/admin/AdminCoupons";
-import AdminOrders from "./pages/admin/AdminOrders";
+import { AdminOrder } from "./pages/admin/admin order/AdminOrders";
 import FrontLayout from "./pages/front/FrontLayout";
 import { CheckOrder } from "./pages/front/check/CheckOrder";
 import { ProductDetail } from "./pages/front/productDetail/ProductDetail";
@@ -26,7 +26,7 @@ function App() {
           <Route path="/admin" element={<DashBoard />}>
             <Route path="products" element={<AdminProducts />} />
             <Route path="coupons" element={<AdminCoupons />} />
-            <Route path="orders" element={<AdminOrders />} />
+            <Route path="orders" element={<AdminOrder />} />
           </Route>
         </Routes>
       </ThemeProvider>

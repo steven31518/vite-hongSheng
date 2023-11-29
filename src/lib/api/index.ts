@@ -7,14 +7,10 @@ import {
   deleteProduct,
 } from "./products";
 import { getProductsInPage, getProductWithId } from "./onSales";
-import { postCart } from "./cart/addCart";
-import { getCart } from "./cart/getCart";
-import { deleteItem } from "./cart/deleteItem";
-import { editCart } from "./cart/editCart";
-import { postOrder } from "./order/addOrder";
-import { getOrder } from "./order/getOrder";
+import { postCart, getCart, deleteItem, editCart } from "./cart";
+import { postOrder, getOrder, getOrderbyId } from "./order";
 import { pay } from "./pay/pay";
-import { getOrderbyId } from "./order/getOrderbyId";
+import { getAdminOrder } from "./order admin";
 
 const apiPath: string = import.meta.env.VITE_API_PATH;
 
@@ -48,5 +44,8 @@ export const api = {
   },
   pay: {
     pay: pay(apiPath),
+  },
+  order_admin: {
+    getAdminOrder: getAdminOrder(apiPath),
   },
 };

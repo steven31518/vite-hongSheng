@@ -2,6 +2,7 @@ import FullscreenLoading from "@/components/FullscreenLoading";
 import { useGetOrderbyId } from "./get order hook";
 import { Separator } from "@/components/ui/separator";
 import { PaymentMethod } from "@/pages/front/payment/PaymentMethods";
+import { Link } from "react-router-dom";
 
 export function Success() {
   const { data, isError, isPending, isSuccess, error } = useGetOrderbyId();
@@ -14,7 +15,8 @@ export function Success() {
         <div className="flex flex-col space-y-4">
           <div className="grid grid-cols-2 gap-4 rounded-lg border-2 p-4">
             <h1>
-              訂單已成立 {new Date(data.order.create_at).toLocaleString()}
+              訂單已成立{" "}
+              {new Date(data.order.create_at * 1000).toLocaleString()}
             </h1>
             <div>訂單編號：{data?.order.id}</div>
             <div>訂購人：{data?.order.user.name}</div>
@@ -22,7 +24,9 @@ export function Success() {
             <div>電話：{data?.order.user.tel}</div>
             <div>地址：{data?.order.user.address}</div>
             <div>備註：{data?.order.message}</div>
+            <div>付款狀態:{data.order.is_paid ? "已付款" : "未付款"}</div>
             <h1 className="text-xl font-bold">合計:NTD${data.order.total}</h1>
+            <Link to="/home">返回賣場</Link>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
