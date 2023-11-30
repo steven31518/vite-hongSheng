@@ -12,7 +12,7 @@ export function CheckOrder() {
         <CheckOrderForm></CheckOrderForm>
       </div>
       <div>
-        {status === "pending" && <div>Loading...</div>}
+        {status === "fetching" && <div>Loading...</div>}
         {status === "error" && <div>{message}</div>}
         {status === "success" && (
           <>

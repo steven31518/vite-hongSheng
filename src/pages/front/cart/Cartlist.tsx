@@ -30,7 +30,6 @@ export default function CartList() {
   const { mutate: editCart, isPending: editIsPending } = useEditCart();
   const [CartData, setCartData] = useState<CartItem>([]);
   const navigate = useNavigate();
-
   function handleCount(id: string, action: () => number) {
     const newCart = [...CartData];
     const index = newCart.findIndex((item) => item.id === id);
@@ -40,6 +39,7 @@ export default function CartList() {
       newCart[index].qty * newCart[index].product.price;
     setCartData(newCart);
   }
+
   function handleCartDifferent(): CartItem {
     return CartData.filter((item) => {
       const sameProduct = cart.find((p) => p.id === item.id);
@@ -53,9 +53,12 @@ export default function CartList() {
     //   return item.id !== cart.find((p) => p.qty === item.qty)?.id;
     // });
   }
-  async function handleSubmit() {
+  async function handleSubmit({ form }: { form: "submit" | "cancel" }) {
     const arr = handleCartDifferent();
-    if (arr.length > 0)  editCart(arr);
+    if (arr.length > 0)
+      editCart(arr, {
+        onSettled: () => form === "submit" && navigate("/check"),
+      });
   }
 
   useEffect(() => {
@@ -67,7 +70,7 @@ export default function CartList() {
     <Sheet
       onOpenChange={async (open) => {
         if (!open) {
-          handleSubmit();
+          handleSubmit({ form: "cancel" });
         }
       }}
     >
@@ -167,8 +170,7 @@ export default function CartList() {
               type="submit"
               disabled={editIsPending}
               onClick={async () => {
-                await handleSubmit();
-                navigate("/check");
+                await handleSubmit({ form: "submit" });
               }}
             >
               確認付款
