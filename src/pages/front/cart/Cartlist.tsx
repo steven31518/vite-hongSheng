@@ -55,7 +55,7 @@ export default function CartList() {
   }
   async function handleSubmit() {
     const arr = handleCartDifferent();
-    if (arr.length > 0) editCart(arr);
+    if (arr.length > 0)  editCart(arr);
   }
 
   useEffect(() => {

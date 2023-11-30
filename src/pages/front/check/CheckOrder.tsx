@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { CheckOrderForm } from "./CheckOrderForm";
 
 export function CheckOrder() {
-  const { status, cart, total, final_total, message, isFetching} = useGetCart();
+  const { status, cart, total, final_total, message} = useGetCart();
 
   return (
     <div className="grid grid-cols-2 p-4">
