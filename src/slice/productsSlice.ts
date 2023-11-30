@@ -35,7 +35,6 @@ export const updateImage = createAsyncThunk(
     return result;
   }
 );
-
 export const productsSlice = createSlice({
   name: "products",
   initialState: {

@@ -23,7 +23,6 @@ import { addNewProduct, updateProduct } from "@/slice/adminActionSlice";
 import { getAllProducts } from "@/slice/productsSlice";
 import { setImgUrl } from "@/slice/productsSlice";
 
-
 export interface productType {
   title: string;
   category: string;

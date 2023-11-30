@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { useAppDispatch } from "@/store";
 import { login } from "@/slice/loginSlice";
 import { cn } from "@/lib/utils";
@@ -121,7 +122,9 @@ const LoginForm = ({ className }: typeProps) => {
           </Form>
         </CardContent>
         <CardFooter className="flex justify-around">
-          <Button variant={"link"}>Back to store</Button>
+          <Link to="/home">
+            <Button variant={"link"}>Back to store</Button>
+          </Link>
           <Button variant={"link"}>Report problem</Button>
         </CardFooter>
       </Card>

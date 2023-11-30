@@ -2,15 +2,14 @@ import axios from "axios";
 import type { AxiosError } from "axios";
 import type { newDataType } from "@/components/ProductForm";
 
-type updateDataType = newDataType & {
+interface updateDataType extends newDataType {
   id: string;
-};
+}
 
 export const getAllProducts = (apiPath: string) => {
   return async () => {
     try {
       const response = await axios.get(`/v2/api/${apiPath}/admin/products/all`);
-
       return response.data;
     } catch (e) {
       return e as AxiosError;
