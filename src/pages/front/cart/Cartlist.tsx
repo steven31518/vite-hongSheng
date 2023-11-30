@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Sheet,
-  SheetClose,
+  // SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -27,11 +27,7 @@ type CartItem = getCart_res["data"]["carts"];
 export default function CartList() {
   const { status, message, cart, total, final_total } = useGetCart();
   const { mutate: deleteCart, isPending: deleteIsPending } = useDeleteCart();
-  const {
-    mutate: editCart,
-    isPending: editIsPending,
-    isSuccess: editIsSuccess,
-  } = useEditCart();
+  const { mutate: editCart, isPending: editIsPending } = useEditCart();
   const [CartData, setCartData] = useState<CartItem>([]);
   const navigate = useNavigate();
 
@@ -61,6 +57,7 @@ export default function CartList() {
     const arr = handleCartDifferent();
     if (arr.length > 0) editCart(arr);
   }
+
   useEffect(() => {
     if (status === "success") {
       setCartData(JSON.parse(JSON.stringify(cart)));
@@ -165,20 +162,18 @@ export default function CartList() {
           )}
         </SheetDescription>
         <SheetFooter>
-          <SheetClose asChild>
-            {CartData.length > 0 && (
-              <Button
-                type="submit"
-                disabled={editIsPending}
-                onClick={async () => {
-                  await handleSubmit();
-                  navigate("/check");
-                }}
-              >
-                確認付款
-              </Button>
-            )}
-          </SheetClose>
+          {CartData.length > 0 && (
+            <Button
+              type="submit"
+              disabled={editIsPending}
+              onClick={async () => {
+                await handleSubmit();
+                navigate("/check");
+              }}
+            >
+              確認付款
+            </Button>
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>

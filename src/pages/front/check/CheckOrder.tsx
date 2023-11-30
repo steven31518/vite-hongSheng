@@ -1,10 +1,10 @@
 import { useGetCart } from "../cart/list hook";
-import FullscreenLoading from "@/components/FullscreenLoading";
+// import FullscreenLoading from "@/components/FullscreenLoading";
 import { Separator } from "@/components/ui/separator";
 import { CheckOrderForm } from "./CheckOrderForm";
 
 export function CheckOrder() {
-  const { status, cart, total, final_total, message } = useGetCart();
+  const { status, cart, total, final_total, message, isFetching} = useGetCart();
 
   return (
     <div className="grid grid-cols-2 p-4">
@@ -12,7 +12,7 @@ export function CheckOrder() {
         <CheckOrderForm></CheckOrderForm>
       </div>
       <div>
-        {status === "fetching" && <div>loading</div>}
+        {status === "pending" && <div>Loading...</div>}
         {status === "error" && <div>{message}</div>}
         {status === "success" && (
           <>

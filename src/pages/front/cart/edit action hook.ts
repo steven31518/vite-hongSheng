@@ -10,6 +10,7 @@ export function useEditCart() {
   return useMutation({
     mutationFn: (data: CartItem) => {
       return api.cart.editCart(data);
+      
     },
     onMutate(variables) {
       return { variables };
@@ -22,12 +23,14 @@ export function useEditCart() {
       });
     },
     onSuccess(data) {
-      queryClient.invalidateQueries({ queryKey: ["cart", { type: "all" }] });
       toast({
         variant: "default",
         title: "修改成功",
         description: data.map((item) => item.message).join("、"),
       });
+    },
+    onSettled() {
+      queryClient.invalidateQueries({ queryKey: ["cart", { type: "all" }] });
     },
   });
 }
