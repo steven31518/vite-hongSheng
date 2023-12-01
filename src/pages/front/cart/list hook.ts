@@ -13,6 +13,7 @@ export function useGetCart(): cartReturn {
   const cartQuery = useQuery({
     queryKey: ["cart", { type: "all" }],
     queryFn: async () => await api.cart.getCart(),
+    refetchOnWindowFocus: false,
   });
   const { isError, isPending, isSuccess, data, dataUpdatedAt, isFetching } =
     cartQuery;

@@ -55,10 +55,13 @@ export default function CartList() {
   }
   async function handleSubmit({ form }: { form: "submit" | "cancel" }) {
     const arr = handleCartDifferent();
-    if (arr.length > 0)
+    if (arr.length > 0) {
       editCart(arr, {
         onSettled: () => form === "submit" && navigate("/check"),
       });
+    } else {
+      form === "submit" && navigate("/check");
+    }
   }
 
   useEffect(() => {
@@ -81,7 +84,7 @@ export default function CartList() {
           ) : (
             <LuShoppingCart className="text-2xl" />
           )}
-          {cart.length > 0 ? cart.length : 0}
+          {CartData.length > 0 ? CartData.length : 0}
         </Button>
       </SheetTrigger>
       <SheetContent className="overflow-y-scroll w-[400px] sm:w-[540px]">
