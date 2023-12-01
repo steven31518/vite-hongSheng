@@ -1,19 +1,43 @@
 import axios from "axios";
 import type { AxiosError } from "axios";
 import type { newDataType } from "@/components/ProductForm";
+import { z } from "zod";
 
 interface updateDataType extends newDataType {
   id: string;
 }
+const get_admin_products_schema = z.object({
+  success: z.boolean(),
+  products: z.record(
+    z.string(),
+    z.object({
+      category: z.string(),
+      content: z.string(),
+      description: z.string(),
+      id: z.string(),
+      is_enabled: z.number(),
+      origin_price: z.number(),
+      price: z.number(),
+      title: z.string(),
+      unit: z.string(),
+      imageUrl: z.string(),
+      imagesUrl: z.array(z.string()),
+    })
+  ),
+});
+export type get_admin_products_res = z.infer<typeof get_admin_products_schema>;
 
 export const getAllProducts = (apiPath: string) => {
   return async () => {
-    try {
-      const response = await axios.get(`/v2/api/${apiPath}/admin/products/all`);
-      return response.data;
-    } catch (e) {
-      return e as AxiosError;
-    }
+    const response = await axios<get_admin_products_res>({
+      url: `/v2/api/${apiPath}/admin/products/all`,
+      method: "GET",
+    });
+    console.log(response.data);
+    const validate = get_admin_products_schema.safeParse(response.data);
+    if (!validate.success) throw new Error(validate.error.message);
+
+    return validate.data;
   };
 };
 

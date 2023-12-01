@@ -1,5 +1,4 @@
 import * as z from "zod";
-import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,26 +16,12 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "./ui/textarea";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useForm } from "react-hook-form";
-import { useAppSelector } from "@/store";
-import { useAppDispatch } from "@/store";
-import { addNewProduct, updateProduct } from "@/slice/adminActionSlice";
-import { getAllProducts } from "@/slice/productsSlice";
-import { setImgUrl } from "@/slice/productsSlice";
+import type { Product } from "@/pages/admin/adminTable/product column";
+import { useGetAdminProducts } from "@/pages/admin/admin product/get admin products hook";
 
-export interface productType {
-  title: string;
-  category: string;
-  origin_price: number;
-  price: number;
-  unit: string;
-  description: string;
-  content: string;
-  is_enabled: number;
-  imageUrl: string;
-  imagesUrl: string[];
-}
+type newProductType = Omit<Product, "id">;
 
-export type newDataType = Record<"data", productType>;
+export type newDataType = Record<"data", newProductType>;
 
 const formSchema = z.object({
   title: z
@@ -82,59 +67,38 @@ type formStatus = {
 };
 
 const ProductForm = ({ productId, handleClose }: formStatus) => {
-  const { imgUrl, products } = useAppSelector((state) => state.productsData);
-  const [mainImg, setMainImg] = useState<string>("");
-  const defaultData: productType = {
-    title: "",
-    category: "",
-    origin_price: 0,
-    price: 0,
-    unit: "",
-    description: "",
-    content: "",
-    is_enabled: 0,
-    imageUrl: "",
-    imagesUrl: [],
-  };
+  const { data } = useGetAdminProducts((data) =>
+    Object.values(data.products).find((product) => product.id === productId)
+  );
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: defaultData,
+    defaultValues: data || {
+      title: "",
+      category: "",
+      origin_price: 0,
+      price: 0,
+      unit: "",
+      description: "",
+      content: "",
+      is_enabled: 0,
+      imageUrl: "",
+      imagesUrl: [],
+    },
   });
+
   const { reset } = form;
-  const dispatch = useAppDispatch();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const submitData: newDataType = {
       data: {
         ...values,
-        imageUrl: mainImg,
-        imagesUrl: [...imgUrl],
+        imageUrl: "",
+        imagesUrl: [],
       },
     };
-    if (!productId) {
-      await dispatch(addNewProduct(submitData));
-      setMainImg("");
-    } else {
-      await dispatch(updateProduct({ ...submitData, id: productId }));
-    }
+    console.log(submitData);
     handleClose();
-    await dispatch(getAllProducts());
   }
-
-  useEffect(() => {
-    if (!productId) {
-      dispatch(setImgUrl([]));
-      return;
-    }
-    const editItem = products.find((product) => product.id === productId);
-    reset({
-      ...editItem,
-      imageUrl: editItem?.imageUrl ? editItem.imageUrl : "",
-      imagesUrl: editItem?.imagesUrl ? editItem.imagesUrl : [],
-    });
-    setMainImg(editItem?.imageUrl ? editItem.imageUrl : "");
-    dispatch(setImgUrl(editItem?.imagesUrl ? editItem.imagesUrl : []));
-  }, [productId, products, reset, dispatch]);
 
   return (
     <Form {...form}>
@@ -144,15 +108,9 @@ const ProductForm = ({ productId, handleClose }: formStatus) => {
             <ScrollArea className="h-full w-full rounded-lg border-2 p-4">
               <h1>已上傳圖片</h1>
               <div className="grid grid-cols-2 gap-4 py-2">
-                {imgUrl.map((url) => {
+                {data?.imagesUrl.map((url) => {
                   return (
-                    <div
-                      className="rounded-md border h-[100px]"
-                      key={url}
-                      onClick={() => {
-                        setMainImg(url);
-                      }}
-                    >
+                    <div className="rounded-md border h-[100px]" key={url}>
                       <img
                         src={url}
                         alt="產品圖"
@@ -169,7 +127,7 @@ const ProductForm = ({ productId, handleClose }: formStatus) => {
           <div>
             <div className="col-span-12 w-full h-[360px] lg:h-[220px] rounded-lg border-2">
               <img
-                src={mainImg}
+                src={data?.imageUrl}
                 alt="請上傳產品主圖"
                 className="object-contain h-full w-full rounded-lg"
               />
@@ -348,7 +306,7 @@ const ProductForm = ({ productId, handleClose }: formStatus) => {
               <Button
                 type="button"
                 variant={"outline"}
-                onClick={() => reset(defaultData)}
+                onClick={() => reset()}
               >
                 Reset
               </Button>

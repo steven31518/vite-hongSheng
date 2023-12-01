@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import DashBoard from "./pages/admin/DashBoard";
-import AdminProducts from "./pages/admin/AdminProduct";
+
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import { AdminOrder } from "./pages/admin/admin order/AdminOrders";
+import { AdminProducts } from "./pages/admin/admin product/AdminProducts";
 import FrontLayout from "./pages/front/FrontLayout";
 import { CheckOrder } from "./pages/front/check/CheckOrder";
 import { ProductDetail } from "./pages/front/productDetail/ProductDetail";
