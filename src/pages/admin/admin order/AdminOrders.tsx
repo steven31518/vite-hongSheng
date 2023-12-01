@@ -1,7 +1,11 @@
 import { useGetOrderData } from "./get admin order hook";
-
+import { DataTable } from "../adminTable/DataTable";
+import { order_columns } from "../adminTable/order column";
+// import type { order } from "../adminTable/order column";
 export function AdminOrder() {
-  const { data, isError, isPending, isSuccess, error } = useGetOrderData();
+  const { data, isError, isPending, isSuccess, error } = useGetOrderData(
+    (data) => data.orders
+  );
   if (isPending) {
     return <div>Loading...</div>;
   }
@@ -10,17 +14,11 @@ export function AdminOrder() {
   }
   return (
     <div>
-      {isSuccess &&
-        data.orders?.map((order) => {
-          return (
-            <div key={order.id}>
-              <div>Order ID: {order.id}</div>
-              <div>
-                Order Date: {new Date(order.create_at * 1000).toLocaleString()}
-              </div>
-            </div>
-          );
-        })}
+      {isSuccess && (
+        <div className="container mx-auto py-10">
+          <DataTable columns={order_columns} data={data} />
+        </div>
+      )}
     </div>
   );
 }

@@ -3,13 +3,14 @@ import { z } from "zod";
 
 const getOrder_res_schema = z.object({
   success: z.boolean(),
-  order: z.array(
+  orders: z.array(
     z.object({
       id: z.string(),
       create_at: z.number(),
       is_paid: z.boolean(),
       message: z.string(),
-      products: z.array(
+      products: z.record(
+        z.string(),
         z.object({
           id: z.string(),
           product_id: z.string(),
