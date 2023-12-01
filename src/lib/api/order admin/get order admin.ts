@@ -36,7 +36,7 @@ const getOrder_res_schema = z.object({
   messages: z.array(z.string()),
 });
 
-type get_order_res = z.infer<typeof getOrder_res_schema>;
+export type get_order_res = z.infer<typeof getOrder_res_schema>;
 
 export function getAdminOrder(apiPath: string) {
   return async () => {
