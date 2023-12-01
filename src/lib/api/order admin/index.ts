@@ -1,3 +1,3 @@
 import { getAdminOrder } from "./get order admin";
-
-export { getAdminOrder };
+import { deleteAdminOrder } from "./delete order admin";
+export { getAdminOrder, deleteAdminOrder };
