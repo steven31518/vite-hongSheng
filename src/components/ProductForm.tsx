@@ -85,7 +85,6 @@ const ProductForm = ({ productId, handleClose }: formStatus) => {
       imagesUrl: [],
     },
   });
-
   const { reset } = form;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
