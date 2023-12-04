@@ -1,10 +1,8 @@
-import type { productType } from "./ProductForm";
+import type { Product } from "@/pages/admin/adminTable/product column";
 import { cn } from "@/lib/utils";
-interface productWithId extends productType {
-  id: string;
-}
+
 interface ProductArtworkProps extends React.HTMLAttributes<HTMLDivElement> {
-  product: productWithId;
+  product: Product;
   aspectRatio?: "portrait" | "square";
   width?: number;
   height?: number;

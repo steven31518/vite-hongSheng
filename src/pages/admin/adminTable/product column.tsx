@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { DialogButton } from "@/components/Dialog";
 export type Product = {
   category: string;
   content: string;
@@ -15,7 +15,7 @@ export type Product = {
   imageUrl: string;
   imagesUrl: string[];
 };
-
+import ProductForm from "@/components/ProductForm";
 export const products_columns: ColumnDef<Product>[] = [
   {
     accessorKey: "category",
@@ -93,10 +93,19 @@ export const products_columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "Actions",
-    id: "actions",
-    cell: () => {
-      return <div>action</div>;
+    accessorKey: "id",
+    header: "Action",
+    cell: ({ row }) => {
+      return (
+        <DialogButton
+          title="編輯商品"
+          description={`商品編號:${row.getValue("id")}`}
+          name={`編輯`}
+          className="max-w-5xl"
+        >
+          <ProductForm productId={row.getValue("id")}></ProductForm>
+        </DialogButton>
+      );
     },
   },
   // ...

@@ -9,5 +9,6 @@ export function useGetAdminProducts<T = get_admin_products_res>(
     queryKey: ["admin-products", { type: "getAll" }],
     queryFn: () => api.products.getAllProducts(),
     select: (data) => selectFn(data),
+    refetchOnWindowFocus: false,
   });
 }

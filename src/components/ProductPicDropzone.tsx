@@ -8,15 +8,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useAppDispatch } from "@/store";
 import { updateImage } from "@/slice/productsSlice";
 import { Separator } from "@/components/ui/separator";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { DialogButton } from "./Dialog";
 import { nanoid } from "@reduxjs/toolkit";
 
 interface FileWithPreview extends FileWithPath {
@@ -97,49 +89,44 @@ const ProductPicDropzone = () => {
       files.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, [files]);
-  
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">新增圖片</Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-xl max-h-screen">
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your Files here. Click save when you're done.
-          </DialogDescription>
-        </DialogHeader>
-        <section className="container-full max-h-screen flex flex-col space-y-4">
-          <div
-            {...getRootProps({
-              className: cn(
-                "dropzone rounded-lg border-2 w-full h-[100px] p-4",
-                style
-              ),
-            })}
-          >
-            <input {...getInputProps()} />
-            {isDragAccept && <p>All files will be accepted</p>}
-            {isDragReject && <p>Some files will be rejected</p>}
-            {!isDragActive && <p>Drop some files here ...</p>}
-          </div>
 
-          {files.length > 0 && (
-            <div className="rounded-md border w-full">
-              <ScrollArea className="col-span-8 h-[300px]">
-                <aside className="p-4">
-                  <h4 className="mb-4 text-sm font-medium leading-none">
-                    Your files
-                  </h4>
-                  <ul>{thumbs}</ul>
-                </aside>
-                <ScrollBar orientation="vertical" />
-              </ScrollArea>
-            </div>
-          )}
-        </section>
-        <DialogFooter>
+  return (
+    <DialogButton
+      description={
+        "Make changes to your Files here. Click save when you're done."
+      }
+      name="新增圖片"
+      title="DropZone"
+    >
+      <section className="container-full max-h-screen flex flex-col space-y-4">
+        <div
+          {...getRootProps({
+            className: cn(
+              "dropzone rounded-lg border-2 w-full h-[100px] p-4",
+              style
+            ),
+          })}
+        >
+          <input {...getInputProps()} />
+          {isDragAccept && <p>All files will be accepted</p>}
+          {isDragReject && <p>Some files will be rejected</p>}
+          {!isDragActive && <p>Drop some files here ...</p>}
+        </div>
+
+        {files.length > 0 && (
+          <div className="rounded-md border w-full">
+            <ScrollArea className="col-span-8 h-[300px]">
+              <aside className="p-4">
+                <h4 className="mb-4 text-sm font-medium leading-none">
+                  Your files
+                </h4>
+                <ul>{thumbs}</ul>
+              </aside>
+              <ScrollBar orientation="vertical" />
+            </ScrollArea>
+          </div>
+        )}
+        <div className="flex flex-row justify-end">
           <Button
             type="button"
             variant={"outline"}
@@ -150,9 +137,9 @@ const ProductPicDropzone = () => {
           <Button type="button" onClick={handleUpload}>
             Update
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </div>
+      </section>
+    </DialogButton>
   );
 };
 

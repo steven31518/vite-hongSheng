@@ -63,10 +63,10 @@ const formSchema = z.object({
 
 type formStatus = {
   productId?: string;
-  handleClose: () => void;
+  handleClose?: () => void;
 };
 
-const ProductForm = ({ productId, handleClose }: formStatus) => {
+const ProductForm = ({ productId }: formStatus) => {
   const { data } = useGetAdminProducts((data) =>
     Object.values(data.products).find((product) => product.id === productId)
   );
@@ -84,6 +84,9 @@ const ProductForm = ({ productId, handleClose }: formStatus) => {
       imageUrl: "",
       imagesUrl: [],
     },
+    resetOptions: {
+      keepDefaultValues: true,
+    },
   });
   const { reset } = form;
 
@@ -96,7 +99,6 @@ const ProductForm = ({ productId, handleClose }: formStatus) => {
       },
     };
     console.log(submitData);
-    handleClose();
   }
 
   return (
@@ -305,7 +307,9 @@ const ProductForm = ({ productId, handleClose }: formStatus) => {
               <Button
                 type="button"
                 variant={"outline"}
-                onClick={() => reset()}
+                onClick={() => {
+                  reset();
+                }}
               >
                 Reset
               </Button>
