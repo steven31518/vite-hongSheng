@@ -1,23 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import type { newDataType } from "./ProductForm";
 import { useToast } from "@/components/ui/use-toast";
-import { useAppDispatch } from "@/store";
-import { setimgsUrl } from "@/slice/productsSlice";
-interface updateDataType extends newDataType {
-  id?: string;
-}
-export function useUpdateAdminProduct() {
-  const { toast } = useToast();
-  const dispatch = useAppDispatch();
+export function useDeleteAdminProduct() {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   return useMutation({
-    mutationFn: ({ data, id }: updateDataType) => {
-      if (!id) {
-        return api.products.addProduct({ data });
-      } else {
-        return api.products.updateProduct({ data, id });
-      }
+    mutationFn: (id: string) => {
+      return api.products.deleteProduct(id);
     },
     onError: (error) => {
       toast({
@@ -34,7 +23,6 @@ export function useUpdateAdminProduct() {
       });
     },
     onSettled: () => {
-      dispatch(setimgsUrl([]));
       queryClient.invalidateQueries({
         queryKey: ["admin-products", { type: "getAll" }],
       });

@@ -22,6 +22,7 @@ import { useGetAdminProducts } from "@/pages/admin/admin product/get admin produ
 import { useUpdateAdminProduct } from "./put admin product hook";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { Product } from "@/pages/admin/adminTable/product column";
+import { useDeleteAdminProduct } from "./delete admin products hook";
 
 type newProductType = Omit<Product, "id">;
 
@@ -70,7 +71,9 @@ const formSchema = z.object({
 });
 
 const ProductForm = ({ productId }: formStatus) => {
-  const { mutate } = useUpdateAdminProduct();
+  const { mutate, isPending: editIsPending } = useUpdateAdminProduct();
+  const { mutate: deleteMutate, isPaused: deleteIsPending } =
+    useDeleteAdminProduct();
   const { data } = useGetAdminProducts((data) =>
     Object.values(data.products).find((product) => product.id === productId)
   );
@@ -341,16 +344,33 @@ const ProductForm = ({ productId }: formStatus) => {
               />
             </div>
             <div className="col-start-6 col-span-6 flex justify-end items-center gap-4">
+              {productId && (
+                <Button
+                  type="button"
+                  variant={"destructive"}
+                  disabled={deleteIsPending || editIsPending}
+                  onClick={() => {
+                    deleteMutate(productId);
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
               <Button
                 type="button"
                 variant={"outline"}
+                disabled={deleteIsPending || editIsPending}
                 onClick={() => {
                   reset();
                 }}
               >
                 Reset
               </Button>
-              <Button type="submit" className="">
+              <Button
+                type="submit"
+                className=""
+                disabled={deleteIsPending || editIsPending}
+              >
                 Submit
               </Button>
             </div>
