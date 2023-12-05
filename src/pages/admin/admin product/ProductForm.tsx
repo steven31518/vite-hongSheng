@@ -10,19 +10,27 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import ProductPicDropzone from "./ProductPicDropzone";
+import ProductPicDropzone from "@/components/ProductPicDropzone";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useForm } from "react-hook-form";
-import type { Product } from "@/pages/admin/adminTable/product column";
+import { useAppSelector } from "@/store";
+
 import { useGetAdminProducts } from "@/pages/admin/admin product/get admin products hook";
+import { useUpdateAdminProduct } from "./put admin product hook";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import type { Product } from "@/pages/admin/adminTable/product column";
 
 type newProductType = Omit<Product, "id">;
 
 export type newDataType = Record<"data", newProductType>;
 
+type formStatus = {
+  productId?: string;
+  handleClose?: () => void;
+};
 const formSchema = z.object({
   title: z
     .string()
@@ -61,15 +69,13 @@ const formSchema = z.object({
   imagesUrl: z.array(z.string()),
 });
 
-type formStatus = {
-  productId?: string;
-  handleClose?: () => void;
-};
-
 const ProductForm = ({ productId }: formStatus) => {
+  const { mutate } = useUpdateAdminProduct();
   const { data } = useGetAdminProducts((data) =>
     Object.values(data.products).find((product) => product.id === productId)
   );
+  const { imgsUrl } = useAppSelector((state) => state.productsData);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: data || {
@@ -91,14 +97,11 @@ const ProductForm = ({ productId }: formStatus) => {
   const { reset } = form;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const submitData: newDataType = {
-      data: {
-        ...values,
-        imageUrl: "",
-        imagesUrl: [],
-      },
+    const submitData: newProductType = {
+      ...values,
+      imagesUrl: [...imgsUrl, ...(data?.imagesUrl as string[])],
     };
-    console.log(submitData);
+    mutate({ data: submitData, id: productId });
   }
 
   return (
@@ -107,32 +110,66 @@ const ProductForm = ({ productId }: formStatus) => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="flex flex-col space-y-3">
             <ScrollArea className="h-full w-full rounded-lg border-2 p-4">
-              <h1>已上傳圖片</h1>
               <div className="grid grid-cols-2 gap-4 py-2">
-                {data?.imagesUrl.map((url) => {
-                  return (
-                    <div className="rounded-md border h-[100px]" key={url}>
-                      <img
-                        src={url}
-                        alt="產品圖"
-                        className="object-cover h-full w-full"
-                      />
-                    </div>
-                  );
-                })}
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>已上傳圖片</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-1"
+                        >
+                          {data?.imagesUrl.concat(imgsUrl).map((url, i) => {
+                            return (
+                              <div
+                                className="flex space-x-2 rounded-md border h-[100px] p-2"
+                                key={url}
+                              >
+                                <RadioGroupItem value={url} id={`pic${i}`} />
+                                <img
+                                  src={url}
+                                  alt="請上傳圖片"
+                                  className="object-cover h-full w-full"
+                                />
+                              </div>
+                            );
+                          })}
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <ScrollBar orientation="vertical" />
             </ScrollArea>
             <ProductPicDropzone />
           </div>
           <div>
-            <div className="col-span-12 w-full h-[360px] lg:h-[220px] rounded-lg border-2">
-              <img
-                src={data?.imageUrl}
-                alt="請上傳產品主圖"
-                className="object-contain h-full w-full rounded-lg"
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="imageUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>產品描述</FormLabel>
+                  <FormControl>
+                    <div className="col-span-12 w-full h-[360px] lg:h-[220px] rounded-lg border-2">
+                      <img
+                        src={field.value}
+                        alt="產品主圖"
+                        className="object-contain h-full w-full rounded-lg"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="col-span-12">
               <FormField
                 control={form.control}

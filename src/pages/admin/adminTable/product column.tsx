@@ -15,7 +15,7 @@ export type Product = {
   imageUrl: string;
   imagesUrl: string[];
 };
-import ProductForm from "@/components/ProductForm";
+import ProductForm from "@/pages/admin/admin product/ProductForm";
 export const products_columns: ColumnDef<Product>[] = [
   {
     accessorKey: "category",

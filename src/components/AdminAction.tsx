@@ -12,7 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { AiFillEdit } from "react-icons/ai";
-import ProductForm from "./ProductForm";
+import ProductForm from "../pages/admin/admin product/ProductForm";
 import { deleteProduct } from "@/slice/adminActionSlice";
 import { getAllProducts } from "@/slice/productsSlice";
 import { useAppDispatch } from "@/store";

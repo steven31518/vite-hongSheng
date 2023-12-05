@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "@/lib/api";
-import type { newDataType } from "@/components/ProductForm";
+import type { newDataType } from "@/pages/admin/admin product/ProductForm";
 
 type responseType = {
   success: boolean;

@@ -26,7 +26,9 @@ export function DialogButton({
   return (
     <Dialog>
       <DialogTrigger>
-        <Button variant={"default"}>{name}</Button>
+        <Button variant={"default"} type="button">
+          {name}
+        </Button>
       </DialogTrigger>
       <DialogContent className={className}>
         <DialogHeader>

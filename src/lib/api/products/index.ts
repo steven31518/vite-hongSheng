@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosError } from "axios";
-import type { newDataType } from "@/components/ProductForm";
+import type { newDataType } from "@/pages/admin/admin product/ProductForm";
 import { z } from "zod";
 
 interface updateDataType extends newDataType {

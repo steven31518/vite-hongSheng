@@ -1,5 +1,5 @@
 import axios from "axios";
-import { productType } from "@/components/ProductForm";
+import { productType } from "@/pages/admin/admin product/ProductForm";
 
 interface productWithIdType extends productType {
   id: string;
