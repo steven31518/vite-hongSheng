@@ -1,7 +1,8 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DialogButton } from "@/components/Dialog";
+import { ProductEditor } from "./ProductEditor";
+
 export type Product = {
   category: string;
   content: string;
@@ -15,8 +16,17 @@ export type Product = {
   imageUrl: string;
   imagesUrl: string[];
 };
-import ProductForm from "@/pages/admin/admin product/ProductForm";
+
 export const products_columns: ColumnDef<Product>[] = [
+  {
+    accessorKey: "new",
+    header: () => {
+      return <ProductEditor />;
+    },
+    cell: ({ row }) => {
+      return <p className="text-center">{Number(row.id) + 1}</p>;
+    },
+  },
   {
     accessorKey: "category",
     header: "類別",
@@ -96,16 +106,7 @@ export const products_columns: ColumnDef<Product>[] = [
     accessorKey: "id",
     header: "Action",
     cell: ({ row }) => {
-      return (
-        <DialogButton
-          title="編輯商品"
-          description={`商品編號:${row.getValue("id")}`}
-          name={`編輯`}
-          className="max-w-5xl"
-        >
-          <ProductForm productId={row.getValue("id")}></ProductForm>
-        </DialogButton>
-      );
+      return <ProductEditor id={row.getValue("id")} />;
     },
   },
   // ...

@@ -1,35 +1,34 @@
-import { useGetAdminProducts } from "../admin product/get admin products hook";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
+import { DialogButton } from "@/components/Dialog";
 import { Button } from "@/components/ui/button";
+import ProductForm from "../admin product/ProductForm";
+import { useDeleteAdminProduct } from "../admin product/delete admin products hook";
+import { LuPackagePlus } from "react-icons/lu";
 
-export function ProductEditor({ id }: { id: string }) {
-  const { data, error, isPending, isError } = useGetAdminProducts((data) =>
-    Object.values(data.products).find((product) => product.id === id)
-  );
+
+export function ProductEditor({ id }: { id?: string }) {
+  const { mutate, isPending: deleteIsPending } = useDeleteAdminProduct();
+
   return (
-    <Dialog>
-      <div className="flex flex-row justify-center  items-center gap-2">
-        <DialogTrigger asChild>
-          <Button variant={"default"}>編輯</Button>
-        </DialogTrigger>
-        <Button variant={"destructive"}>移除</Button>
-      </div>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>{`訂單:${id}`}</DialogTitle>
-          {isPending && <DialogDescription>Loading...</DialogDescription>}
-          {isError && <DialogDescription>{error?.message}</DialogDescription>}
-        </DialogHeader>
-        <div>{JSON.stringify(data)}</div>
-      </DialogContent>
-    </Dialog>
+    <div className="flex flex-row justify-center items-center gap-2">
+      <DialogButton
+        name={id ? "編輯" : <LuPackagePlus className="text-2xl" />}
+        title={id ? "編輯商品" : "新增商品"}
+        description={id ? `編輯編號${id}` : "新增商品"}
+        className="max-w-6xl"
+      >
+        <ProductForm productId={id} />
+      </DialogButton>
+      {id && (
+        <Button
+          disabled={deleteIsPending}
+          variant={"destructive"}
+          onClick={() => {
+            mutate(id);
+          }}
+        >
+          移除
+        </Button>
+      )}
+    </div>
   );
 }

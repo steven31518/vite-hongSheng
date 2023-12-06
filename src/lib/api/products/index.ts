@@ -33,7 +33,7 @@ export const getAllProducts = (apiPath: string) => {
       url: `/v2/api/${apiPath}/admin/products/all`,
       method: "GET",
     });
-    console.log(response.data);
+
     const validate = get_admin_products_schema.safeParse(response.data);
     if (!validate.success) throw new Error(validate.error.message);
 

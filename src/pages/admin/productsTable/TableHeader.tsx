@@ -8,7 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import AdminAction from "@/components/AdminAction";
+
 interface TablePaginationProps<TData> {
   table: Table<TData>;
 }
@@ -17,14 +17,13 @@ function DatatableHeader<TData>({ table }: TablePaginationProps<TData>) {
     <div className="flex items-center py-4">
       <Input
         placeholder="篩選名稱"
-        value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+        value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
         onChange={(event) =>
-          table.getColumn("title")?.setFilterValue(event.target.value)
+          table.getColumn("id")?.setFilterValue(event.target.value)
         }
         className="max-w-xs me-2"
         id="filter-by-title"
       />
-      <AdminAction></AdminAction>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="ml-auto">

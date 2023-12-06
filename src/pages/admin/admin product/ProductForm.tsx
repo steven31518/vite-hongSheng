@@ -17,12 +17,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useForm } from "react-hook-form";
 import { useAppSelector } from "@/store";
-
+import { useAppDispatch } from "@/store";
+import { setimgsUrl } from "@/slice/productsSlice";
 import { useGetAdminProducts } from "@/pages/admin/admin product/get admin products hook";
 import { useUpdateAdminProduct } from "./put admin product hook";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { Product } from "@/pages/admin/adminTable/product column";
-import { useDeleteAdminProduct } from "./delete admin products hook";
+import { useEffect } from "react";
 
 type newProductType = Omit<Product, "id">;
 
@@ -72,8 +73,7 @@ const formSchema = z.object({
 
 const ProductForm = ({ productId }: formStatus) => {
   const { mutate, isPending: editIsPending } = useUpdateAdminProduct();
-  const { mutate: deleteMutate, isPaused: deleteIsPending } =
-    useDeleteAdminProduct();
+
   const { data } = useGetAdminProducts((data) =>
     Object.values(data.products).find((product) => product.id === productId)
   );
@@ -98,14 +98,17 @@ const ProductForm = ({ productId }: formStatus) => {
     },
   });
   const { reset } = form;
-
+  const dispatch = useAppDispatch();
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const submitData: newProductType = {
       ...values,
-      imagesUrl: [...imgsUrl, ...(data?.imagesUrl as string[])],
+      imagesUrl: [...imgsUrl, ...(data ? data.imagesUrl : [])],
     };
     mutate({ data: submitData, id: productId });
   }
+  useEffect(() => {
+    dispatch(setimgsUrl([]));
+  }, [dispatch]);
 
   return (
     <Form {...form}>
@@ -126,21 +129,23 @@ const ProductForm = ({ productId }: formStatus) => {
                           defaultValue={field.value}
                           className="flex flex-col space-y-1"
                         >
-                          {data?.imagesUrl.concat(imgsUrl).map((url, i) => {
-                            return (
-                              <div
-                                className="flex space-x-2 rounded-md border h-[100px] p-2"
-                                key={url}
-                              >
-                                <RadioGroupItem value={url} id={`pic${i}`} />
-                                <img
-                                  src={url}
-                                  alt="請上傳圖片"
-                                  className="object-cover h-full w-full"
-                                />
-                              </div>
-                            );
-                          })}
+                          {imgsUrl
+                            .concat(data ? data.imagesUrl : [])
+                            .map((url, i) => {
+                              return (
+                                <div
+                                  className="flex space-x-2 rounded-md border h-[100px] p-2"
+                                  key={url}
+                                >
+                                  <RadioGroupItem value={url} id={`pic${i}`} />
+                                  <img
+                                    src={url}
+                                    alt="請上傳圖片"
+                                    className="object-cover h-full w-full"
+                                  />
+                                </div>
+                              );
+                            })}
                         </RadioGroup>
                       </FormControl>
                       <FormMessage />
@@ -344,33 +349,17 @@ const ProductForm = ({ productId }: formStatus) => {
               />
             </div>
             <div className="col-start-6 col-span-6 flex justify-end items-center gap-4">
-              {productId && (
-                <Button
-                  type="button"
-                  variant={"destructive"}
-                  disabled={deleteIsPending || editIsPending}
-                  onClick={() => {
-                    deleteMutate(productId);
-                  }}
-                >
-                  Delete
-                </Button>
-              )}
               <Button
                 type="button"
                 variant={"outline"}
-                disabled={deleteIsPending || editIsPending}
+                disabled={editIsPending}
                 onClick={() => {
                   reset();
                 }}
               >
                 Reset
               </Button>
-              <Button
-                type="submit"
-                className=""
-                disabled={deleteIsPending || editIsPending}
-              >
+              <Button type="submit" className="" disabled={editIsPending}>
                 Submit
               </Button>
             </div>

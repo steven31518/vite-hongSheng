@@ -11,7 +11,7 @@ interface productReturn extends queryStatus {
 export function useGetProducts(): productReturn {
   const search = useSearchParams()[0];
   const category = search.get("category")?.toString() || "";
-  const page = search.get("page")?.toString() || "1";
+  const page = search.get("page")?.toString() || "";
 
   const productsQuery = useQuery({
     queryKey: ["products", page, { type: category }],

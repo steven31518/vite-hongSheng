@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 type props = {
   children: React.ReactNode;
   description?: string;
-  name: string;
+  name: string | React.ReactNode;
   title: string;
   className?: string;
 };
@@ -26,7 +26,7 @@ export function DialogButton({
   return (
     <Dialog>
       <DialogTrigger>
-        <Button variant={"default"} type="button">
+        <Button variant={"outline"} type="button">
           {name}
         </Button>
       </DialogTrigger>
@@ -34,8 +34,8 @@ export function DialogButton({
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
-          {children}
         </DialogHeader>
+        {children}
       </DialogContent>
     </Dialog>
   );

@@ -1,12 +1,8 @@
 import axios from "axios";
-import { productType } from "@/pages/admin/admin product/ProductForm";
-
-interface productWithIdType extends productType {
-  id: string;
-}
+import type { Product } from "@/pages/admin/adminTable/product column";
 
 export type allProducts_res = {
-  products: productWithIdType[];
+  products: Product[];
   pagination: {
     category: string;
     current_page: number;
@@ -16,8 +12,23 @@ export type allProducts_res = {
   };
 };
 export type product_res = {
-  product: productWithIdType;
+  product: Product;
   success: boolean;
+};
+
+export const getAllProductsClient = (apiPath: string) => {
+  return async () => {
+    try {
+      const response = await axios({
+        url: `/v2/api/${apiPath}/products/all`,
+        method: "GET",
+      });
+
+      return response.data as allProducts_res;
+    } catch (e) {
+      throw new Error(e as string);
+    }
+  };
 };
 
 export const getProductsInPage = (apiPath: string) => {
@@ -27,6 +38,7 @@ export const getProductsInPage = (apiPath: string) => {
         url: `/v2/api/${apiPath}/products?page=${page}&category=${category}`,
         method: "GET",
       });
+
       return response.data as allProducts_res;
     } catch (e) {
       throw new Error(e as string);

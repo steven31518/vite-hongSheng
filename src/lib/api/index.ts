@@ -6,7 +6,11 @@ import {
   updateProduct,
   deleteProduct,
 } from "./products";
-import { getProductsInPage, getProductWithId } from "./onSales";
+import {
+  getProductsInPage,
+  getProductWithId,
+  getAllProductsClient,
+} from "./onSales";
 import { postCart, getCart, deleteItem, editCart } from "./cart";
 import { postOrder, getOrder, getOrderbyId } from "./order";
 import { pay } from "./pay/pay";
@@ -30,6 +34,7 @@ export const api = {
   onSales: {
     getProductsInPage: getProductsInPage(apiPath),
     getProductWithId: getProductWithId(apiPath),
+    getAllProductsClient: getAllProductsClient(apiPath),
   },
   cart: {
     postCart: postCart(apiPath),

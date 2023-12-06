@@ -6,6 +6,7 @@ import { FileWithPath } from "react-dropzone";
 import { cn } from "@/lib/utils";
 import { AiOutlineClose } from "react-icons/ai";
 import { useAppDispatch } from "@/store";
+import { useAppSelector } from "@/store";
 import { updateImage } from "@/slice/productsSlice";
 import { Separator } from "@/components/ui/separator";
 import { DialogButton } from "./Dialog";
@@ -18,6 +19,7 @@ interface FileWithPreview extends FileWithPath {
 
 const ProductPicDropzone = () => {
   const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const { loading, success } = useAppSelector((state) => state.productsData);
   const dispatch = useAppDispatch();
   const {
     getRootProps,
@@ -93,7 +95,9 @@ const ProductPicDropzone = () => {
   return (
     <DialogButton
       description={
-        "Make changes to your Files here. Click save when you're done."
+        success
+          ? "Update success"
+          : "Make changes to your Files here. Click update when you're done."
       }
       name="新增圖片"
       title="DropZone"
@@ -126,15 +130,16 @@ const ProductPicDropzone = () => {
             </ScrollArea>
           </div>
         )}
-        <div className="flex flex-row justify-end">
+        <div className="flex flex-row justify-end space-x-2">
           <Button
             type="button"
             variant={"outline"}
             onClick={() => setFiles([])}
+            disabled={loading}
           >
             clean
           </Button>
-          <Button type="button" onClick={handleUpload}>
+          <Button type="button" onClick={handleUpload} disabled={loading}>
             Update
           </Button>
         </div>

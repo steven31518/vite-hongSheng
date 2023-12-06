@@ -12,7 +12,6 @@ const emailSchema = z.object({
 export type Email = z.infer<typeof emailSchema>;
 
 export async function sendEmail(data: Email) {
-  console.log(data);
   const result = await emailjs.send(
     import.meta.env.VITE_EMAIL_SERVICE_ID,
     import.meta.env.VITE_EMAIL_TEMPLATE_ID,
@@ -21,7 +20,6 @@ export async function sendEmail(data: Email) {
   );
   const { status, text } = result;
   if (status === 200) {
-    console.log("ok");
     return text;
   } else {
     throw new Error(text);

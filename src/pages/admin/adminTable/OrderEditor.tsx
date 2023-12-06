@@ -1,43 +1,18 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useGetOrderData } from "../admin order/get admin order hook";
 import { useDeleteOrder } from "../admin order/delete admin order hook";
 import { Link } from "react-router-dom";
-
+import { DialogButton } from "@/components/Dialog";
 export function OrderEditor({ id }: { id: string }) {
   const { data, isError, isPending, isSuccess, error } = useGetOrderData(
     (data) => data.orders.filter((order) => order.id === id)
   );
   const { mutate, isPending: deleteIsPending } = useDeleteOrder();
   return (
-    <Dialog>
-      <div className="flex flex-row justify-center  items-center gap-2">
-        <DialogTrigger asChild>
-          <Button variant={"default"}>編輯</Button>
-        </DialogTrigger>
-        <Button
-          disabled={deleteIsPending}
-          variant={"destructive"}
-          onClick={() => {
-            mutate(id);
-          }}
-        >
-          移除
-        </Button>
-      </div>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>{`訂單:${id}`}</DialogTitle>
-          {isPending && <DialogDescription>Loading...</DialogDescription>}
-          {isError && <DialogDescription>{error?.message}</DialogDescription>}
-        </DialogHeader>
+    <div className="flex flex-row justify-center  items-center gap-2">
+      <DialogButton title={`訂單編輯`} description={`訂單:${id}`} name="編輯">
+        {isError ? error?.message : ""}
+        {isPending && <div>loading...</div>}
         {isSuccess && (
           <div className="flex flex-col">
             <div className="flex flex-row justify-between">
@@ -73,7 +48,16 @@ export function OrderEditor({ id }: { id: string }) {
             </div>
           </div>
         )}
-      </DialogContent>
-    </Dialog>
+      </DialogButton>
+      <Button
+        disabled={deleteIsPending}
+        variant={"destructive"}
+        onClick={() => {
+          mutate(id);
+        }}
+      >
+        移除
+      </Button>
+    </div>
   );
 }

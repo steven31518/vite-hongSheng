@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "@/lib/api";
 
-
 type imageResponseData = {
   success: boolean;
   imageUrl: string;
@@ -32,6 +31,7 @@ export const productsSlice = createSlice({
     },
     setimgsUrl: (state, action) => {
       state.imgsUrl = action.payload;
+      state.success = false;
     },
   },
   extraReducers: (builder) => {
