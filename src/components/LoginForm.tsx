@@ -21,8 +21,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "@/store";
-import { login } from "@/slice/loginSlice";
+import { useLogin } from "@/pages/login/use login hook";
+import FullscreenLoading from "./FullscreenLoading";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -49,7 +49,7 @@ type typeProps = {
 };
 
 const LoginForm = ({ className }: typeProps) => {
-  const dispatch = useAppDispatch();
+  const { mutate, isPending } = useLogin();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -63,10 +63,12 @@ const LoginForm = ({ className }: typeProps) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    dispatch(login(values));
+    mutate(values);
   }
+
   return (
     <>
+      {isPending && <FullscreenLoading />}
       <Card className={cn("w-[380px]", className)}>
         <CardHeader>
           <CardTitle>Hong Sheng i-Manager</CardTitle>
@@ -117,7 +119,9 @@ const LoginForm = ({ className }: typeProps) => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit" disabled={isPending}>
+                Submit
+              </Button>
             </form>
           </Form>
         </CardContent>

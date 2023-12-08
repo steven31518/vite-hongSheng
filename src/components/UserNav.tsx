@@ -12,7 +12,7 @@ import {
 } from "@/components/ui//dropdown-menu";
 import { useAppDispatch } from "@/store";
 import { logout } from "@/slice/loginSlice";
-const UserNav = () => {
+const UserNav = ({ id }: { id?: string }) => {
   const dispatch = useAppDispatch();
   return (
     <>
@@ -28,10 +28,10 @@ const UserNav = () => {
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">shadcn</p>
-              <p className="text-xs leading-none text-muted-foreground">
+              <small className="text-xs font-medium leading-none">{id}</small>
+              <small className="text-xs leading-none text-muted-foreground">
                 m@example.com
-              </p>
+              </small>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />

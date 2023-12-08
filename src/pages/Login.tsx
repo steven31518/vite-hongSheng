@@ -1,45 +1,16 @@
 import LoginForm from "@/components/LoginForm";
-import { useAppSelector } from "@/store";
-import { useEffect } from "react";
-import FullscreenLoading from "@/components/FullscreenLoading";
-import { useNavigate } from "react-router-dom";
+
 const Login = () => {
-  const { msg, error, loginState, loading } = useAppSelector(
-    (state) => state.loginData
-  );
-  const navigate = useNavigate();
-
-  function addDays(days: number) {
-    const today = new Date();
-    const date2 = today.getDate() + days;
-    return new Date(today.setDate(date2)).toDateString();
-  }
-  const expireDate = addDays(7);
-  useEffect(() => {
-    if (loginState === true) {
-      navigate("/admin");
-    }
-  }, [loginState, navigate]);
-
+  // function addDays(days: number) {
+  //   const today = new Date();
+  //   const date2 = today.getDate() + days;
+  //   return new Date(today.setDate(date2)).toDateString();
+  // }
   return (
     <>
       <div className="container py-5 min-h-screen">
-        <div>{expireDate}</div>
-        {loading && <FullscreenLoading />}
         <div className="flex flex-col justify-center items-center">
           <LoginForm className="mb-2" />
-          {msg && (
-            <strong
-              className={loginState ? "text-green-500" : "text-destructive"}
-            >
-              {msg}
-            </strong>
-          )}
-          {error && (
-            <div className="text-red-500 text-sm font-semibold">
-              伺服器無回應
-            </div>
-          )}
         </div>
       </div>
     </>

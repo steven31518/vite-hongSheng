@@ -1,13 +1,9 @@
 import { Outlet, Link } from "react-router-dom";
 import UserNav from "@/components/UserNav";
-import axios from "axios";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "@/store";
-import { useAppDispatch } from "@/store";
-import { userCheck } from "@/slice/loginSlice";
+import { useCheckUser } from "./use check hook";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Toaster } from "@/components/ui/toaster";
+import { useEffect } from "react";
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "產品管理",
@@ -36,28 +32,10 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 const DashBoard = () => {
-  const { loginState } = useAppSelector((state) => state.loginData);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const token = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("hongShengToken="))
-    ?.split("=")[1];
-
-  axios.defaults.headers.common["Authorization"] = token;
-
+  const { mutate, isPending, isSuccess, data } = useCheckUser();
   useEffect(() => {
-    dispatch(userCheck());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!token) {
-      navigate("/login");
-    }
-    if (loginState === false) {
-      navigate("/login");
-    }
-  }, [token, loginState, navigate]);
+    mutate();
+  }, [mutate]);
   return (
     <>
       <div className=" h-full flex-1 flex-col  md:flex">
@@ -69,7 +47,7 @@ const DashBoard = () => {
             </p>
           </div>
           <div className="flex items-center space-x-3 ">
-            <UserNav />
+            <UserNav id={data?.uid as string} />
             <ModeToggle />
           </div>
         </div>
@@ -89,7 +67,8 @@ const DashBoard = () => {
             </ul>
           </div>
           <div className="col-span-10">
-            <Outlet />
+            {isPending && <div>loading...</div>}
+            {isSuccess && <Outlet />}
             <Toaster />
           </div>
         </div>
