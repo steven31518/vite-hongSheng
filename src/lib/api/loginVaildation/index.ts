@@ -32,6 +32,7 @@ export const signIn = async (params: SigninParams) => {
 export const logout = async () => {
   try {
     const response = await axios.post("/v2/logout");
+    
     return response.data;
   } catch (e) {
     console.error(e);

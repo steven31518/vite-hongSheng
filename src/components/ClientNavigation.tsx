@@ -111,9 +111,9 @@ const ClientNavigation = () => {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/login">
+          <Link to="/admin">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Admin Login
+              Admin
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

@@ -10,25 +10,30 @@ export function OrderEditor({ id }: { id: string }) {
   const { mutate, isPending: deleteIsPending } = useDeleteOrder();
   return (
     <div className="flex flex-row justify-center  items-center gap-2">
-      <DialogButton title={`訂單編輯`} description={`訂單:${id}`} name="編輯">
+      <DialogButton
+        title={`訂單編輯`}
+        description={`訂單:${id}`}
+        name="編輯"
+        className="max-w-3xl"
+      >
         {isError ? error?.message : ""}
         {isPending && <div>loading...</div>}
         {isSuccess && (
           <div className="flex flex-col">
             <div className="flex flex-row justify-between">
-              <div>訂單編號:{data[0].id}</div>
-              <div>訂購日期:{data[0].create_at}</div>
+              <p>訂單編號:{data[0].id}</p>
+              <p>訂購日期:{data[0].create_at}</p>
             </div>
             <div className="flex flex-row justify-between">
-              <div>訂購人:{data[0].user.name}</div>
-              <div>訂購人電話:{data[0].user.tel}</div>
+              <p>訂購人:{data[0].user.name}</p>
+              <p>訂購人電話:{data[0].user.tel}</p>
             </div>
             <div className="flex flex-row justify-between">
-              <div>訂購人信箱:{data[0].user.email}</div>
-              <div>訂購人地址:{data[0].user.address}</div>
+              <p>訂購人信箱:{data[0].user.email}</p>
+              <p>訂購人地址:{data[0].user.address}</p>
             </div>
-            <div>備註:{data[0].message}</div>
-            <div>訂單狀態:{data[0].is_paid ? "已付款" : "未付款"}</div>
+            <p>備註:{data[0].message}</p>
+            <p>訂單狀態:{data[0].is_paid ? "已付款" : "未付款"}</p>
             <div>
               訂單商品:
               <div>
@@ -38,9 +43,10 @@ export function OrderEditor({ id }: { id: string }) {
                       <Link to={`/product/${value.product_id}`} target="_blank">
                         <Button
                           variant={"link"}
+                          className={"text-blue-500"}
                         >{`商品編號:${value.product_id}`}</Button>
                       </Link>
-                      <div>商品數量:{value.qty}</div>
+                      <small>商品數量:{value.qty}</small>
                     </div>
                   );
                 })}

@@ -2,25 +2,15 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 export function useCheckUser() {
   const { toast } = useToast();
   const navigate = useNavigate();
+
   return useMutation({
     mutationFn: () => api.login.userCheck(),
-    onMutate(variables) {
-      const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("hongShengToken="))
-        ?.split("=")[1];
-      axios.defaults.headers.common["Authorization"] = token;
-      if (!token) {
-        navigate("/login");
-      }
-      return { variables };
-    },
+    onMutate() {},
     onError(error) {
-      console.log(error);
       toast({
         variant: "destructive",
         title: "登入失敗",

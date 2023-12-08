@@ -4,6 +4,8 @@ import { useCheckUser } from "./use check hook";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Toaster } from "@/components/ui/toaster";
 import { useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "產品管理",
@@ -33,9 +35,20 @@ const components: { title: string; href: string; description: string }[] = [
 
 const DashBoard = () => {
   const { mutate, isPending, isSuccess, data } = useCheckUser();
+  const navigate = useNavigate();
+  const token = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("hongShengToken="))
+    ?.split("=")[1];
+  axios.defaults.headers.common["Authorization"] = token;
+
   useEffect(() => {
+    if (!token) {
+      return navigate("/login");
+    }
     mutate();
-  }, [mutate]);
+  }, [token, navigate, mutate]);
+
   return (
     <>
       <div className=" h-full flex-1 flex-col  md:flex">
