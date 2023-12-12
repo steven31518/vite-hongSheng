@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { AiFillEdit } from "react-icons/ai";
 import ProductForm from "../pages/admin/admin product/ProductForm";
 import { deleteProduct } from "@/slice/adminActionSlice";
-import { getAllProducts } from "@/slice/productsSlice";
+
 import { useAppDispatch } from "@/store";
 
 type AdminActionProps = {
@@ -105,7 +105,7 @@ function AdminAction({ productId, productName }: AdminActionProps) {
                   if (!productId) return;
                   await dispatch(deleteProduct(productId));
                   handleClose();
-                  await dispatch(getAllProducts());
+                  
                 }}
               >
                 Confirm
