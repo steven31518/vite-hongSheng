@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LuShoppingCart } from "react-icons/lu";
 import ReactLoading from "react-loading";
+import { ProductArtWork } from "@/components/ProductArtWork";
 import { LuPlus, LuMinus } from "react-icons/lu";
 import type { getCart_res } from "@/lib/api/cart/getCart";
 
@@ -30,6 +31,7 @@ export default function CartList() {
   const { mutate: editCart, isPending: editIsPending } = useEditCart();
   const [CartData, setCartData] = useState<CartItem>([]);
   const navigate = useNavigate();
+
   function handleCount(id: string, action: () => number) {
     const newCart = [...CartData];
     const index = newCart.findIndex((item) => item.id === id);
@@ -87,7 +89,7 @@ export default function CartList() {
           {CartData.length > 0 ? CartData.length : 0}
         </Button>
       </SheetTrigger>
-      <SheetContent className="overflow-y-scroll w-[400px] sm:w-[540px]">
+      <SheetContent className="overflow-y-scroll">
         <SheetHeader>
           <SheetTitle>Cart Detail</SheetTitle>
         </SheetHeader>
@@ -99,16 +101,15 @@ export default function CartList() {
               {[...CartData].map((item) => (
                 <div key={item.id} className="rouned-md border-2 p-3 my-4">
                   <h1 className="my-4 font-bold">{item.product.title}</h1>
-                  <div className="flex flex-row items-end justify-around">
-                    <img
-                      src={item.product.imageUrl}
-                      alt=""
-                      className="object-cover"
-                      style={{
-                        width: "150px",
-                      }}
+                  <div className="grid grid-cols-2 gap-4">
+                    <ProductArtWork
+                      product={item.product}
+                      className="w-full"
+                      aspectRatio="square"
+                      width={150}
+                      height={150}
                     />
-                    <div className="text-start space-x-2">
+                    <div className="flex flex-col items-end justify-center space-x-2">
                       <small>{`${item.product.price}元 x${item.qty}`}</small>
                       <Separator className="my-4"></Separator>
                       <p>{`合計  : NTD$ ${item.final_total}`}</p>

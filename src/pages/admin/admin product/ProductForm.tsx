@@ -72,10 +72,13 @@ const formSchema = z.object({
 });
 
 const ProductForm = ({ productId }: formStatus) => {
+
   const { mutate, isPending: editIsPending } = useUpdateAdminProduct();
+
   const { data } = useGetAdminProducts((data) =>
     Object.values(data.products).find((product) => product.id === productId)
   );
+  
   const { imgsUrl } = useAppSelector((state) => state.productsData);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

@@ -1,6 +1,5 @@
 import FullscreenLoading from "@/components/FullscreenLoading";
 import { useGetProducts } from "./product hook";
-
 import { LuChevronRight, LuChevronLeft } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "react-router-dom";
@@ -9,7 +8,6 @@ import { ProductArtWork } from "@/components/ProductArtWork";
 
 export function ProductsOnSales() {
   const { status, message, products } = useGetProducts();
-  
   const { current_page, total_pages } = products["pagination"];
   const setSearchParams = useSearchParams()[1];
   if (status === "pending") {
@@ -20,7 +18,7 @@ export function ProductsOnSales() {
   }
   return (
     <div>
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 lg:gap-5 w-full py-4 px-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5 w-full py-4 px-4">
         {products["products"].map((product) => {
           return (
             <Link
@@ -45,7 +43,9 @@ export function ProductsOnSales() {
           type="submit"
           disabled={current_page === 1}
           onClick={() => {
-            setSearchParams({ page: Number(current_page - 1).toString() });
+            setSearchParams((pre) => {
+              return { ...pre, page: Number(current_page - 1).toString() };
+            });
           }}
         >
           <LuChevronLeft />
@@ -56,7 +56,9 @@ export function ProductsOnSales() {
             key={i}
             disabled={current_page === i + 1}
             onClick={() => {
-              setSearchParams({ page: Number(i + 1).toString() });
+              setSearchParams((pre) => {
+                return { ...pre, page: Number(i + 1).toString() };
+              });
             }}
           >
             {i + 1}
@@ -67,7 +69,9 @@ export function ProductsOnSales() {
           type="submit"
           disabled={current_page === total_pages}
           onClick={() => {
-            setSearchParams({ page: Number(current_page + 1).toString() });
+            setSearchParams((pre) => {
+              return { ...pre, page: Number(current_page + 1).toString() };
+            });
           }}
         >
           <LuChevronRight />

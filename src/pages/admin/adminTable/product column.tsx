@@ -19,15 +19,6 @@ export type Product = {
 
 export const products_columns: ColumnDef<Product>[] = [
   {
-    accessorKey: "new",
-    header: () => {
-      return <ProductEditor />;
-    },
-    cell: ({ row }) => {
-      return <p className="text-center">{Number(row.id) + 1}</p>;
-    },
-  },
-  {
     accessorKey: "category",
     header: "類別",
   },
@@ -104,7 +95,9 @@ export const products_columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "id",
-    header: "Action",
+    header: () => {
+      return <ProductEditor />;
+    },
     cell: ({ row }) => {
       return <ProductEditor id={row.getValue("id")} />;
     },

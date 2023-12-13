@@ -4,7 +4,7 @@ import CartList from "./cart/Cartlist";
 import ClientNavigation from "@/components/ClientNavigation";
 const FrontLayout = () => {
   return (
-    <div className=" h-full flex-1 flex-col md:flex">
+    <div className="min-h-full">
       <div className="flex items-center justify-start space-y-2 space-x-3  border-b-2 border-solid border-border px-4 py-2">
         <div className="w-full">
           <Link to="/home">
@@ -22,7 +22,7 @@ const FrontLayout = () => {
       <div className="flex items-center justify-center space-y-2 border-t-2 border-solid border-border px-4 py-2">
         <footer>
           &copy; {new Date().getFullYear()} Steven Tsan. All rights reserved.
-          <div className="social-links flex justify-center space-x-5">
+          <div className="social-links flex justify-center space-x-5 p-4">
             <a href="https://m.webtoo.ls/@astro" target="_blank">
               <span className="sr-only">Follow Astro on Mastodon</span>
               <svg
