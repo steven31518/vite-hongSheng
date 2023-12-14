@@ -4,12 +4,14 @@ import { cn } from "@/lib/utils";
 interface ProductArtworkProps extends React.HTMLAttributes<HTMLDivElement> {
   product: Product;
   aspectRatio?: "portrait" | "square";
+  showText?: boolean;
   width?: number;
   height?: number;
 }
 export function ProductArtWork({
   product,
   aspectRatio = "portrait",
+  showText = true,
   width,
   height,
   className,
@@ -30,10 +32,12 @@ export function ProductArtWork({
           )}
         />
       </div>
-      <div className="space-y-1 text-sm">
-        <h3 className="font-medium leading-none">{title}</h3>
-        <p className="text-xs text-muted-foreground">{description}</p>
-      </div>
+      {showText && (
+        <div className="space-y-1 text-sm">
+          <h3 className="font-medium leading-none">{title}</h3>
+          <p className="text-xs text-muted-foreground">{description}</p>
+        </div>
+      )}
     </div>
   );
 }

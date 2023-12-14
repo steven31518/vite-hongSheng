@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -9,8 +8,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { RiAdminFill } from "react-icons/ri";
@@ -52,6 +51,7 @@ const components: {
 
 const ClientNavigation = () => {
   const setSearchParams = useSearchParams()[1];
+  const navigate = useNavigate();
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -95,11 +95,12 @@ const ClientNavigation = () => {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map((component) => (
-                <div className="flex flex-col">
+                <div className="flex flex-col" key={component.title}>
                   <Button
                     key={component.title}
                     variant={"ghost"}
                     onClick={() => {
+                      navigate("/home");
                       setSearchParams({ page: "1", category: component.href });
                     }}
                   >
@@ -112,12 +113,15 @@ const ClientNavigation = () => {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/admin">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <RiAdminFill className="text-primary text-lg me-2" />
-              Admin
-            </NavigationMenuLink>
-          </Link>
+          <Button
+            variant={"ghost"}
+            onClick={() => {
+              navigate("/admin");
+            }}
+          >
+            <RiAdminFill className="text-primary text-lg me-2" />
+            Admin
+          </Button>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

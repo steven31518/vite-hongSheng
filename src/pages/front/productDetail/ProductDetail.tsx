@@ -34,6 +34,7 @@ export function ProductDetail() {
               product={product}
               className="w-full"
               aspectRatio="square"
+              showText={false}
               width={150}
               height={150}
             />

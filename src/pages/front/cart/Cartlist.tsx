@@ -21,12 +21,13 @@ import { LuShoppingCart } from "react-icons/lu";
 import ReactLoading from "react-loading";
 import { ProductArtWork } from "@/components/ProductArtWork";
 import { LuPlus, LuMinus } from "react-icons/lu";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import type { getCart_res } from "@/lib/api/cart/getCart";
 
 type CartItem = getCart_res["data"]["carts"];
 
 export default function CartList() {
-  const { status, message, cart, total, final_total } = useGetCart();
+  const { status, message, cart } = useGetCart();
   const { mutate: deleteCart, isPending: deleteIsPending } = useDeleteCart();
   const { mutate: editCart, isPending: editIsPending } = useEditCart();
   const [CartData, setCartData] = useState<CartItem>([]);
@@ -82,11 +83,18 @@ export default function CartList() {
       <SheetTrigger asChild>
         <Button variant="ghost" className="rounded-full relative">
           {editIsPending ? (
-            <ReactLoading type="spin" color="white" />
+            <ReactLoading
+              type="spin"
+              color="white"
+              width={"20px"}
+              height={"20px"}
+            />
           ) : (
-            <LuShoppingCart className="text-2xl" />
+            <span className="flex">
+              <LuShoppingCart className="text-2xl" />
+              {CartData.length > 0 ? CartData.length : 0}
+            </span>
           )}
-          {CartData.length > 0 ? CartData.length : 0}
         </Button>
       </SheetTrigger>
       <SheetContent className="overflow-y-scroll">
@@ -100,12 +108,34 @@ export default function CartList() {
             <>
               {[...CartData].map((item) => (
                 <div key={item.id} className="rouned-md border-2 p-3 my-4">
-                  <h1 className="my-4 font-bold">{item.product.title}</h1>
+                  <div className="flex justify-between items-center">
+                    <h1 className="my-4 font-bold">{item.product.title}</h1>
+                    <Button
+                      variant={"outline"}
+                      className="rounded-full"
+                      disabled={deleteIsPending}
+                      onClick={() => {
+                        deleteCart(item.id);
+                      }}
+                    >
+                      {deleteIsPending ? (
+                        <ReactLoading
+                          type="spin"
+                          color="white"
+                          width={"10px"}
+                          height={"10px"}
+                        />
+                      ) : (
+                        <RiDeleteBin6Line className="text-primary text-lg" />
+                      )}
+                    </Button>
+                  </div>
                   <div className="grid grid-cols-2 gap-4">
                     <ProductArtWork
                       product={item.product}
                       className="w-full"
                       aspectRatio="square"
+                      showText={false}
                       width={150}
                       height={150}
                     />
@@ -115,7 +145,7 @@ export default function CartList() {
                       <p>{`合計  : NTD$ ${item.final_total}`}</p>
                     </div>
                   </div>
-                  <div className="grid gap-4 py-4">
+                  <div className="grid gap-2 py-4">
                     <Label htmlFor={item.id} className="text-center">
                       數量
                     </Label>
@@ -146,25 +176,8 @@ export default function CartList() {
                       </Button>
                     </div>
                   </div>
-                  <Button
-                    variant={"outline"}
-                    className="w-full"
-                    disabled={deleteIsPending}
-                    onClick={() => {
-                      deleteCart(item.id);
-                    }}
-                  >
-                    Delete
-                    {deleteIsPending ? (
-                      <ReactLoading type="spin" color="white" />
-                    ) : (
-                      ""
-                    )}
-                  </Button>
                 </div>
               ))}
-              <div>total: {total}</div>
-              <div>final_total: {final_total}</div>
             </>
           )}
         </SheetDescription>
