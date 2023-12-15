@@ -1,5 +1,4 @@
-"use client";
-
+import { useGetCouponData } from "./get coupon hook";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -32,9 +31,7 @@ const FormSchema = z.object({
       required_error: "A title is required.",
     })
     .min(1),
-  is_enabled: z.number({
-    required_error: "A is_enabled is required.",
-  }),
+
   percent: z
     .number({
       required_error: "A percent is required.",
@@ -49,6 +46,7 @@ const FormSchema = z.object({
   due_date: z.date({
     required_error: "A date of birth is required.",
   }),
+  is_enabled: z.number(),
 });
 
 export type couponType = z.infer<typeof FormSchema>;
@@ -58,24 +56,34 @@ export interface couponWithId extends couponType {
   num: number;
 }
 
-export function CouponForm({ coupon }: { coupon?: couponWithId }) {
+export function CouponForm({ id }: { id?: string }) {
+  const { data } = useGetCouponData((data) =>
+    data.coupons.find((c) => c.id === id)
+  );
+  const { mutate, isPending } = useUpdateCoupon();
+
   const form = useForm<couponType>({
     resolver: zodResolver(FormSchema),
-    defaultValues: coupon || {
-      title: "",
-      is_enabled: 1,
-      due_date: new Date(),
-      percent: 80,
-      code: "testCode",
-    },
+    defaultValues: data
+      ? {
+          ...data,
+          due_date: new Date(data ? data.due_date : new Date()),
+        }
+      : {
+          title: "",
+          is_enabled: 0,
+          due_date: new Date(),
+          percent: 0,
+          code: "",
+        },
     resetOptions: {
       keepDefaultValues: true,
     },
   });
-  const { mutate } = useUpdateCoupon();
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const newData = { ...data, due_date: data.due_date.getTime() };
-    mutate({ data: newData });
+    mutate({ data: newData, id: id });
   }
   return (
     <Form {...form}>
@@ -189,7 +197,9 @@ export function CouponForm({ coupon }: { coupon?: couponWithId }) {
             )}
           />
         </div>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isPending}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

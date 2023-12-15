@@ -1,22 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import type { coupon_post_req } from "@/lib/api/coupon admin";
 import { useToast } from "@/components/ui/use-toast";
 
-interface updateDataType extends coupon_post_req {
-  id?: string;
-}
-
-export function useUpdateCoupon() {
-  const { toast } = useToast();
+export function useCouponDelete() {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   return useMutation({
-    mutationFn: ({ data, id }: updateDataType) => {
-      if (!id) {
-        return api.coupon_admin.couponPost({ data });
-      } else {
-        return api.coupon_admin.couponPut({ data }, id);
-      }
+    mutationFn: (id: string) => {
+      return api.coupon_admin.couponDelete(id);
     },
     onError: (error) => {
       toast({

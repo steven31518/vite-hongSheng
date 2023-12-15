@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useSearchParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
@@ -50,7 +49,6 @@ const components: {
 ];
 
 const ClientNavigation = () => {
-  const setSearchParams = useSearchParams()[1];
   const navigate = useNavigate();
   return (
     <NavigationMenu>
@@ -68,8 +66,7 @@ const ClientNavigation = () => {
                     key={component.title}
                     variant={"ghost"}
                     onClick={() => {
-                      navigate("/home");
-                      setSearchParams({ page: "1", category: component.href });
+                      navigate(`/home?page=1&category=${component.href}`);
                     }}
                   >
                     {component.title}

@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CouponEditor } from "./CouponEditor";
 import type { couponWithId } from "../admin coupon/CouponForm";
 
 export const coupon_columns: ColumnDef<couponWithId>[] = [
@@ -10,6 +11,7 @@ export const coupon_columns: ColumnDef<couponWithId>[] = [
   },
   {
     accessorKey: "title",
+    header: "優惠內容",
   },
   {
     accessorKey: "code",
@@ -32,16 +34,35 @@ export const coupon_columns: ColumnDef<couponWithId>[] = [
         </Button>
       );
     },
-  },
-  {
-   accessorKey:"id",
-   header:"ID"
+    cell: ({ row }) => {
+      return (
+        <div className="flex justify-center">
+          {row.original.due_date.toLocaleDateString()}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "is_enabled",
     header: "是否啟用",
+    cell: ({ row }) => {
+      return (
+        <div className="flex justify-center">
+          {row.original.is_enabled ? "啟用" : "未啟用"}
+        </div>
+      );
+    },
   },
- 
+  {
+    accessorKey: "id",
+    header: () => {
+      return <CouponEditor />;
+    },
+    cell: ({ row }) => {
+      return <CouponEditor id={row.getValue("id")} />;
+    },
+  },
+
   //   {
   //     accessorKey: "id",
   //     header: "編輯",

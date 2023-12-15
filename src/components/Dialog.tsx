@@ -25,10 +25,8 @@ export function DialogButton({
 }: props) {
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button variant={"outline"} type="button">
-          {name}
-        </Button>
+      <DialogTrigger asChild>
+        <Button variant="outline">{name}</Button>
       </DialogTrigger>
       <DialogContent className={className}>
         <DialogHeader>

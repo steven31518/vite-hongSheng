@@ -1,4 +1,4 @@
-import FullscreenLoading from "@/components/FullscreenLoading";
+
 import { useGetProducts } from "./product hook";
 import { LuChevronRight, LuChevronLeft } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ export function ProductsOnSales() {
   const { current_page, total_pages } = products["pagination"];
   const setSearchParams = useSearchParams()[1];
   if (status === "pending") {
-    return <FullscreenLoading />;
+    return <div>loading</div>;
   }
   if (status === "error") {
     return <div>{message}</div>;

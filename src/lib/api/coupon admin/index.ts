@@ -65,3 +65,30 @@ export function couponGet(apiPath: string) {
     return validate.data;
   };
 }
+
+export function couponPut(apiPath: string) {
+  return async (data: coupon_post_req, id: string) => {
+    const response = await axios.put<coupon_post_req>(
+      `/v2/api/${apiPath}/admin/coupon/${id}`,
+      data
+    );
+    const validate = coupon_post_res_schema.safeParse(response.data);
+    if (!validate.success) {
+      throw new Error(validate.error.message);
+    }
+    return validate.data;
+  };
+}
+
+export function couponDelete(apiPath: string) {
+  return async (id: string) => {
+    const response = await axios.delete(
+      `/v2/api/${apiPath}/admin/coupon/${id}`
+    );
+    const validate = coupon_post_res_schema.safeParse(response.data);
+    if (!validate.success) {
+      throw new Error(validate.error.message);
+    }
+    return validate.data;
+  };
+}
