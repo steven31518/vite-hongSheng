@@ -30,7 +30,7 @@ export default function CartList() {
   const { mutate: deleteCart, isPending: deleteIsPending } = useDeleteCart();
   const { mutate: editCart, isPending: editIsPending } = useEditCart();
   const [CartData, setCartData] = useState<CartItem>([]);
-  
+
   const navigate = useNavigate();
 
   function handleCount(id: string, action: () => number) {
@@ -38,8 +38,10 @@ export default function CartList() {
     const index = newCart.findIndex((item) => item.id === id);
     newCart[index].qty = action();
     if (newCart[index].qty < 1) newCart[index].qty = 1;
-    newCart[index].final_total =
-      newCart[index].qty * newCart[index].product.price;
+    newCart[index].final_total = (
+      newCart[index].qty * newCart[index].product.price
+    ).toString();
+    
     setCartData(newCart);
   }
   function handleCartDifferent(): CartItem {

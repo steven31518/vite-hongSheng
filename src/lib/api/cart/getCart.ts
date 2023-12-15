@@ -5,15 +5,17 @@ const getCart_res_schema = z.object({
   data: z.object({
     carts: z.array(
       z.object({
-        coupon: z.object({
-          code: z.string(),
-          due_date: z.number(),
-          id: z.string(),
-          is_enabled: z.number(),
-          percent: z.number(),
-          title: z.string(),
-        }).or(z.undefined()),
-        final_total: z.number(),
+        coupon: z
+          .object({
+            code: z.string(),
+            due_date: z.number(),
+            id: z.string(),
+            is_enabled: z.number(),
+            percent: z.number(),
+            title: z.string(),
+          })
+          .or(z.undefined()),
+        final_total: z.number().transform((p) => p.toFixed(0)),
         id: z.string(),
         product: z.object({
           category: z.string(),
@@ -34,7 +36,7 @@ const getCart_res_schema = z.object({
       })
     ),
     total: z.number(),
-    final_total: z.number(),
+    final_total: z.number().transform((p) => p.toFixed(0)),
   }),
   success: z.boolean(),
   messages: z.array(z.string()),

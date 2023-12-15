@@ -2,13 +2,14 @@ import { useGetCart } from "../cart/list hook";
 // import FullscreenLoading from "@/components/FullscreenLoading";
 import { Separator } from "@/components/ui/separator";
 import { CheckOrderForm } from "./CheckOrderForm";
+import { CouponForm } from "./CouponForm";
 
 
 export function CheckOrder() {
   const { status, cart, total, final_total, message } = useGetCart();
-
+  console.log(cart);
   return (
-    <div className="grid grid-cols-2 p-4">
+    <div className="grid grid-cols-2 gap-4 p-4">
       <div>
         <CheckOrderForm></CheckOrderForm>
       </div>
@@ -17,8 +18,9 @@ export function CheckOrder() {
         {status === "error" && <div>{message}</div>}
         {status === "success" && (
           <>
+            <CouponForm></CouponForm>
             {cart.map((item) => (
-              <div key={item.id} className="rouned-md border-2 p-3 my-4">
+              <div key={item.id} className="rouned-lg border-2 p-3 my-4">
                 <h1 className="my-4 font-bold ">{item.product.title}</h1>
                 <div className="flex flex-row items-end justify-around">
                   <img
@@ -30,9 +32,16 @@ export function CheckOrder() {
                     }}
                   />
                   <div className="text-start space-x-2">
-                    <small>{`${item.product.price}元 x${item.qty}${item.product.unit}`}</small>
+                    <small>
+                      {`${item.product.price}元 x ${item.qty}${
+                        item.product.unit
+                      } x ${(item.coupon?.percent as number)}%`}
+                    </small>
                     <Separator className="my-4"></Separator>
                     <p>{`合計  : NTD$ ${item.final_total}`}</p>
+                    <small className="text-primary">
+                      已套用優惠卷:{item.coupon?.title}
+                    </small>
                   </div>
                 </div>
               </div>

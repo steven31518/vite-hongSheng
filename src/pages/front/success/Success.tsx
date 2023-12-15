@@ -18,13 +18,13 @@ export function Success() {
               訂單已成立{" "}
               {new Date(data.order.create_at * 1000).toLocaleString()}
             </h1>
-            <div>訂單編號：{data?.order.id}</div>
-            <div>訂購人：{data?.order.user.name}</div>
-            <div>電子郵件：{data?.order.user.email}</div>
-            <div>電話：{data?.order.user.tel}</div>
-            <div>地址：{data?.order.user.address}</div>
-            <div>備註：{data?.order.message}</div>
-            <div>付款狀態:{data.order.is_paid ? "已付款" : "未付款"}</div>
+            <p>訂單編號：{data?.order.id}</p>
+            <p>訂購人：{data?.order.user.name}</p>
+            <p>電子郵件：{data?.order.user.email}</p>
+            <p>電話：{data?.order.user.tel}</p>
+            <p>地址：{data?.order.user.address}</p>
+            <p>備註：{data?.order.message}</p>
+            <p className="">付款狀態:{data.order.is_paid ? "已付款" : "未付款"}</p>
             <h1 className="text-xl font-bold">合計:NTD${data.order.total}</h1>
             <Link to="/home">返回賣場</Link>
           </div>

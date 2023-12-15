@@ -24,7 +24,7 @@ export function useGetCart(): cartReturn {
       message: cartQuery.error?.message,
       cart: [],
       total: 0,
-      final_total: 0,
+      final_total: "",
     };
   }
   if (isPending) {
@@ -32,7 +32,7 @@ export function useGetCart(): cartReturn {
       status: "pending",
       cart: [],
       total: 0,
-      final_total: 0,
+      final_total: "",
     };
   }
   if (isFetching) {
@@ -40,7 +40,7 @@ export function useGetCart(): cartReturn {
       status: "fetching",
       cart: [],
       total: 0,
-      final_total: 0,
+      final_total: "",
     };
   }
   if (isSuccess) {

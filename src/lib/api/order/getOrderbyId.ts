@@ -1,7 +1,6 @@
 import axios from "axios";
 import { z } from "zod";
 
-
 const getOrderbyId_res_schema = z.object({
   success: z.boolean(),
   order: z.object({
@@ -12,7 +11,7 @@ const getOrderbyId_res_schema = z.object({
     products: z.record(
       z.string(),
       z.object({
-        final_total: z.number(),
+        final_total: z.number().transform((p) => p.toFixed(0)),
         total: z.number(),
         id: z.string(),
         product_id: z.string(),
