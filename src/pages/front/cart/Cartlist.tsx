@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Sheet,
-  // SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -31,6 +30,7 @@ export default function CartList() {
   const { mutate: deleteCart, isPending: deleteIsPending } = useDeleteCart();
   const { mutate: editCart, isPending: editIsPending } = useEditCart();
   const [CartData, setCartData] = useState<CartItem>([]);
+  
   const navigate = useNavigate();
 
   function handleCount(id: string, action: () => number) {
@@ -42,7 +42,6 @@ export default function CartList() {
       newCart[index].qty * newCart[index].product.price;
     setCartData(newCart);
   }
-
   function handleCartDifferent(): CartItem {
     return CartData.filter((item) => {
       const sameProduct = cart.find((p) => p.id === item.id);
