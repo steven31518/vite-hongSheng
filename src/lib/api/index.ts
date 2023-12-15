@@ -15,7 +15,7 @@ import { postCart, getCart, deleteItem, editCart } from "./cart";
 import { postOrder, getOrder, getOrderbyId } from "./order";
 import { pay } from "./pay/pay";
 import { getAdminOrder, deleteAdminOrder } from "./order admin";
-
+import { couponPost, couponGet } from "./coupon admin";
 const apiPath: string = import.meta.env.VITE_API_PATH;
 
 export const api = {
@@ -53,5 +53,9 @@ export const api = {
   order_admin: {
     getAdminOrder: getAdminOrder(apiPath),
     deleteAdminOrder: deleteAdminOrder(apiPath),
+  },
+  coupon_admin: {
+    couponPost: couponPost(apiPath),
+    couponGet: couponGet(apiPath),
   },
 };

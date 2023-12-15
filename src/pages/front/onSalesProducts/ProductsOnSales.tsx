@@ -44,7 +44,8 @@ export function ProductsOnSales() {
           disabled={current_page === 1}
           onClick={() => {
             setSearchParams((pre) => {
-              return { ...pre, page: Number(current_page - 1).toString() };
+              pre.set("page", (current_page - 1).toString());
+              return pre;
             });
           }}
         >
@@ -57,7 +58,8 @@ export function ProductsOnSales() {
             disabled={current_page === i + 1}
             onClick={() => {
               setSearchParams((pre) => {
-                return { ...pre, page: Number(i + 1).toString() };
+                pre.set("page", (i + 1).toString());
+                return pre;
               });
             }}
           >
@@ -70,7 +72,8 @@ export function ProductsOnSales() {
           disabled={current_page === total_pages}
           onClick={() => {
             setSearchParams((pre) => {
-              return { ...pre, page: Number(current_page + 1).toString() };
+              pre.set("page", (current_page + 1).toString());
+              return pre;
             });
           }}
         >

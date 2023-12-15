@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./pages/login/Login";
 import DashBoard from "./pages/admin/DashBoard";
 
-import AdminCoupons from "./pages/admin/AdminCoupons";
 import { AdminOrder } from "./pages/admin/admin order/AdminOrders";
 import { AdminProducts } from "./pages/admin/admin product/AdminProducts";
 import FrontLayout from "./pages/front/FrontLayout";
@@ -11,6 +10,7 @@ import { ProductDetail } from "./pages/front/productDetail/ProductDetail";
 import { ProductsOnSales } from "./pages/front/onSalesProducts/ProductsOnSales";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Success } from "./pages/front/success/Success";
+import { AdminCoupons } from "./pages/admin/admin coupon/AdminCoupon";
 
 function App() {
   return (
