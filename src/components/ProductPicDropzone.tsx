@@ -57,7 +57,7 @@ const ProductPicDropzone = () => {
     if (files.length === 0) return;
     dispatch(updateImage(files));
   };
-
+  
   const thumbs = files.map((file, i) => (
     <li key={file.id}>
       <div className="grid grid-cols-12 gap-4">
