@@ -11,6 +11,7 @@ import { ProductsOnSales } from "./pages/front/onSalesProducts/ProductsOnSales";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Success } from "./pages/front/success/Success";
 import { AdminCoupons } from "./pages/admin/admin coupon/AdminCoupon";
+import Home from "./pages/front/onSalesProducts/Home";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
       <ThemeProvider defualtTheme="dark" storageKey="vite-ui-theme">
         <Routes>
           <Route path="/" element={<FrontLayout />}>
-            <Route path="/home" element={<ProductsOnSales />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/products" element={<ProductsOnSales />} />
             <Route path="product/:id" element={<ProductDetail />} />
           </Route>
           <Route path="check" element={<CheckOrder />} />

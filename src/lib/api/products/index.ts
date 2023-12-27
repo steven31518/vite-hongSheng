@@ -57,6 +57,7 @@ export const addPicture = (apiPath: string) => {
       );
       return response.data;
     } catch (e) {
+      console.log(e);
       return (e as AxiosError).response?.data;
     }
   };

@@ -1,14 +1,16 @@
 import { api } from "@/lib/api";
 import { allProducts_res } from "@/lib/api/onSales";
 import { useQuery } from "@tanstack/react-query";
-import { queryStatus } from "@/types";
+// import { queryStatus } from "@/types";
 import { useSearchParams } from "react-router-dom";
 
-interface productReturn extends queryStatus {
-  products: allProducts_res;
-}
+// interface productReturn extends queryStatus {
+//   products: allProducts_res;
+// }
 
-export function useGetProducts(): productReturn {
+export function useGetProducts<T = allProducts_res>(
+  selectFn: (pramas: allProducts_res) => T
+) {
   const search = useSearchParams()[0];
   const category = search.get("category")?.toString() || "";
   const page = search.get("page")?.toString() || "";
@@ -16,6 +18,7 @@ export function useGetProducts(): productReturn {
   const productsQuery = useQuery({
     queryKey: ["products", page, { type: category }],
     queryFn: async () => await api.onSales.getProductsInPage(page, category),
+    select: (data) => selectFn(data),
   });
   const { isError, isPending, isSuccess, data, dataUpdatedAt } = productsQuery;
 

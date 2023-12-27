@@ -27,8 +27,8 @@ export function ProductDetail() {
   }
   return (
     <div className="container mt-3">
-      <div className="grid grid-cols-12 gap-4 my-5">
-        <div className="col-span-12 lg:col-span-7 ">
+      <div className="grid grid-cols-12 gap-1">
+        <div className="col-span-12 lg:col-span-6 p-2">
           <div className="w-[550px]">
             <ProductArtWork
               product={product}
@@ -55,7 +55,7 @@ export function ProductDetail() {
                 })}
           </div> */}
         </div>
-        <div className="col-span-12 lg:col-span-5 flex flex-col justify-end items-start space-y-2">
+        <div className="col-span-12 lg:col-span-6 px-4 flex flex-col justify-end items-start space-y-2">
           <h1 className="mb-0">{product.title}</h1>
           <p>{product.content}</p>
           <p className="font-bold">NTD${product.price}</p>
@@ -91,7 +91,7 @@ export function ProductDetail() {
           <Button
             type="button"
             variant={"default"}
-            className="w-full"
+            className="w-full text-primary-foreground"
             disabled={isPending}
             onClick={() => {
               addCart({ data: { product_id: product.id, qty: qty } });

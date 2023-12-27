@@ -66,7 +66,7 @@ const ClientNavigation = () => {
                     key={component.title}
                     variant={"ghost"}
                     onClick={() => {
-                      navigate(`/home?page=1&category=${component.href}`);
+                      navigate(`/products?page=1&category=${component.href}`);
                     }}
                   >
                     {component.title}
