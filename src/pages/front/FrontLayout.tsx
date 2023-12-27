@@ -8,9 +8,11 @@ const FrontLayout = () => {
       <div className="flex items-center justify-start space-y-2 space-x-3  border-b-2 border-solid border-border px-4 py-2">
         <div className="w-full">
           <Link to="/home">
-            <h2 className="text-2xl font-bold tracking-tight">Welcome!</h2>
+            <h2 className="text-2xl font-bold tracking-tight">Welcome 607!</h2>
           </Link>
-          <p className="text-muted-foreground">Here&apos;s a list store.!</p>
+          <p className="text-muted-foreground">
+            Here&apos;s a lounge Bar for chill!
+          </p>
         </div>
         <div className="flex items-center justify-between space-x-3 w-full px-4">
           <ClientNavigation />

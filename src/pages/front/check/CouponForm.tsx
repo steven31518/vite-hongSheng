@@ -32,9 +32,9 @@ export function CouponForm() {
   }
 
   return (
-    <div className="rounded-lg border p-4">
+    <div className="rounded-lg border items-center p-4">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
           <FormField
             control={form.control}
             name="code"
@@ -50,7 +50,7 @@ export function CouponForm() {
             )}
           />
           <Button type="submit" disabled={isPending}>
-            Submit
+            登錄優惠卷
           </Button>
         </form>
       </Form>

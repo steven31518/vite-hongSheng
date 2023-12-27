@@ -13,7 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
+import { BsCartPlus } from "react-icons/bs";
 export function ProductDetail() {
   const [qty, setQty] = useState(1);
   const { status, message, product } = useGetProductDetail();
@@ -33,7 +33,7 @@ export function ProductDetail() {
             <ProductArtWork
               product={product}
               className="w-full"
-              aspectRatio="square"
+              aspectRatio="portrait"
               showText={false}
               width={150}
               height={150}
@@ -55,10 +55,13 @@ export function ProductDetail() {
                 })}
           </div> */}
         </div>
-        <div className="col-span-12 lg:col-span-6 px-4 flex flex-col justify-end items-start space-y-2">
-          <h1 className="mb-0">{product.title}</h1>
-          <p>{product.content}</p>
-          <p className="font-bold">NTD${product.price}</p>
+        <div className="col-span-12 lg:col-span-6 px-4 flex flex-col justify-end items-start space-y-4">
+          <h1 className="text-2xl font-bold">{product.title}</h1>
+          <p>{product.description}</p>
+          <p className="font-bold">
+            NTD${product.price}/{product.unit}
+          </p>
+
           <div className="w-full flex items-center justify-center space-x-2 mb-2">
             <Button
               variant={"outline"}
@@ -91,12 +94,13 @@ export function ProductDetail() {
           <Button
             type="button"
             variant={"default"}
-            className="w-full text-primary-foreground"
+            className="w-full text-primary-foreground p-3"
             disabled={isPending}
             onClick={() => {
               addCart({ data: { product_id: product.id, qty: qty } });
             }}
           >
+            <BsCartPlus className="me-2 text-xl" />
             加入購物車
             {isPending && (
               <ReactLoading type="spin" color="block" height={20} width={20} />

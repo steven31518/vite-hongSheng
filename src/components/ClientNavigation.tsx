@@ -20,31 +20,31 @@ const components: {
 }[] = [
   {
     href: "",
-    title: "所有商品",
+    title: "全部商品",
     description: "Visually or semantically separates content.",
   },
   {
-    href: "Tool",
-    title: "工具",
+    href: "熱門商品酒",
+    title: "熱門商品",
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
-    href: "paper",
-    title: "文件",
+    href: "主打",
+    title: "主打",
     description:
       "For sighted users to preview content available behind a link.",
+  },
+  {
+    href: "水果多",
+    title: "水果多",
+    description: "Visually or semantically separates content.",
   },
   {
     href: "food",
     title: "食品",
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    href: "component",
-    title: "元件",
-    description: "Visually or semantically separates content.",
   },
 ];
 
