@@ -30,8 +30,8 @@ const components: {
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
-    href: "主打",
-    title: "主打",
+    href: "本月推薦",
+    title: "本月推薦",
     description:
       "For sighted users to preview content available behind a link.",
   },

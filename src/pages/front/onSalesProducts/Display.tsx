@@ -20,11 +20,11 @@ type props = {
 
 export function Display({ category }: props) {
   const { status, message, products } = useGetProducts((data) => data);
-  console.log(products);
+  
   const DataArray = products["products"].filter((product) =>
     product.category.includes(category)
   );
-  console.log(DataArray);
+  
   const lineRef = useRef(null);
 
   const scroll = useScroll({

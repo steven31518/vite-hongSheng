@@ -29,7 +29,7 @@ export function ProductArtWork({
         <img
           src={imageUrl}
           alt={title}
-          loading="eager"
+          loading="lazy"
           width={width}
           height={height}
           className={cn(

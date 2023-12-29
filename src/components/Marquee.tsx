@@ -79,7 +79,7 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
 export default function Marquee() {
   return (
     <section className="">
-      <ParallaxText baseVelocity={-5}>Nino nineteen stories</ParallaxText>
+      <ParallaxText baseVelocity={-5}>framer motion</ParallaxText>
       <ParallaxText baseVelocity={5}>choose drink first</ParallaxText>
     </section>
   );
