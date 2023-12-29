@@ -18,6 +18,7 @@ export type Product = {
 };
 
 export const products_columns: ColumnDef<Product>[] = [
+  { accessorKey: "is_enabled", header: "啟用" },
   {
     accessorKey: "category",
     header: "類別",

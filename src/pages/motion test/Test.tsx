@@ -1,9 +1,9 @@
-import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 //useMotionTemplate
 export default function TestMotion() {
   const lineRef = useRef(null);
-  const baseY = useMotionValue(50);
+  // const baseY = useMotionValue(50);
 
   const scroll = useScroll({
     target: lineRef,

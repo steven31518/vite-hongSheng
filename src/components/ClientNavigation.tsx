@@ -24,7 +24,7 @@ const components: {
     description: "Visually or semantically separates content.",
   },
   {
-    href: "熱門商品酒",
+    href: "熱門商品",
     title: "熱門商品",
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
@@ -56,7 +56,7 @@ const ClientNavigation = () => {
         <NavigationMenuItem>
           <NavigationMenuTrigger>
             <BiSolidCategoryAlt className="text-primary text-lg me-2" />
-            產品分類
+            Menu
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
