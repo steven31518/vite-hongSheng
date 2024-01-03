@@ -14,7 +14,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BsCartPlus } from "react-icons/bs";
-export function ProductDetail() {
+export default function ProductDetail() {
   const [qty, setQty] = useState(1);
   const { status, message, product } = useGetProductDetail();
   const { mutate: addCart, isPending } = useAddCart();
@@ -29,16 +29,14 @@ export function ProductDetail() {
     <div className="container mt-3">
       <div className="grid grid-cols-12 gap-1">
         <div className="col-span-12 lg:col-span-6 p-2">
-          <div className="w-[550px]">
-            <ProductArtWork
-              product={product}
-              className="w-full"
-              aspectRatio="portrait"
-              showText={false}
-              width={150}
-              height={150}
-            />
-          </div>
+          <ProductArtWork
+            product={product}
+            className="w-full"
+            aspectRatio="portrait"
+            showText={false}
+            width={150}
+            height={150}
+          />
           {/* <div className="grid grid-cols-4 gap-4">
             {product?.imagesUrl?.length > 0 &&
               product.imagesUrl
@@ -61,7 +59,6 @@ export function ProductDetail() {
           <p className="font-bold">
             NTD${product.price}/{product.unit}
           </p>
-
           <div className="w-full flex items-center justify-center space-x-2 mb-2">
             <Button
               variant={"outline"}

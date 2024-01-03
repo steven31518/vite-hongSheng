@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { PaymentMethod } from "@/pages/front/payment/PaymentMethods";
 import { Link } from "react-router-dom";
 
-export function Success() {
+export default function Success() {
   const { data, isError, isPending, isSuccess, error } = useGetOrderbyId();
 
   return (

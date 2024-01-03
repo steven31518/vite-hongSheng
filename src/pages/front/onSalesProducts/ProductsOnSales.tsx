@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ProductArtWork } from "@/components/ProductArtWork";
 
-export function ProductsOnSales() {
+export default function ProductsOnSales() {
   const { status, message, products } = useGetProducts((data) => data);
   const { current_page, total_pages } = products["pagination"];
   const setSearchParams = useSearchParams()[1];

@@ -5,7 +5,7 @@ import { CheckOrderForm } from "./CheckOrderForm";
 import { CouponForm } from "./CouponForm";
 
 
-export function CheckOrder() {
+export default function CheckOrder() {
   const { status, cart, total, final_total, message } = useGetCart();
   console.log(cart);
   return (

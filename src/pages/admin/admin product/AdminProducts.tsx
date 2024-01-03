@@ -1,9 +1,9 @@
 import { useGetAdminProducts } from "./get admin products hook";
-import { DataTable } from "../adminTable/DataTable";
+import DataTable from "../adminTable/DataTable";
 import { products_columns } from "../adminTable/product column";
 import FullscreenLoading from "@/components/FullscreenLoading";
 
-export function AdminProducts() {
+export default function AdminProducts() {
   const { data, isError, isPending, isSuccess, error } = useGetAdminProducts(
     (data) => Object.values(data.products)
   );

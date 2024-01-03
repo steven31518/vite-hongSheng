@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { CouponForm } from "../admin coupon/CouponForm";
 import { LuPackagePlus } from "react-icons/lu";
 import { useCouponDelete } from "../admin coupon/delete coupon hook";
-export function CouponEditor({ id }: { id?: string }) {
+export default function CouponEditor({ id }: { id?: string }) {
   const { mutate, isPending } = useCouponDelete();
   return (
     <div className="flex flex-row justify-center items-center gap-2">

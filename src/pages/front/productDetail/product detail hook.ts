@@ -2,7 +2,6 @@ import { api } from "@/lib/api";
 import { product_res } from "@/lib/api/onSales";
 import { useQuery } from "@tanstack/react-query";
 import { queryStatus } from "@/types";
-
 import { useParams } from "react-router-dom";
 
 interface productReturn extends queryStatus {

@@ -1,8 +1,8 @@
 import { useGetCouponData } from "./get coupon hook";
-import { DataTable } from "../adminTable/DataTable";
+import DataTable from "../adminTable/DataTable";
 import { coupon_columns } from "../adminTable/coupon column";
 
-export function AdminCoupons() {
+export default function AdminCoupons() {
   const { data, isPending, isError, error, isSuccess } = useGetCouponData(
     (data) =>
       data.coupons.map((coupon) => {

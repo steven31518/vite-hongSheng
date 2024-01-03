@@ -3,14 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Section from "@/components/Section";
-import { cn } from "@/lib/utils";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+
 import { ProductArtWork } from "@/components/ProductArtWork";
 import { Link } from "react-router-dom";
 
@@ -20,16 +13,16 @@ type props = {
 
 export function Display({ category }: props) {
   const { status, message, products } = useGetProducts((data) => data);
-  
+
   const DataArray = products["products"].filter((product) =>
     product.category.includes(category)
   );
-  
+
   const lineRef = useRef(null);
 
   const scroll = useScroll({
     target: lineRef,
-    offset: ["start 70%", "start 20%"],
+    offset: ["start 80%", "start 20%"],
   });
 
   const variableY = useTransform(scroll.scrollYProgress, [0, 1], [0, 1]);
@@ -53,29 +46,20 @@ export function Display({ category }: props) {
             </div>
           )}
           {status === "success" && (
-            <Carousel>
-              <CarouselContent>
-                {DataArray.map((product) => {
-                  return (
-                    <CarouselItem
-                      key={product.id}
-                      className={cn("xs:basis-1/2 md:basis-1/4")}
-                    >
-                      <Link to={`/product/${product.id}`}>
-                        <ProductArtWork
-                          product={product}
-                          aspectRatio="portrait"
-                          width={75}
-                          height={75}
-                        />
-                      </Link>
-                    </CarouselItem>
-                  );
-                })}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <div className="grid grid-cols-4 gap-4">
+              {DataArray.map((product) => {
+                return (
+                  <Link to={`/product/${product.id}`} key={product.id}>
+                    <ProductArtWork
+                      product={product}
+                      aspectRatio="portrait"
+                      width={75}
+                      height={75}
+                    />
+                  </Link>
+                );
+              })}
+            </div>
           )}
         </Section>
       </motion.div>
