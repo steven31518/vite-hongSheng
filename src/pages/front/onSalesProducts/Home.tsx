@@ -39,6 +39,7 @@ export default function Home() {
           </Section>
         </div>
       </div>
+
       <Marquee></Marquee>
       <div className="grid grid-rows-3 grid-flow-col gap-2 py-4">
         {categorys.map((category) => {
