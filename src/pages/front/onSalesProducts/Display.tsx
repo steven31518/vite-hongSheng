@@ -29,26 +29,26 @@ export function Display({ category }: props) {
 
   return (
     <>
-      <motion.div className="" ref={lineRef} style={{ opacity: variableY }}>
-        <Section title={category}>
-          {status === "error" && <div>{message}</div>}
-          {status === "pending" && (
-            <div className="grid grid-cols-4 gap-4">
-              {new Array(4).fill(0).map((_, i) => {
-                return (
-                  <div className="space-y-2" key={i}>
-                    <Skeleton className="w-full aspect-[3/4]" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                  </div>
-                );
-              })}
-            </div>
-          )}
-          {status === "success" && (
-            <div className="grid grid-cols-4 gap-4">
-              {DataArray.map((product) => {
-                return (
+      <Section title={category}>
+        {status === "error" && <div>{message}</div>}
+        {status === "pending" && (
+          <div className="grid grid-cols-4 gap-4">
+            {new Array(4).fill(0).map((_, i) => {
+              return (
+                <div className="space-y-2" key={i}>
+                  <Skeleton className="w-full aspect-[3/4]" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {status === "success" && (
+          <div className="grid grid-cols-4 gap-4">
+            {DataArray.map((product) => {
+              return (
+                <motion.div key={product.id} style={{ opacity: variableY }}>
                   <Link to={`/product/${product.id}`} key={product.id}>
                     <ProductArtWork
                       product={product}
@@ -57,12 +57,12 @@ export function Display({ category }: props) {
                       height={75}
                     />
                   </Link>
-                );
-              })}
-            </div>
-          )}
-        </Section>
-      </motion.div>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
+      </Section>
     </>
   );
 }
